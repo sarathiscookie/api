@@ -17,13 +17,14 @@ class Admin
     public function handle($request, Closure $next)
     {
         if (Auth::check() && Auth::user()->role == 'admin') {
-            return redirect('/admin/dashboard');
+            return $next($request);
+            //return redirect('/admin/dashboard');
         }
-        elseif (Auth::check() && Auth::user()->role == 'manager') {
-            return redirect('/manager/dashboard');
-        }
-        else {
-            return redirect('/employee/dashboard');
-        }
+        // elseif (Auth::check() && Auth::user()->role == 'manager') {
+        //     return redirect('/manager/dashboard');
+        // }
+        // else {
+        //     return redirect('/employee/dashboard');
+        // }
     }
 }

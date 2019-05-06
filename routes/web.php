@@ -31,9 +31,9 @@ Auth::routes([
 |
 */
 Route::prefix('admin')->group(function(){
-	Route::group(['middleware' => ['auth', 'Admin']], function () {
+	Route::group(['middleware' => ['auth', 'admin']], function () {
 		//Admin dashboard
-		Route::get('dashboard', 'Admin\DashboardController@index');
+		Route::get('dashboard', 'Admin\DashboardController@index')->name('admin.dashboard');
 	});
 });
 
@@ -46,9 +46,9 @@ Route::prefix('admin')->group(function(){
 |
 */
 Route::prefix('manager')->group(function(){
-	Route::group(['middleware' => ['auth', 'Manager']], function () {
+	Route::group(['middleware' => ['auth', 'manager']], function () {
 		//Manager dashboard
-		Route::get('dashboard', 'Manager\DashboardController@index');
+		Route::get('dashboard', 'Manager\DashboardController@index')->name('manager.dashboard');
 	});
 });
 
@@ -61,8 +61,8 @@ Route::prefix('manager')->group(function(){
 |
 */
 Route::prefix('employee')->group(function(){
-	Route::group(['middleware' => ['auth', 'Employee']], function () {
+	Route::group(['middleware' => ['auth', 'employee']], function () {
 		//Employee dashboard
-		Route::get('dashboard', 'Employee\DashboardController@index');
+		Route::get('dashboard', 'Employee\DashboardController@index')->name('employee.dasboard');
 	});
 });

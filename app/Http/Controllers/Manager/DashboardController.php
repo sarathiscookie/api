@@ -15,8 +15,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        dd(User::all());
-        return view('manger.dashboard');
+        return view('manager.dashboard');
     }
 
     /**

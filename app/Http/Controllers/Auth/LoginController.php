@@ -26,7 +26,28 @@ class LoginController extends Controller
      *
      * @var string
      */
-    //protected $redirectTo = '/home';
+
+    protected $redirectTo;
+
+    public function redirectTo() 
+    {
+        if (Auth::check() && Auth::user()->role == 'employee') {
+            $this->redirectTo = '/employee/dashboard';
+            return $this->redirectTo;
+        }
+        elseif (Auth::check() && Auth::user()->role == 'manager') {
+            $this->redirectTo = '/manager/dashboard';
+            return $this->redirectTo;
+        }
+        elseif (Auth::check() && Auth::user()->role == 'admin') {
+            $this->redirectTo = '/admin/dashboard';
+            return $this->redirectTo;
+        }
+        else {
+            $this->redirectTo = '/';
+            return $this->redirectTo;
+        }
+    }
 
     /**
      * Create a new controller instance.
@@ -36,37 +57,5 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-    }
-
-    public function redirectTo() 
-    {
-        if (Auth::check() && Auth::user()->role == 'employee') {
-            return redirect('/employee/dashboard');
-        }
-        elseif (Auth::check() && Auth::user()->role == 'manager') {
-            return redirect('/manager/dashboard');
-        }
-        else {
-            return redirect('/admin/dashboard');
-        }
-        /*$user = Auth::user()->user_type;
-
-        switch(true) {
-            case 'admin':
-            return '/admin/dashboard';
-            break;
-
-            case 'manager':
-            return '/manager/dashboard';
-            break;
-
-            case 'employee':
-            return '/employee/dashboard';
-            break;
-
-            default:
-            return '/';
-            break;
-        }*/
     }
 }
