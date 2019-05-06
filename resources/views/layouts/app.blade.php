@@ -23,7 +23,7 @@
     <link href="{{ asset('css/signin.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app" class="col-sm-12 col-md-12 col-xl-12 mb-12 text-center">
+    <div id="app" class="col-md-12 text-center">
         @yield('content')
     </div>
 </body>
