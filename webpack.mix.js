@@ -1,4 +1,4 @@
-const mix = require('laravel-mix');
+const mix = require("laravel-mix");
 
 /*
  |--------------------------------------------------------------------------
@@ -11,36 +11,46 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
-
+mix.js("resources/js/app.js", "public/js").sass(
+	"resources/sass/app.scss",
+	"public/css"
+);
 
 /*
  |--------------------------------------------------------------------------
  | CSS Styles
  |--------------------------------------------------------------------------
  |
- | Css for all pages
+ | css for each pages
  */
 
 /* css for signin page */
-mix.styles([
-	'resources/css/signin.css'
-], 'public/css/signin.css').version();
+mix.styles(["resources/css/signin.css"], "public/css/signin.css").version();
 
 /* css for all pages */
-mix.styles([
-	'resources/css/dashboard.css'
-], 'public/css/all.css').version();
+mix.styles(["resources/css/dashboard.css"], "public/css/all.css").version();
+
+/* css for plugins */
+mix.styles(
+	["resources/css/bootstrap2-toggle.css"],
+	"public/css/plugin.css"
+).version();
 
 /*
  |--------------------------------------------------------------------------
  | JS Scripts
  |--------------------------------------------------------------------------
  |
- | JS for all pages
+ | JS for each pages
  */
 
-mix.scripts([
-    'resources/js/dashboard.js'
-], 'public/js/all.js').version();
+mix.scripts(
+	["resources/js/dashboard.js", "resources/js/admin.js"],
+	"public/js/all.js"
+).version();
+
+/* js for plugins */
+mix.scripts(
+	["resources/js/bootstrap2-toggle.js"],
+	"public/js/plugin.js"
+).version();

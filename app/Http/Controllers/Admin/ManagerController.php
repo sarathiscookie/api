@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\User;
 use App\Http\Controllers\Controller;
 
 class ManagerController extends Controller
@@ -14,7 +15,11 @@ class ManagerController extends Controller
      */
     public function index()
     {
-        return view('admin.manager');
+        $users = User::select('name', 'email', 'phone', 'street', 'postal', 'city', 'country', 'active', 'role', 'created_at')
+        ->where('role', '<>', 'admin')
+        ->paginate(15);
+
+        return view('admin.manager', ['users' => $users]);
     }
 
     /**

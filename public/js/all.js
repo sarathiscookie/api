@@ -51,3 +51,7 @@
     }
   })*/
 })();
+
+$(function() {
+	$(".toggle-one").bootstrapToggle();
+});
