@@ -17,7 +17,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <!-- Default laravel Styles -->
-    <link href="{{ asset('css/plugin.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('css/plugin.css') }}" rel="stylesheet"> --}}
 
     <!-- Each page Styles -->
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
@@ -148,7 +148,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
 
 <!-- Plugins Scripts -->
-<script src="{{ asset('js/plugin.js') }}"></script>
+{{-- <script src="{{ asset('js/plugin.js') }}"></script> --}}
 
 <!-- Each page Scripts -->
 <script src="{{ asset('js/all.js') }}"></script>

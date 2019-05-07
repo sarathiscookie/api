@@ -16,8 +16,8 @@ class ManagerController extends Controller
     public function index()
     {
         $users = User::select('name', 'email', 'phone', 'street', 'postal', 'city', 'country', 'active', 'role', 'created_at')
-        ->where('role', '<>', 'admin')
-        ->paginate(15);
+        ->where('role', 'manager')
+        ->paginate(10);
 
         return view('admin.manager', ['users' => $users]);
     }

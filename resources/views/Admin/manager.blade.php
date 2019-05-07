@@ -22,12 +22,12 @@
                   <th>#</th>
                   <th>Name</th>
                   <th>Email</th>
-                  <th>Role</th>
-                  <th>Created</th>
+                  <th>Created on</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
+
               <tbody>
                 @isset($users)
                 @foreach ($users as $user)
@@ -35,10 +35,10 @@
                   <td>{{ $loop->iteration }}</td>
                   <td>{{ $user->name }}</td>
                   <td>{{ $user->email }}</td>
-                  <td>{{ $user->role }}</td>
                   <td>{{ date('d.m.y', strtotime($user->created_at)) }}</td>
-                  <td>{{ $user->active }} <input type="checkbox" class="toggle-one" checked data-toggle="toggle" data-size="mini" data-onstyle="success" data-offstyle="danger"></td>
+                  <td class="toggle-btn active" >{{ $user->active }} <input type="checkbox" checked class="cb-value"> <span class="round-btn"></span></td>
                   <td><span data-feather="edit"></span>  <span data-feather="trash-2"></span></td>
+                  {{-- https://codepen.io/nikhil8krishnan/pen/eNVZgB --}}
                 </tr>
                 @endforeach
                 @endisset
@@ -48,10 +48,8 @@
                 @endempty
                 
               </tbody>
-
-              {{ $users->links() }}
-
             </table>
+            {{ $users->links() }}
           </div>
         </div>
       </div>
