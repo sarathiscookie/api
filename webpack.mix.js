@@ -27,12 +27,17 @@ mix.js("resources/js/app.js", "public/js").sass(
 /* css for signin page */
 mix.styles(["resources/css/signin.css"], "public/css/signin.css").version();
 
+/* css for all plugins */
+mix.styles(
+	["resources/css/datatables.min.css"],
+	"public/css/plugins.css"
+).version();
+
 /* css for all pages */
-mix.styles([
-	"resources/css/dashboard.css", 
-	"resources/css/adminManagerList.css"], 
+mix.styles(
+	["resources/css/dashboard.css", "resources/css/adminManagerList.css"],
 	"public/css/all.css"
-	).version();
+).version();
 
 /*
  |--------------------------------------------------------------------------
@@ -42,8 +47,14 @@ mix.styles([
  | JS for each pages
  */
 
-mix.scripts([
-	"resources/js/dashboard.js", 
-	"resources/js/adminManagerList.js"],
+/* js for all plugins */
+mix.scripts(
+	["resources/js/datatables.min.js"],
+	"public/js/plugins.js"
+).version();
+
+/* js for all pages */
+mix.scripts(
+	["resources/js/dashboard.js", "resources/js/adminManagerList.js"],
 	"public/js/all.js"
-	).version();
+).version();

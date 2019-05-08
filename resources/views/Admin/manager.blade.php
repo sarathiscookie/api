@@ -10,20 +10,20 @@
         </ol>
       </nav>
 
-      <div class="card text-white border-primary">
+      <div class="card border-primary">
         <div class="card-header bg-primary">
           Manager List
         </div>
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-bordered table-hover">
+            <table id="example" class="table table-bordered table-hover display" style="width:100%">
               <thead class="thead-light">
                 <tr>
                   <th>#</th>
                   <th>Name</th>
                   <th>Email</th>
                   <th>Created on</th>
-                  <th>Status</th>
+                  <th>Active</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -36,20 +36,36 @@
                   <td>{{ $user->name }}</td>
                   <td>{{ $user->email }}</td>
                   <td>{{ date('d.m.y', strtotime($user->created_at)) }}</td>
-                  <td class="toggle-btn active" >{{ $user->active }} <input type="checkbox" checked class="cb-value"> <span class="round-btn"></span></td>
+                  <td>{{ $user->active }}</td>
                   <td><span data-feather="edit"></span>  <span data-feather="trash-2"></span></td>
                   {{-- https://codepen.io/nikhil8krishnan/pen/eNVZgB --}}
                 </tr>
                 @endforeach
                 @endisset
+              <tbody></tbody>
 
                 @empty($users)
                 <p>No users</p>
                 @endempty
                 
               </tbody>
+
+              <tfoot>
+                <td></td>
+                <td></td>
+                <th><input type="text" id="2"  class="form-control input-sm search-input" placeholder="Search Email"></th>
+                <td></td>
+                <td>
+                  <select class="form-control input-sm search-input" id="4">
+                    <option value="">Choose</option>
+                    <option value="yes">yes</option>
+                    <option value="no">no</option>
+                  </select>
+                </td>
+                <td></td>
+              </tfoot>
+
             </table>
-            {{ $users->links() }}
           </div>
         </div>
       </div>

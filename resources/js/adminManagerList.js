@@ -1,7 +1,8 @@
 /* adminManagerList.js */
 $(function() {
+	$("#example").DataTable();
 	/* Toggle enabel disable manager */
-	$('.cb-value').click(function() {
+	/*$('.cb-value').click(function() {
 		alert('hai');
 		var mainParent = $(this).parent('.toggle-btn');
 		if($(mainParent).find('input.cb-value').is(':checked')) {
@@ -9,5 +10,5 @@ $(function() {
 		} else {
 			$(mainParent).removeClass('active');
 		}
-	})
+	})*/
 });
