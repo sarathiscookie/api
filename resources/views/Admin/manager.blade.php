@@ -16,7 +16,10 @@
         </div>
         <div class="card-body">
           <div class="table-responsive">
-            <table id="manager_list" class="table table-bordered table-hover display" style="width:100%">
+            
+            <div class="responseMessage"></div>
+
+            <table id="datatable_list" class="table table-bordered table-hover display" style="width:100%">
               <thead class="thead-light">
                 <tr>
                   <th>#</th>
@@ -37,9 +40,10 @@
                 <td></td>
                 <td>
                   <select class="form-control input-sm search-input" id="4">
-                    <option value="">Choose</option>
-                    <option value="yes">yes</option>
-                    <option value="no">no</option>
+                    <option value="">All</option>
+                    <option value="yes">Active</option>
+                    <option value="freeze">Freeze</option>
+                    <option value="no">Not Active</option>
                   </select>
                 </td>
                 <td></td>

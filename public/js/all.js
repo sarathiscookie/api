@@ -58,10 +58,10 @@
 
 /* Datatable scripts */
 
-let managerList;
+let datatableList;
 
 function fetchData(url) {
-	managerList = $("#manager_list").DataTable({
+	datatableList = $("#datatable_list").DataTable({
 		lengthMenu: [10, 25, 50, 75, 100],
 		order: [[1, "desc"]],
 		processing: true,
@@ -114,7 +114,7 @@ function fetchData(url) {
 	});
 
 	/* Bottom buttons for datatables */
-	let buttons = new $.fn.dataTable.Buttons(managerList, {
+	let buttons = new $.fn.dataTable.Buttons(datatableList, {
 		buttons: [
 			{
 				extend: "csv",
@@ -162,11 +162,42 @@ $(function() {
 	const url = "/admin/dashboard/manager/list/datatables";
 	fetchData(url);
 
+	/* Delete manager functionality */
+	$("#datatable_list tbody").on("click", "a.deleteEvent", function(e) {
+		e.preventDefault();
+		var userId = $(this).data("id");
+		var r = confirm("Are you sure you want to remove the user?");
+		if (r == true) {
+			$.ajax({
+				url: "/admin/dashboard/manager/delete/" + userId,
+				dataType: "JSON",
+				type: "DELETE",
+				success: function(result) {
+					if (result) {
+						datatableList
+							.row($(this).parents("tr"))
+							.remove()
+							.draw();
+						$(".responseMessage").html(
+							'<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="icon fa fa-check-circle"></i> <strong> Well Done! </strong>' +
+								result.message +
+								'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+						);
+						$(".responseMessage")
+							.show()
+							.delay(5000)
+							.fadeOut();
+					}
+				}
+			});
+		}
+	});
+
 	/* <tfoot> search functionality */
 	$(".search-input").on("keyup change", function() {
 		var i = $(this).attr("id"); // getting column index
 		var v = $(this).val(); // getting search input value
-		booking_data
+		datatableList
 			.columns(i)
 			.search(v)
 			.draw();

@@ -5,10 +5,10 @@
 
 /* Datatable scripts */
 
-let managerList;
+let datatableList;
 
 function fetchData(url) {
-	managerList = $("#manager_list").DataTable({
+	datatableList = $("#datatable_list").DataTable({
 		lengthMenu: [10, 25, 50, 75, 100],
 		order: [[1, "desc"]],
 		processing: true,
@@ -61,7 +61,7 @@ function fetchData(url) {
 	});
 
 	/* Bottom buttons for datatables */
-	let buttons = new $.fn.dataTable.Buttons(managerList, {
+	let buttons = new $.fn.dataTable.Buttons(datatableList, {
 		buttons: [
 			{
 				extend: "csv",

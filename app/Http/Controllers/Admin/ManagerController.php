@@ -39,7 +39,7 @@ class ManagerController extends Controller
         ->where('role', 'manager')
         ->count();
 
-        $query         = User::select('id', 'name', 'email', 'phone', 'street', 'postal', 'city', 'country', 'active', 'role', 'created_at')
+        $q         = User::select('id', 'name', 'email', 'phone', 'street', 'postal', 'city', 'country', 'active', 'role', 'created_at')
         ->where('role', 'manager');
 
         $totalFiltered = $totalData;
@@ -48,7 +48,44 @@ class ManagerController extends Controller
         $order         = $columns[$params['order'][0]['column']]; //contains column index
         $dir           = $params['order'][0]['dir']; //contains order such as asc/desc
 
-        $managerLists = $query->skip($start)
+        // Search query for email
+        if(!empty($request->input('search.value'))) {
+            $search   = $request->input('search.value');
+            $q->where(function($query) use ($search) {
+                $query->where('email', 'like', "%{$search}%");
+            });
+
+           $totalFiltered = $q->where(function($query) use ($search) {
+            $query->where('email', 'like', "%{$search}%");
+           })
+           ->count();
+        }
+
+        // tfoot search query for email
+        if( !empty($params['columns'][2]['search']['value']) ) {
+            $q->where(function($query) use ($params) {
+                $query->where('email', 'like', "%{$params['columns'][2]['search']['value']}%");
+            });
+
+            $totalFiltered = $q->where(function($query) use ($params) {
+                $query->where('email', 'like', "%{$params['columns'][2]['search']['value']}%");
+            })
+            ->count();
+        }
+
+        // tfoot search query for user status
+        if( !empty($params['columns'][4]['search']['value']) ) {
+            $q->where(function($query) use ($params) {
+                $query->where('active', "{$params['columns'][4]['search']['value']}");
+            });
+
+            $totalFiltered = $q->where(function($query) use ($params) {
+                $query->where('active', "{$params['columns'][4]['search']['value']}");
+            })
+            ->count();
+        }
+
+        $managerLists = $q->skip($start)
             ->take($limit)
             ->orderBy($order, $dir)
             ->get();
@@ -62,7 +99,7 @@ class ManagerController extends Controller
                 $nestedData['email']      = $managerList->email;
                 $nestedData['created_at'] = date('d.m.y', strtotime($managerList->created_at));
                 $nestedData['active']     = $managerList->active;
-                $nestedData['actions']    = '<i class="fas fa-user-edit"></i> <i class="fas fa-trash-alt"></i>';
+                $nestedData['actions']    = '<a type="button" class="btn btn-secondary btn-sm"><i class="fas fa-user-edit"></i></a> <a type="button" class="btn btn-secondary btn-sm deleteEvent" data-id="'.$managerList->id.'"><i class="fas fa-trash-alt"></i></a>';
                 $data[]                   = $nestedData;
             }
         }
@@ -140,6 +177,7 @@ class ManagerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user            = User::destroy($id);
+        return response()->json(['message' => 'User deleted successfully!'], 201);
     }
 }

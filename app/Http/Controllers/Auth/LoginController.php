@@ -31,15 +31,15 @@ class LoginController extends Controller
 
     public function redirectTo() 
     {
-        if (Auth::check() && Auth::user()->role == 'employee') {
+        if (Auth::check() && Auth::user()->role === 'employee') {
             $this->redirectTo = '/employee/dashboard';
             return $this->redirectTo;
         }
-        elseif (Auth::check() && Auth::user()->role == 'manager') {
+        elseif (Auth::check() && Auth::user()->role === 'manager') {
             $this->redirectTo = '/manager/dashboard';
             return $this->redirectTo;
         }
-        elseif (Auth::check() && Auth::user()->role == 'admin') {
+        elseif (Auth::check() && Auth::user()->role === 'admin') {
             $this->redirectTo = '/admin/dashboard';
             return $this->redirectTo;
         }
