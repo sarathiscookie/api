@@ -46,6 +46,10 @@ Route::prefix('admin')->group(function(){
 		Route::get('/dashboard/manager/create', 'Admin\ManagerController@create')->name('admin.dashboard.manager.create');
 		/* Store manager */
 		Route::post('/dashboard/manager/store', 'Admin\ManagerController@store')->name('admin.dashboard.manager.store');
+		/* Edit manager */
+		Route::get('/dashboard/manager/edit/{id}', 'Admin\ManagerController@edit')->name('admin.dashboard.manager.edit');
+		/* Update manager */
+		Route::post('/dashboard/manager/update', 'Admin\ManagerController@update')->name('admin.dashboard.manager.update');
 	});
 });
 

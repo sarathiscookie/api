@@ -93,8 +93,8 @@ class ManagerController extends Controller
                 $nestedData['name']       = $managerList->name;
                 $nestedData['email']      = $this->bootstrapModal($managerList->id, $managerList->email, $managerList->phone, $managerList->street, $managerList->postal, $managerList->city, $managerList->country);
                 $nestedData['created_at'] = date('d.m.y', strtotime($managerList->created_at));
-                $nestedData['active']     = $this->userStatusHtml($managerList->id, $managerList->active, $yesStatus, $freezeStatus, $noStatus);//$managerList->active;
-                $nestedData['actions']    = '<a type="button" class="btn btn-secondary btn-sm"><i class="fas fa-user-edit"></i></a> <a type="button" class="btn btn-secondary btn-sm deleteEvent" data-id="'.$managerList->id.'"><i class="fas fa-trash-alt"></i></a>';
+                $nestedData['active']     = $this->userStatusHtml($managerList->id, $managerList->active, $yesStatus, $freezeStatus, $noStatus);
+                $nestedData['actions']    = '<a href="/admin/dashboard/manager/edit/'.$managerList->id.'" type="button" class="btn btn-secondary btn-sm"><i class="fas fa-user-edit"></i></a> <a href="" type="button" class="btn btn-secondary btn-sm deleteEvent" data-id="'.$managerList->id.'"><i class="fas fa-trash-alt"></i></a>';
                 $data[]                   = $nestedData;
             }
         }
@@ -307,7 +307,7 @@ class ManagerController extends Controller
             $user->active   = 'no';
             $user->role     = 'manager';
             $user->save();
-            
+
             return redirect('/admin/dashboard/manager/list')->with('successStoreManager', 'Well done! User created successfully');
         } 
         catch(\Exception $e){
@@ -334,7 +334,11 @@ class ManagerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::where('role', 'manager')->findOrFail($id);
+        if(!empty($user)) {
+            session()->put('manager', $user->id);
+        }
+        return view('admin.managerEdit', ['user' => $user]);
     }
 
     /**
@@ -344,9 +348,28 @@ class ManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        dd($request->all());
+        try {
+            User::where('id', session()->get('manager'))
+            ->where('role', 'manager')
+            ->update([
+                'name'      => $request->name,  
+                'phone'     => $request->phone, 
+                'street'    => $request->street, 
+                'city'      => $request->city, 
+                'country'   => $request->country,
+                'zip'       => $request->zip,
+                'company'   => $request->company,
+            ]);
+
+            session()->forget('manager');
+
+            return redirect('/admin/dashboard/manager/list')->with('successUpdateManager', 'Well done! User details updated successfully');
+        } 
+        catch(\Exception $e){
+            return redirect()->back()->with('failureUpdateManager', 'Whoops! Something went wrong');
+        } 
     }
 
     /**

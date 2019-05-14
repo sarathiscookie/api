@@ -29,6 +29,13 @@
             </div>  
             @endif
 
+            @if (session()->has('successUpdateManager'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert"><i class="icon fa fa-check-circle"></i> 
+              {{ session()->get('successUpdateManager') }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>  
+            @endif
+
             <div class="responseMessage"></div>
 
             <table id="datatable_list" class="table table-bordered table-hover display" style="width:100%">
