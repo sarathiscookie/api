@@ -24,6 +24,11 @@
                 </div>  
                 @endif
 
+                <div class="text-right">
+                    <a href="" type="button" class="btn btn-danger btn-sm deleteEvent" data-id="'.$managerList->id.'"><i class="fas fa-trash-alt"></i> Delete</a>
+                    <hr>
+                </div>
+
                 <form method="POST" action="{{ route('admin.dashboard.manager.update') }}">
                     @csrf
 
@@ -118,7 +123,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Update Manager</button>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="fas fa-user-edit"></i> Update Manager</button>
                 </form>
                 @endisset
     			

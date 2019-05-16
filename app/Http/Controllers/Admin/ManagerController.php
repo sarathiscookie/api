@@ -32,9 +32,7 @@ class ManagerController extends Controller
 
         $columns = array(
             1 => 'name',
-            2 => 'email',
-            3 => 'created_at',
-            4 => 'active',
+            2 => 'active',
         );
 
         $totalData = User::select('name', 'email', 'phone', 'street', 'postal', 'city', 'country', 'active', 'role', 'created_at')
@@ -50,19 +48,19 @@ class ManagerController extends Controller
         $order         = $columns[$params['order'][0]['column']]; //contains column index
         $dir           = $params['order'][0]['dir']; //contains order such as asc/desc
 
-        // Search query for email
+        // Search query for name
         if(!empty($request->input('search.value'))) {
-            $this->searchUserEmail($q, $request->input('search.value'));
+            $this->searchUserName($q, $request->input('search.value'));
         }
 
-        // tfoot search query for email
-        if( !empty($params['columns'][2]['search']['value']) ) {
-            $this->tfootUserEmail($q, $params['columns'][2]['search']['value']);
+        // tfoot search query for name
+        if( !empty($params['columns'][1]['search']['value']) ) {
+            $this->tfootUserName($q, $params['columns'][1]['search']['value']);
         }
 
         // tfoot search query for user status
-        if( !empty($params['columns'][4]['search']['value']) ) {
-            $this->tfootUserStatus($q, $params['columns'][4]['search']['value']);
+        if( !empty($params['columns'][2]['search']['value']) ) {
+            $this->tfootUserStatus($q, $params['columns'][2]['search']['value']);
         }
 
         $managerLists = $q->skip($start)
@@ -79,22 +77,16 @@ class ManagerController extends Controller
                     $noStatus     = 'btn-secondary';
                     $freezeStatus = 'btn-secondary';
                 }
-                elseif($managerList->active === 'no') {
+                else {
                     $yesStatus    = 'btn-secondary';
                     $noStatus     = 'btn-danger';
                     $freezeStatus = 'btn-secondary';
                 }
-                else {
-                    $yesStatus    = 'btn-secondary';
-                    $noStatus     = 'btn-secondary';
-                    $freezeStatus = 'btn-warning';
-                }
+
                 $nestedData['hash']       = '<input class="checked" type="checkbox" name="id[]" value="'.$managerList->id.'" />';
-                $nestedData['name']       = $managerList->name;
-                $nestedData['email']      = $this->bootstrapModal($managerList->id, $managerList->email, $managerList->phone, $managerList->street, $managerList->postal, $managerList->city, $managerList->country);
-                $nestedData['created_at'] = date('d.m.y', strtotime($managerList->created_at));
+                $nestedData['name']       = $this->bootstrapModal($managerList->id, $managerList->name, $managerList->email, $managerList->phone, $managerList->street, $managerList->postal, $managerList->city, $managerList->country, $managerList->created_at);
                 $nestedData['active']     = $this->userStatusHtml($managerList->id, $managerList->active, $yesStatus, $freezeStatus, $noStatus);
-                $nestedData['actions']    = '<a href="/admin/dashboard/manager/edit/'.$managerList->id.'" type="button" class="btn btn-secondary btn-sm"><i class="fas fa-user-edit"></i></a> <a href="" type="button" class="btn btn-secondary btn-sm deleteEvent" data-id="'.$managerList->id.'"><i class="fas fa-trash-alt"></i></a>';
+                $nestedData['actions']    = '<a href="/admin/dashboard/manager/edit/'.$managerList->id.'" type="button" class="btn btn-secondary btn-sm"><i class="fas fa-cog"></i></a>';
                 $data[]                   = $nestedData;
             }
         }
@@ -110,19 +102,19 @@ class ManagerController extends Controller
     }
 
     /**
-     * Search query for user email
+     * Search query for user name
      * @param  string $q
      * @param  string $searchData
      * @return \Illuminate\Http\Response
      */
-    public function searchUserEmail($q, $searchData)
+    public function searchUserName($q, $searchData)
     {
         $q->where(function($query) use ($searchData) {
-            $query->where('email', 'like', "%{$searchData}%");
+            $query->where('name', 'like', "%{$searchData}%");
         });
 
         $totalFiltered = $q->where(function($query) use ($searchData) {
-            $query->where('email', 'like', "%{$searchData}%");
+            $query->where('name', 'like', "%{$searchData}%");
         })
         ->count();
 
@@ -130,19 +122,19 @@ class ManagerController extends Controller
     }
 
     /**
-     * tfoot search query for user email
+     * tfoot search query for user name
      * @param  string $q
      * @param  string $searchData
      * @return \Illuminate\Http\Response
      */
-    public function tfootUserEmail($q, $searchData)
+    public function tfootUserName($q, $searchData)
     {
         $q->where(function($query) use ($searchData) {
-            $query->where('email', 'like', "%{$searchData}%");
+            $query->where('name', 'like', "%{$searchData}%");
         });
 
         $totalFiltered = $q->where(function($query) use ($searchData) {
-            $query->where('email', 'like', "%{$searchData}%");
+            $query->where('name', 'like', "%{$searchData}%");
         })
         ->count();
 
@@ -174,10 +166,10 @@ class ManagerController extends Controller
      * @param  string $userId
      * @return \Illuminate\Http\Response
      */
-    public function bootstrapModal($userId, $email, $phone, $street, $postal, $city, $country)
+    public function bootstrapModal($userId, $name, $email, $phone, $street, $postal, $city, $country, $created_at)
     {
         $html = '<a href="" data-toggle="modal" data-target="#userModal_'.$userId.'">
-        '.$email.'
+        '.$name.'
         </a>
         <div class="modal fade" id="userModal_'.$userId.'" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -220,6 +212,18 @@ class ManagerController extends Controller
         </div>
         <p class="mb-1">'.$country.'</p>
         </a>
+        <a href="#" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">Country</h5>
+        </div>
+        <p class="mb-1">'.date('d.m.y', strtotime($created_at)).'</p>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">Email</h5>
+        </div>
+        <p class="mb-1">'.$email.'</p>
+        </a>
         </div>
         </div>
         <div class="modal-footer">
@@ -245,7 +249,6 @@ class ManagerController extends Controller
     {
         $html = '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example" data-userstatus="'.$oldStatus.'" data-userid="'.$id.'">
         <button type="button" class="btn '.$yesStatus.' buttonStatus" data-status="yes">Yes</button>
-        <button type="button" class="btn '.$freezeStatus.' buttonStatus" data-status="freeze">Freeze</button>
         <button type="button" class="btn '.$noStatus.' buttonStatus" data-status="no">No</button>
         </div>';
 

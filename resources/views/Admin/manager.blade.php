@@ -43,8 +43,6 @@
                 <tr>
                   <th>#</th>
                   <th>Name</th>
-                  <th>Email</th>
-                  <th>Created on</th>
                   <th>Active</th>
                   <th>Actions</th>
                 </tr>
@@ -54,14 +52,11 @@
 
               <tfoot>
                 <td></td>
-                <td></td>
-                <th><input type="text" id="2"  class="form-control input-sm search-input" placeholder="Search Email"></th>
-                <td></td>
+                <th><input type="text" id="1"  class="form-control input-sm search-input" placeholder="Search Name"></th>
                 <td>
-                  <select class="form-control input-sm search-input" id="4">
+                  <select class="form-control input-sm search-input" id="2">
                     <option value="">All</option>
                     <option value="yes">Active</option>
-                    <option value="freeze">Freeze</option>
                     <option value="no">Not Active</option>
                   </select>
                 </td>

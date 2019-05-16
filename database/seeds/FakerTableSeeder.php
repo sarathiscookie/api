@@ -29,7 +29,7 @@ class FakerTableSeeder extends Seeder
                 'country' => $faker->country,
                 'phone' => mt_rand(1111111111, 9999999999),
                 'email' => $faker->email,
-                'active' => 'yes',
+                'active' => 'no',
                 'role' => 'manager',
                 'created_at' => date("Y-m-d H:i:s", $createddate),
             ]);
@@ -48,7 +48,7 @@ class FakerTableSeeder extends Seeder
                 'country' => $faker->country,
                 'phone' => mt_rand(1111111111, 9999999999),
                 'email' => $faker->email,
-                'active' => 'yes',
+                'active' => 'no',
                 'role' => 'employee',
                 'created_at' => date("Y-m-d H:i:s", $createddate),
             ]);

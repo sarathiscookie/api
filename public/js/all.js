@@ -63,7 +63,7 @@ let datatableList;
 function fetchData(url) {
 	datatableList = $("#datatable_list").DataTable({
 		lengthMenu: [10, 25, 50, 75, 100],
-		order: [[3, "desc"]],
+		order: [1, "desc"],
 		processing: true,
 		serverSide: true,
 		ajax: {
@@ -75,15 +75,13 @@ function fetchData(url) {
 		columns: [
 			{ data: "hash" },
 			{ data: "name" },
-			{ data: "email" },
-			{ data: "created_at" },
 			{ data: "active" },
 			{ data: "actions" }
 		],
 		columnDefs: [
 			{
 				orderable: false,
-				targets: [0, 4, 5]
+				targets: [0, 2, 3]
 			}
 		],
 		language: {
@@ -119,13 +117,13 @@ function fetchData(url) {
 			{
 				extend: "csv",
 				exportOptions: {
-					columns: [1, 2, 3, 4]
+					columns: [1, 2]
 				}
 			},
 			{
 				extend: "excel",
 				exportOptions: {
-					columns: [1, 2, 3, 4]
+					columns: [1, 2]
 				}
 			},
 			{
@@ -133,7 +131,7 @@ function fetchData(url) {
 				orientation: "portrait",
 				pageSize: "LEGAL",
 				exportOptions: {
-					columns: [1, 2, 3, 4]
+					columns: [1, 2]
 				}
 			}
 		]
