@@ -84,7 +84,7 @@ class ManagerController extends Controller
                 $nestedData['hash']       = '<input class="checked" type="checkbox" name="id[]" value="'.$managerList->id.'" />';
                 $nestedData['name']       = $this->bootstrapModal($managerList->id, $managerList->name, $managerList->email, $managerList->phone, $managerList->street, $managerList->postal, $managerList->city, $managerList->country, $managerList->created_at);
                 $nestedData['active']     = $this->userStatusHtml($managerList->id, $managerList->active, $yesStatus, $noStatus);
-                $nestedData['actions']    = '<a href="/admin/dashboard/manager/edit/'.$managerList->id.'" type="button" class="btn btn-secondary btn-sm"><i class="fas fa-cog"></i></a>';
+                $nestedData['actions']    = $this->editMangerModel($managerList->id);
                 $data[]                   = $nestedData;
             }
         }
@@ -212,7 +212,7 @@ class ManagerController extends Controller
         </a>
         <a href="#" class="list-group-item list-group-item-action">
         <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">Country</h5>
+        <h5 class="mb-1">Created On</h5>
         </div>
         <p class="mb-1">'.date('d.m.y', strtotime($created_at)).'</p>
         </a>
@@ -283,127 +283,100 @@ class ManagerController extends Controller
      */
     public function editMangerModel($mangerId)
     {
-        /*$html = '<div class="modal fade" id="editManagerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-        <h5 class="modal-title" id="editManagerModalLabel">Edit Manager</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
-        </div>
-        <div class="modal-body">
-        @isset($user)
+        try {
+            $user     = $this->edit($mangerId);
+            $company  = ($user->company === 'tcs') ? 'selected' : '';
+            $country  = ($user->country === 'de') ? 'selected' : '';
+            $html     = '<a href="" type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editManagerModal_'.$user->id.'"><i class="fas fa-cog"></i></a>
+            <div class="modal fade" id="editManagerModal_'.$user->id.'" tabindex="-1" role="dialog" aria-labelledby="editManagerModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="editManagerModalLabel">Edit Manager</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
 
-        <div class="text-right">
-        <a href="" type="button" class="btn btn-danger btn-sm deleteEvent" data-id="'.$managerList->id.'"><i class="fas fa-trash-alt"></i> Delete</a>
-        <hr>
-        </div>
+            <div class="modal-body">
+            <div class="text-right">
+            <a href="" type="button" class="btn btn-danger btn-sm deleteEvent" data-id="'.$user->id.'"><i class="fas fa-trash-alt"></i> Delete</a>
+            <hr>
+            </div>
 
-        <form method="POST" action="">
-        @csrf
+            <form method="POST" action="">
+            <div class="form-row">
+            <div class="form-group col-md-6">
 
-        <div class="form-row">
-        <div class="form-group col-md-6">
-        <label for="name">Name</label>
+            <label for="name">Name</label>
+            <input id="name" type="text" class="form-control" name="name" value="'.$user->name.'" autocomplete="name" maxlength="255" autofocus>
 
-        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', $user->name) }}" autocomplete="name" maxlength="255" autofocus>
+            </div>
+            <div class="form-group col-md-6">
 
-        @error('name')
-        <span class="invalid-feedback" role="alert">
-        <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-        </div>
-        <div class="form-group col-md-6">
-        <label for="phone">Phone</label>
+            <label for="phone">Phone</label>
+            <input id="phone" type="text" class="form-control" name="phone" value="'.$user->phone.'" maxlength="20" autocomplete="phone">
 
-        <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone', $user->phone) }}" maxlength="20" autocomplete="phone">
+            </div>
+            </div>
 
-        @error('phone')
-        <span class="invalid-feedback" role="alert">
-        <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-        </div>
-        </div>
+            <div class="form-row">
+            <div class="form-group col-md-6">
 
-        <div class="form-row">
-        <div class="form-group col-md-6">
-        <label for="company">Company</label>
-        <select id="company" class="form-control @error('company') is-invalid @enderror" name="company">
-        <option value="">Choose Company</option>
-        <option value="tcs" @if(old('company', $user->company) === 'tcs') selected @endif>TCS</option>
-        </select>
+            <label for="company">Company</label>
+            <select id="company" class="form-control" name="company">
+            <option value="">Choose Company</option>
+            <option value="tcs" '.$company.'>TCS</option>
+            </select>
 
-        @error('company')
-        <span class="invalid-feedback" role="alert">
-        <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-        </div>
-        <div class="form-group col-md-6">
-        <label for="street">Street</label>
+            </div>
+            <div class="form-group col-md-6">
 
-        <input id="street" type="text" class="form-control @error('street') is-invalid @enderror" name="street" value="{{ old('street', $user->street) }}" maxlength="255" autocomplete="street">
+            <label for="street">Street</label>
+            <input id="street" type="text" class="form-control" name="street" value="'.$user->street.'" maxlength="255" autocomplete="street">
 
-        @error('street')
-        <span class="invalid-feedback" role="alert">
-        <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-        </div>
-        </div>
+            </div>
+            </div>
 
-        <div class="form-row">
-        <div class="form-group col-md-6">
-        <label for="city">City</label>
+            <div class="form-row">
+            <div class="form-group col-md-6">
 
-        <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city" value="{{ old('city', $user->city) }}" maxlength="255" autocomplete="city">
+            <label for="city">City</label>
+            <input id="city" type="text" class="form-control" name="city" value="'.$user->city.'" maxlength="255" autocomplete="city">
 
-        @error('city')
-        <span class="invalid-feedback" role="alert">
-        <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-        </div>
-        <div class="form-group col-md-4">
-        <label for="country">Country</label>
+            </div>
+            <div class="form-group col-md-4">
 
-        <select id="country" class="form-control @error('country') is-invalid @enderror" name="country">
-        <option value="">Choose Country</option>
-        <option value="de" @if(old('country', $user->country) === 'de') selected @endif>Germany</option>
-        </select>
+            <label for="country">Country</label>
+            <select id="country" class="form-control" name="country">
+            <option value="">Choose Country</option>
+            <option value="de" '.$country.'>Germany</option>
+            </select>
 
-        @error('country')
-        <span class="invalid-feedback" role="alert">
-        <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-        </div>
-        <div class="form-group col-md-2">
-        <label for="zip">Zip</label>
+            </div>
+            <div class="form-group col-md-2">
 
-        <input id="zip" type="text" class="form-control @error('zip') is-invalid @enderror" name="zip" value="{{ old('zip', $user->postal) }}" maxlength="20" autocomplete="zip">
+            <label for="zip">Zip</label>
+            <input id="zip" type="text" class="form-control" name="zip" value="'.$user->postal.'" maxlength="20" autocomplete="zip">
 
-        @error('zip')
-        <span class="invalid-feedback" role="alert">
-        <strong>{{ $message }}</strong>
-        </span>
-        @enderror
-        </div>
-        </div>
+            </div>
+            </div>
 
-        <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="fas fa-user-edit"></i> Update Manager</button>
-        </form>
-        @endisset
-        </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="fas fa-user-edit"></i> Update Manager</button>
+            </form>
 
-        </div>
-        </div>
-        </div>';
+            </div>
 
-        return $html;*/
+            </div>
+            </div>
+            </div>';
+
+            return $html;
+            
+        } 
+        catch(\Exception $e){
+            abort(404);
+        }
     }
     /**
      * Show the form to create a new resource.
@@ -465,10 +438,7 @@ class ManagerController extends Controller
     public function edit($id)
     {
         $user = User::where('role', 'manager')->findOrFail($id);
-        if(!empty($user)) {
-            session()->put('manager', $user->id);
-        }
-        return view('admin.managerEdit', ['user' => $user]);
+        return $user;
     }
 
     /**

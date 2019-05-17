@@ -44,8 +44,6 @@ Route::prefix('admin')->group(function(){
 		Route::post('/dashboard/manager/status/update', 'Admin\ManagerController@updateStatus')->name('admin.dashboard.manager.status.update');
 		/* Store manager */
 		Route::post('/dashboard/manager/store', 'Admin\ManagerController@store')->name('admin.dashboard.manager.store');
-		/* Edit manager */
-		Route::get('/dashboard/manager/edit/{id}', 'Admin\ManagerController@edit')->name('admin.dashboard.manager.edit');
 		/* Update manager */
 		Route::post('/dashboard/manager/update', 'Admin\ManagerController@update')->name('admin.dashboard.manager.update');
 	});
