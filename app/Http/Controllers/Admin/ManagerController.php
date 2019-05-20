@@ -212,7 +212,7 @@ class ManagerController extends Controller
             $user     = $this->edit($mangerId);
             $company  = ($user->company === 'tcs') ? 'selected' : '';
             $country  = ($user->country === 'de') ? 'selected' : '';
-            $html     = '<a href="" type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editManagerModal_'.$user->id.'"><i class="fas fa-cog"></i></a>
+            $html     = '<a class="btn btn-secondary btn-sm editManager" data-managerid="'.$user->id.'" data-toggle="modal" data-target="#editManagerModal_'.$user->id.'"><i class="fas fa-cog"></i></a>
             <div class="modal fade" id="editManagerModal_'.$user->id.'" tabindex="-1" role="dialog" aria-labelledby="editManagerModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -224,6 +224,7 @@ class ManagerController extends Controller
             </div>
 
             <div class="modal-body">
+            <div class="updateValidationAlert"></div>
             <div class="text-right">
             <a href="" type="button" class="btn btn-danger btn-sm deleteEvent" data-id="'.$user->id.'"><i class="fas fa-trash-alt"></i> Delete</a>
             <hr>
@@ -254,13 +255,13 @@ class ManagerController extends Controller
             <div class="form-group col-md-6">
 
             <label for="name">Name</label>
-            <input id="name" type="text" class="form-control" name="name" value="'.$user->name.'" autocomplete="name" maxlength="255" autofocus>
+            <input id="name_'.$user->id.'" type="text" class="form-control" name="name" value="'.$user->name.'" autocomplete="name" maxlength="255" autofocus>
 
             </div>
             <div class="form-group col-md-6">
 
             <label for="phone">Phone</label>
-            <input id="phone" type="text" class="form-control" name="phone" value="'.$user->phone.'" maxlength="20" autocomplete="phone">
+            <input id="phone_'.$user->id.'" type="text" class="form-control" name="phone" value="'.$user->phone.'" maxlength="20" autocomplete="phone">
 
             </div>
             </div>
@@ -269,7 +270,7 @@ class ManagerController extends Controller
             <div class="form-group col-md-6">
 
             <label for="company">Company</label>
-            <select id="company" class="form-control" name="company">
+            <select id="company_'.$user->id.'" class="form-control" name="company">
             <option value="">Choose Company</option>
             <option value="tcs" '.$company.'>TCS</option>
             </select>
@@ -278,7 +279,7 @@ class ManagerController extends Controller
             <div class="form-group col-md-6">
 
             <label for="street">Street</label>
-            <input id="street" type="text" class="form-control" name="street" value="'.$user->street.'" maxlength="255" autocomplete="street">
+            <input id="street_'.$user->id.'" type="text" class="form-control" name="street" value="'.$user->street.'" maxlength="255" autocomplete="street">
 
             </div>
             </div>
@@ -287,13 +288,13 @@ class ManagerController extends Controller
             <div class="form-group col-md-6">
 
             <label for="city">City</label>
-            <input id="city" type="text" class="form-control" name="city" value="'.$user->city.'" maxlength="255" autocomplete="city">
+            <input id="city_'.$user->id.'" type="text" class="form-control" name="city" value="'.$user->city.'" maxlength="255" autocomplete="city">
 
             </div>
             <div class="form-group col-md-4">
 
             <label for="country">Country</label>
-            <select id="country" class="form-control" name="country">
+            <select id="country_'.$user->id.'" class="form-control" name="country">
             <option value="">Choose Country</option>
             <option value="de" '.$country.'>Germany</option>
             </select>
@@ -302,12 +303,12 @@ class ManagerController extends Controller
             <div class="form-group col-md-2">
 
             <label for="zip">Zip</label>
-            <input id="zip" type="text" class="form-control" name="zip" value="'.$user->postal.'" maxlength="20" autocomplete="zip">
+            <input id="zip_'.$user->id.'" type="text" class="form-control" name="zip" value="'.$user->postal.'" maxlength="20" autocomplete="zip">
 
             </div>
             </div>
 
-            <button type="button" class="btn btn-primary btn-lg btn-block editManager" data-editmanager="'.$user->id.'"><i class="fas fa-user-edit"></i> Update Manager</button>
+            <button type="button" class="btn btn-primary btn-lg btn-block updateManager_'.$user->id.'"><i class="fas fa-user-edit"></i> Update Manager</button>
 
             </div>
 
@@ -358,7 +359,7 @@ class ManagerController extends Controller
             return response()->json(['successStatusManager' => 'success', 'message' => 'Well done! User created successfully'], 201);
         } 
         catch(\Exception $e){
-            return response()->json(['failedStatusManager' => 'success', 'message' => 'Whoops! Something went wrong'], 404);
+            return response()->json(['failedStatusManager' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
         }
     }
 
@@ -389,13 +390,12 @@ class ManagerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
         try {
-            User::where('id', session()->get('manager'))
+            User::where('id', $request->managerid)
             ->manager()
             ->update([
                 'name'      => $request->name,  
@@ -403,16 +403,14 @@ class ManagerController extends Controller
                 'street'    => $request->street, 
                 'city'      => $request->city, 
                 'country'   => $request->country,
-                'zip'       => $request->zip,
+                'postal'    => $request->zip,
                 'company'   => $request->company,
             ]);
 
-            session()->forget('manager');
-
-            return redirect('/admin/dashboard/manager/list')->with('successUpdateManager', 'Well done! User details updated successfully');
+            return response()->json(['successUpdateManager' => 'success', 'message' => 'Well done! User details updated successfully'], 201);
         } 
         catch(\Exception $e){
-            return redirect()->back()->with('failureUpdateManager', 'Whoops! Something went wrong');
+            return response()->json(['failureUpdateManager' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
         } 
     }
 
