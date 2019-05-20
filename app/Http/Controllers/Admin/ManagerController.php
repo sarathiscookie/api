@@ -254,13 +254,13 @@ class ManagerController extends Controller
             <div class="form-row">
             <div class="form-group col-md-6">
 
-            <label for="name">Name</label>
+            <label for="name">Name <span class="required">*</span></label>
             <input id="name_'.$user->id.'" type="text" class="form-control" name="name" value="'.$user->name.'" autocomplete="name" maxlength="255" autofocus>
 
             </div>
             <div class="form-group col-md-6">
 
-            <label for="phone">Phone</label>
+            <label for="phone">Phone <span class="required">*</span></label>
             <input id="phone_'.$user->id.'" type="text" class="form-control" name="phone" value="'.$user->phone.'" maxlength="20" autocomplete="phone">
 
             </div>
@@ -269,7 +269,7 @@ class ManagerController extends Controller
             <div class="form-row">
             <div class="form-group col-md-6">
 
-            <label for="company">Company</label>
+            <label for="company">Company <span class="required">*</span></label>
             <select id="company_'.$user->id.'" class="form-control" name="company">
             <option value="">Choose Company</option>
             <option value="tcs" '.$company.'>TCS</option>
@@ -278,7 +278,7 @@ class ManagerController extends Controller
             </div>
             <div class="form-group col-md-6">
 
-            <label for="street">Street</label>
+            <label for="street">Street <span class="required">*</span></label>
             <input id="street_'.$user->id.'" type="text" class="form-control" name="street" value="'.$user->street.'" maxlength="255" autocomplete="street">
 
             </div>
@@ -287,13 +287,13 @@ class ManagerController extends Controller
             <div class="form-row">
             <div class="form-group col-md-6">
 
-            <label for="city">City</label>
+            <label for="city">City <span class="required">*</span></label>
             <input id="city_'.$user->id.'" type="text" class="form-control" name="city" value="'.$user->city.'" maxlength="255" autocomplete="city">
 
             </div>
             <div class="form-group col-md-4">
 
-            <label for="country">Country</label>
+            <label for="country">Country <span class="required">*</span></label>
             <select id="country_'.$user->id.'" class="form-control" name="country">
             <option value="">Choose Country</option>
             <option value="de" '.$country.'>Germany</option>
@@ -302,7 +302,7 @@ class ManagerController extends Controller
             </div>
             <div class="form-group col-md-2">
 
-            <label for="zip">Zip</label>
+            <label for="zip">Zip <span class="required">*</span></label>
             <input id="zip_'.$user->id.'" type="text" class="form-control" name="zip" value="'.$user->postal.'" maxlength="20" autocomplete="zip">
 
             </div>
@@ -389,10 +389,10 @@ class ManagerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Admin\ManagerRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(ManagerRequest $request)
     {
         try {
             User::where('id', $request->managerid)
