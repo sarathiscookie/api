@@ -24,11 +24,15 @@ class CreateUsersTable extends Migration
             $table->string('postal', 20)->nullable();
             $table->string('city', 255)->nullable();
             $table->string('country')->nullable();
-            $table->string('company')->nullable();
+            $table->unsignedBigInteger('company_id')->nullable();
             $table->enum('active', ['yes', 'no'])->default('no');
             $table->enum('role', ['admin', 'manager', 'employee']);
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('company_id')
+            ->references('id')->on('companies')
+            ->onDelete('cascade');
         });
     }
 

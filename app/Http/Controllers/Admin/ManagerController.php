@@ -217,7 +217,7 @@ class ManagerController extends Controller
             <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="editManagerModalLabel">Edit Manager</h5>
+            <h5 class="modal-title" id="editManagerModalLabel">Edit Manager Details</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -255,7 +255,7 @@ class ManagerController extends Controller
             <div class="form-group col-md-6">
 
             <label for="name">Name <span class="required">*</span></label>
-            <input id="name_'.$user->id.'" type="text" class="form-control" name="name" value="'.$user->name.'" autocomplete="name" maxlength="255" autofocus>
+            <input id="name_'.$user->id.'" type="text" class="form-control" name="name" value="'.$user->name.'" autocomplete="name" maxlength="255">
 
             </div>
             <div class="form-group col-md-6">

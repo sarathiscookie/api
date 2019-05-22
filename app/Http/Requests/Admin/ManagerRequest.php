@@ -27,27 +27,27 @@ class ManagerRequest extends FormRequest
             case 'POST':
             {
                 return [
-                    'name'      => ['required', 'string', 'max:255'],
-                    'email'     => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                    'phone'     => ['required', 'string', 'max:20'],
-                    'street'    => ['required', 'string', 'max:255'],
-                    'city'      => ['required', 'string', 'max:255'],
-                    'country'   => ['required', 'not_in:0'],
-                    'zip'       => ['required', 'string', 'max:20'],
+                    'company'   => ['required', 'not_in:0'],
                     'password'  => ['required', 'string', 'min:8', 'confirmed'],
-                    'company'   => ['required', 'not_in:0']
+                    'zip'       => ['required', 'string', 'max:20'],
+                    'country'   => ['required', 'not_in:0'],
+                    'city'      => ['required', 'string', 'max:255'],
+                    'street'    => ['required', 'string', 'max:255'],
+                    'phone'     => ['required', 'string', 'max:20'],
+                    'email'     => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                    'name'      => ['required', 'string', 'max:255']
                 ]; 
             }
             case 'PUT':
             {
                 return [
-                    'name'      => ['required', 'string', 'max:255'],
-                    'phone'     => ['required', 'string', 'max:20'],
-                    'street'    => ['required', 'string', 'max:255'],
-                    'city'      => ['required', 'string', 'max:255'],
-                    'country'   => ['required', 'not_in:0'],
                     'zip'       => ['required', 'string', 'max:20'],
-                    'company'   => ['required', 'not_in:0']
+                    'country'   => ['required', 'not_in:0'],
+                    'city'      => ['required', 'string', 'max:255'],
+                    'street'    => ['required', 'string', 'max:255'],
+                    'company'   => ['required', 'not_in:0'],
+                    'phone'     => ['required', 'string', 'max:20'],
+                    'name'      => ['required', 'string', 'max:255']
                 ]; 
             }
             default:break;

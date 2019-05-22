@@ -6,30 +6,30 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/admin/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
-          <li class="breadcrumb-item active" aria-current="page"><i class="far fa-address-book"></i> Manager List</li>
+          <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-list-alt"></i> Company List</li>
         </ol>
       </nav>
 
       <div class="card border-primary">
         <div class="card-header bg-primary">
-          Manager List
+          Company List
         </div>
 
         <div class="card-body">
           <div class="text-right">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createManagerModal"><i class="fas fa-user-plus"></i> Create Manager</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createCompanyModal"><i class="fas fa-plus"></i> Create Company</button>
             <hr>
           </div>
           
           <div class="table-responsive">
 
-            <div class="responseMessage"></div>
+            <div class="responseCompanyMessage"></div>
 
-            <table id="manager_list" class="table table-bordered table-hover display" style="width:100%">
+            <table id="company_list" class="table table-bordered table-hover display" style="width:100%">
               <thead class="thead-light">
                 <tr>
                   <th>#</th>
-                  <th>Name</th>
+                  <th>Company Name</th>
                   <th>Active</th>
                   <th>Actions</th>
                 </tr>
@@ -53,36 +53,38 @@
             </table>
 
             <!-- Export buttons are append here -->
-            <div id="buttons"></div>
+            <div id="companyButtons"></div>
 
           </div>
         </div>
       </div>
   
-      <!-- Create manager modal -->
-      <div class="modal fade" id="createManagerModal" tabindex="-1" role="dialog" aria-labelledby="createManagerModalLabel" aria-hidden="true">
+      <!-- Create company modal -->
+      <div class="modal fade" id="createCompanyModal" tabindex="-1" role="dialog" aria-labelledby="createCompanyModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="createManagerModalLabel">Create Manager</h5>
+              <h5 class="modal-title" id="createCompanyModalLabel">Create Company</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
 
-              <div class="validationAlert"></div>
+              <div class="companyValidationAlert"></div>
 
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="name">Name <span class="required">*</span></label>
-                  <input id="name" type="text" class="form-control" name="name" autocomplete="name" maxlength="255" autofocus>
+                  <label for="name">Company <span class="required">*</span></label>
+                  <input id="company" type="text" class="form-control" name="company" autocomplete="company" maxlength="255" autofocus>
 
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="email">Email <span class="required">*</span></label>
-                  <input id="email" type="email" class="form-control" name="email" maxlength="255" autocomplete="email">
-
+                  <label for="country">Country <span class="required">*</span></label>
+                  <select id="country" class="form-control" name="country">
+                    <option value="">Choose...</option>
+                    <option value="de">Germany</option>
+                  </select>
                 </div>
               </div>
 
@@ -105,43 +107,15 @@
                   <input id="city" type="text" class="form-control" name="city" maxlength="255" autocomplete="city">
 
                 </div>
-                <div class="form-group col-md-4">
-                  <label for="country">Country <span class="required">*</span></label>
-                  <select id="country" class="form-control" name="country">
-                    <option value="">Choose...</option>
-                    <option value="de">Germany</option>
-                  </select>
-
-                </div>
-                <div class="form-group col-md-2">
+                
+                <div class="form-group col-md-6">
                   <label for="zip">Zip <span class="required">*</span></label>
                   <input id="zip" type="text" class="form-control" name="zip" maxlength="20" autocomplete="zip">
 
                 </div>
               </div>
 
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label for="password">Password <span class="required">*</span></label>
-                  <input id="password" type="password" class="form-control" name="password" maxlength="255">
-
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="password_confirmation">Confirm Password <span class="required">*</span></label>
-                  <input id="password_confirmation" type="password" class="form-control" name="password_confirmation">
-
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="company">Company <span class="required">*</span></label>
-                  <select id="company" class="form-control" name="company">
-                    <option value="">Choose...</option>
-                    <option value="tcs">TCS</option>
-                  </select>
-
-                </div>
-              </div>
-
-              <button type="button" class="btn btn-primary btn-lg btn-block createManager"><i class="fas fa-user-plus"></i> Create Manager</button>
+              <button type="button" class="btn btn-primary btn-lg btn-block createCompany"><i class="fas fa-plus"></i> Create Company</button>
             </div>
 
           </div>

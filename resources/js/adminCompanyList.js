@@ -1,7 +1,7 @@
 /**
  * User: Sarath TS
- * Date: 04.05.2019
- * Created for: adminManagerList
+ * Date: 21.05.2019
+ * Created for: adminCompanyList
  */
 
 $(function() {
@@ -15,20 +15,20 @@ $(function() {
 	});
 
 	/* Datatable scripts */
-	let datatableList = $("#manager_list").DataTable({
+	let companyList = $("#company_list").DataTable({
 		lengthMenu: [10, 25, 50, 75, 100],
 		order: [1, "desc"],
 		processing: true,
 		serverSide: true,
 		ajax: {
-			url: "/admin/dashboard/manager/list/datatables",
+			url: "/admin/dashboard/company/list/datatables",
 			dataType: "json",
 			type: "POST"
 		},
 		deferRender: true,
 		columns: [
 			{ data: "hash" },
-			{ data: "name" },
+			{ data: "company" },
 			{ data: "active" },
 			{ data: "actions" }
 		],
@@ -66,10 +66,10 @@ $(function() {
 	});
 
 	/* Bottom buttons for datatables */
-	let buttons;
+	let companyButtons;
 
 	try {
-		buttons = new $.fn.dataTable.Buttons(datatableList, {
+		companyButtons = new $.fn.dataTable.Buttons(companyList, {
 			buttons: [
 				{
 					extend: "csv",
@@ -94,138 +94,60 @@ $(function() {
 			]
 		})
 			.container()
-			.appendTo($("#buttons"));
+			.appendTo($("#companyButtons"));
 	} catch (error) {
-		buttons = null;
+		companyButtons = null;
 	}
-
-	/* Delete manager functionality */
-	$("#manager_list tbody").on("click", "a.deleteEvent", function(e) {
-		e.preventDefault();
-		var userId = $(this).data("id");
-		var r = confirm("Are you sure you want to remove the user?");
-		if (r == true) {
-			$.ajax({
-				url: "/admin/dashboard/manager/delete/" + userId,
-				dataType: "JSON",
-				type: "DELETE",
-				success: function(result) {
-					if (result) {
-						datatableList
-							.row($(this).parents("tr"))
-							.remove()
-							.draw();
-						$(".responseMessage").html(
-							'<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="icon fa fa-check-circle"></i> <strong> Well Done! </strong>' +
-								result.message +
-								'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
-						);
-						$(".responseMessage")
-							.show()
-							.delay(5000)
-							.fadeOut();
-					}
-				}
-			});
-		}
-	});
 
 	/* <tfoot> search functionality */
 	$(".search-input").on("keyup change", function() {
 		var i = $(this).attr("id"); // getting column index
 		var v = $(this).val(); // getting search input value
-		datatableList
+		companyList
 			.columns(i)
 			.search(v)
 			.draw();
 	});
 
-	/* Updating manager status */
-	$("#manager_list tbody").on("change", "input.buttonStatus", function(e) {
+	/* Create company */
+	$("button.createCompany").on("click", function(e) {
 		e.preventDefault();
 
-		var newStatus = "";
-
-		var userId = $(this)
-			.parent()
-			.data("userid");
-
-		if ($(this).is(":checked") === true) {
-			newStatus = "yes";
-		} else {
-			newStatus = "no";
-		}
-
-		$.ajax({
-			url: "/admin/dashboard/manager/status/update",
-			dataType: "JSON",
-			type: "POST",
-			data: { newStatus: newStatus, userId: userId }
-		})
-			.done(function(result) {
-				datatableList.ajax.reload(null, false);
-			})
-			.fail(function() {
-				$(".responseMessage").html(
-					'<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="fas fa-times-circle"></i> Something went wrong! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
-				);
-
-				$(".responseMessage")
-					.show()
-					.delay(5000)
-					.fadeOut();
-
-				datatableList.ajax.reload(null, false);
-			});
-	});
-
-	/* Create manager */
-	$("button.createManager").on("click", function(e) {
-		e.preventDefault();
-
-		var name = $("#name").val();
-		var email = $("#email").val();
+		var company = $("#company").val();
 		var phone = $("#phone").val();
 		var street = $("#street").val();
 		var city = $("#city").val();
 		var country = $("#country").val();
-		var company = $("#company").val();
 		var zip = $("#zip").val();
-		var password = $("#password").val();
-		var passwordConfirm = $("#password_confirmation").val();
 
 		$.ajax({
-			url: "/admin/dashboard/manager/store",
+			url: "/admin/dashboard/company/store",
 			dataType: "JSON",
 			type: "POST",
 			data: {
-				name: name,
-				email: email,
+				company: company,
 				phone: phone,
 				street: street,
 				city: city,
 				country: country,
-				company: company,
-				zip: zip,
-				password: password,
-				password_confirmation: passwordConfirm
+				zip: zip
 			}
 		})
 			.done(function(result) {
-				if (result.successStatusManager === "success") {
-					$("#createManagerModal").modal("hide"); // It hides the modal
-					$(".responseMessage").html(
+				if (result.successStatusCompany === "success") {
+					$("#createCompanyModal").modal("hide"); // It hides the modal
+					$(".responseCompanyMessage").html(
 						'<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="icon fa fa-check-circle"></i> ' +
 							result.message +
 							'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
 					);
 
-					datatableList.ajax.reload(null, false);
+					companyList.ajax.reload(null, false);
 				}
 			})
 			.fail(function(data) {
-				if (data.responseJSON.failedStatusManager === "failure") {
-					$(".validationAlert").html(
+				if (data.responseJSON.failedStatusCompany === "failure") {
+					$(".companyValidationAlert").html(
 						'<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="fas fa-times-circle"></i> ' +
 							data.responseJSON.message +
 							'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
@@ -234,7 +156,7 @@ $(function() {
 
 				if (data.status === 422) {
 					$.each(data.responseJSON.errors, function(key, val) {
-						$(".validationAlert").html(
+						$(".companyValidationAlert").html(
 							"<p class='alert alert-danger'>" + val + "</p>"
 						);
 					});
@@ -242,8 +164,8 @@ $(function() {
 			});
 	});
 
-	/* Clearing data of create manager modal fields */
-	$("#createManagerModal").on("hidden.bs.modal", function(e) {
+	/* Clearing data of create company modal fields */
+	$("#createCompanyModal").on("hidden.bs.modal", function(e) {
 		$(this)
 			.find("input,textarea,select")
 			.val("")
@@ -253,51 +175,47 @@ $(function() {
 			.end();
 	});
 
-	/* Edit manager */
-	$("#manager_list tbody").on("click", "a.editManager", function(e) {
-		e.preventDefault();
-		var managerid = $(this).data("managerid");
-
-		$(".updateManager_" + managerid).on("click", function(e) {
+	$("#company_list tbody").on("click", "a.editCompany", function(e) {
+		var companyid = $(this).data("companyid");
+		$(".updateCompany_" + companyid).on("click", function(e) {
 			e.preventDefault();
-			var name = $("#name_" + managerid).val();
-			var phone = $("#phone_" + managerid).val();
-			var company = $("#company_" + managerid).val();
-			var street = $("#street_" + managerid).val();
-			var city = $("#city_" + managerid).val();
-			var country = $("#country_" + managerid).val();
-			var zip = $("#zip_" + managerid).val();
+
+			var company = $("#company_" + companyid).val();
+			var phone = $("#phone_" + companyid).val();
+			var street = $("#street_" + companyid).val();
+			var city = $("#city_" + companyid).val();
+			var country = $("#country_" + companyid).val();
+			var zip = $("#zip_" + companyid).val();
 
 			$.ajax({
-				url: "/admin/dashboard/manager/update",
+				url: "/admin/dashboard/company/update",
 				dataType: "JSON",
 				type: "PUT",
 				data: {
-					name: name,
+					company: company,
 					phone: phone,
 					street: street,
 					city: city,
 					country: country,
-					company: company,
 					zip: zip,
-					managerid: managerid
+					companyid: companyid
 				}
 			})
 				.done(function(result) {
-					if (result.successUpdateManager === "success") {
-						$("#editManagerModal_" + managerid).modal("hide"); // It hides the modal
-						$(".responseMessage").html(
+					if (result.successUpdateCompany === "success") {
+						$("#editCompanyModal_" + companyid).modal("hide"); // It hides the modal
+						$(".responseCompanyMessage").html(
 							'<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="icon fa fa-check-circle"></i> ' +
 								result.message +
 								'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
 						);
 
-						datatableList.ajax.reload(null, false);
+						companyList.ajax.reload(null, false);
 					}
 				})
 				.fail(function(data) {
-					if (data.responseJSON.failureUpdateManager === "failure") {
-						$(".updateValidationAlert").html(
+					if (data.responseJSON.failureUpdateCompany === "failure") {
+						$(".companyUpdateValidationAlert").html(
 							'<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="fas fa-times-circle"></i> ' +
 								data.responseJSON.message +
 								'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
@@ -306,7 +224,7 @@ $(function() {
 
 					if (data.status === 422) {
 						$.each(data.responseJSON.errors, function(key, val) {
-							$(".updateValidationAlert").html(
+							$(".companyUpdateValidationAlert").html(
 								"<p class='alert alert-danger'>" + val + "</p>"
 							);
 						});

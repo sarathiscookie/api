@@ -34,10 +34,11 @@ Route::prefix('admin')->group(function(){
 	Route::group(['middleware' => ['auth', 'admin']], function () {
 		/* Admin dashboard */
 		Route::get('/dashboard', 'Admin\DashboardController@index')->name('admin.dashboard');
+
 		/* Show managers listing page */
 		Route::get('/dashboard/manager/list', 'Admin\ManagerController@index')->name('admin.dashboard.manager.list');
 		/* Listing managers on datatable */
-		Route::post('/dashboard/manager/list/datatables', 'Admin\ManagerController@dataTable')->name('admin.dashboard.manager.list.datatable');
+		Route::post('/dashboard/manager/list/datatables', 'Admin\ManagerController@datatable')->name('admin.dashboard.manager.list.datatable');
 		/* Delete bookings */
 		Route::delete('/dashboard/manager/delete/{id}', 'Admin\ManagerController@destroy')->name('admin.dashboard.manager.delete');
 		/* Update manager status */
@@ -46,6 +47,19 @@ Route::prefix('admin')->group(function(){
 		Route::post('/dashboard/manager/store', 'Admin\ManagerController@store')->name('admin.dashboard.manager.store');
 		/* Update manager */
 		Route::put('/dashboard/manager/update', 'Admin\ManagerController@update')->name('admin.dashboard.manager.update');
+
+		/* Show companies listing page */
+		Route::get('/dashboard/company/list', 'Admin\CompaniesController@index')->name('admin.dashboard.company.list');
+		/* Listing company on datatable */
+		Route::post('/dashboard/company/list/datatables', 'Admin\CompaniesController@datatable')->name('admin.dashboard.company.list.datatable');
+		/* Delete bookings */
+		Route::delete('/dashboard/company/delete/{id}', 'Admin\CompaniesController@destroy')->name('admin.dashboard.company.delete');
+		/* Update company status */
+		Route::post('/dashboard/company/status/update', 'Admin\CompaniesController@updateStatus')->name('admin.dashboard.company.status.update');
+		/* Store company */
+		Route::post('/dashboard/company/store', 'Admin\CompaniesController@store')->name('admin.dashboard.company.store');
+		/* Update company */
+		Route::put('/dashboard/company/update', 'Admin\CompaniesController@update')->name('admin.dashboard.company.update');
 	});
 });
 
