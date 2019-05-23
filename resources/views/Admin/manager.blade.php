@@ -77,67 +77,70 @@
                 <div class="form-group col-md-6">
                   <label for="name">Name <span class="required">*</span></label>
                   <input id="name" type="text" class="form-control" name="name" autocomplete="name" maxlength="255" autofocus>
-
                 </div>
+
                 <div class="form-group col-md-6">
                   <label for="email">Email <span class="required">*</span></label>
                   <input id="email" type="email" class="form-control" name="email" maxlength="255" autocomplete="email">
-
                 </div>
               </div>
 
               <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="password">Password <span class="required">*</span></label>
+                  <input id="password" type="password" class="form-control" name="password" maxlength="255">
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="password_confirmation">Confirm Password <span class="required">*</span></label>
+                  <input id="password_confirmation" type="password" class="form-control" name="password_confirmation">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="company">Company <span class="required">*</span></label>
+                  <select id="company" class="form-control" name="company">
+                    <option value="">Choose...</option>
+                    @isset($companies)
+                      @foreach( $companies as $company )
+                          <option value="{{ $company->id }}">{{ $company->company }}</option>
+                      @endforeach
+                    @endisset
+                  </select>
+                </div>
+
                 <div class="form-group col-md-6">
                   <label for="phone">Phone <span class="required">*</span></label>
                   <input id="phone" type="text" class="form-control" name="phone" maxlength="20" autocomplete="phone">
-
                 </div>
-                <div class="form-group col-md-6">
-                  <label for="street">Street <span class="required">*</span></label>
-                  <input id="street" type="text" class="form-control" name="street" maxlength="255" autocomplete="street">
-
-                </div>
+                
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="city">City <span class="required">*</span></label>
-                  <input id="city" type="text" class="form-control" name="city" maxlength="255" autocomplete="city">
-
-                </div>
-                <div class="form-group col-md-4">
                   <label for="country">Country <span class="required">*</span></label>
                   <select id="country" class="form-control" name="country">
                     <option value="">Choose...</option>
                     <option value="de">Germany</option>
                   </select>
-
                 </div>
-                <div class="form-group col-md-2">
-                  <label for="zip">Zip <span class="required">*</span></label>
-                  <input id="zip" type="text" class="form-control" name="zip" maxlength="20" autocomplete="zip">
 
+                <div class="form-group col-md-6">
+                  <label for="city">City <span class="required">*</span></label>
+                  <input id="city" type="text" class="form-control" name="city" maxlength="255" autocomplete="city">
                 </div>
               </div>
 
               <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label for="password">Password <span class="required">*</span></label>
-                  <input id="password" type="password" class="form-control" name="password" maxlength="255">
-
+                <div class="form-group col-md-6">
+                  <label for="street">Street <span class="required">*</span></label>
+                  <input id="street" type="text" class="form-control" name="street" maxlength="255" autocomplete="street">
                 </div>
-                <div class="form-group col-md-4">
-                  <label for="password_confirmation">Confirm Password <span class="required">*</span></label>
-                  <input id="password_confirmation" type="password" class="form-control" name="password_confirmation">
 
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="company">Company <span class="required">*</span></label>
-                  <select id="company" class="form-control" name="company">
-                    <option value="">Choose...</option>
-                    <option value="tcs">TCS</option>
-                  </select>
-
+                <div class="form-group col-md-6">
+                  <label for="zip">Zip <span class="required">*</span></label>
+                  <input id="zip" type="text" class="form-control" name="zip" maxlength="20" autocomplete="zip">
                 </div>
               </div>
 

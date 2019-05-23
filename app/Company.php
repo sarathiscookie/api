@@ -41,30 +41,8 @@ class Company extends Model
     * @param  string  $query
     * @return string
     */
-    /*public function scopeManager($query)
+    public function scopeActive($query)
     {
-        return $query->where('role', 'manager');
-    }*/
-
-    /**
-    * Scope for admin role.
-    *
-    * @param  string  $query
-    * @return string
-    */
-    /*public function scopeAdmin($query)
-    {
-        return $query->where('role', 'admin');
-    }*/
-
-    /**
-    * Scope for employee role.
-    *
-    * @param  string  $query
-    * @return string
-    */
-    /*public function scopeEmployee($query)
-    {
-        return $query->where('role', 'employee');
-    }*/
+        return $query->where('active', 'yes');
+    }
 }

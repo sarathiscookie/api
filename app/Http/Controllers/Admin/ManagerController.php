@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Company;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ManagerRequest;
 use App\User;
@@ -17,7 +18,11 @@ class ManagerController extends Controller
      */
     public function index()
     {
-        return view('admin.manager');
+        $companies = Company::select('id', 'company')
+            ->active()
+            ->get();
+
+        return view('admin.manager', ['companies' => $companies]);
     }
 
     /**
@@ -342,24 +347,24 @@ class ManagerController extends Controller
     public function store(ManagerRequest $request)
     {
         try {
-            $user           = new User;
-            $user->name     = $request->name;
-            $user->password = Hash::make($request->password);
-            $user->email    = $request->email;
-            $user->phone    = $request->phone;
-            $user->street   = $request->street;
-            $user->city     = $request->city;
-            $user->country  = $request->country;
-            $user->postal   = $request->zip;
-            $user->company  = $request->company;
-            $user->active   = 'no';
-            $user->role     = 'manager';
+            $user               = new User;
+            $user->name         = $request->name;
+            $user->password     = Hash::make($request->password);
+            $user->email        = $request->email;
+            $user->phone        = $request->phone;
+            $user->street       = $request->street;
+            $user->city         = $request->city;
+            $user->country      = $request->country;
+            $user->postal       = $request->zip;
+            $user->company_id   = $request->company;
+            $user->active       = 'no';
+            $user->role         = 'manager';
             $user->save();
 
-            return response()->json(['successStatusManager' => 'success', 'message' => 'Well done! User created successfully'], 201);
+            return response()->json(['managerStatus' => 'success', 'message' => 'Well done! User created successfully'], 201);
         } 
         catch(\Exception $e){
-            return response()->json(['failedStatusManager' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
+            return response()->json(['managerStatus' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
         }
     }
 
