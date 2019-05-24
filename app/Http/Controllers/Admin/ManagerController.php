@@ -18,9 +18,7 @@ class ManagerController extends Controller
      */
     public function index()
     {
-        $companies = Company::select('id', 'company')
-            ->active()
-            ->get();
+        $companies = $this->company();
 
         return view('admin.manager', ['companies' => $companies]);
     }
@@ -214,9 +212,15 @@ class ManagerController extends Controller
     public function editMangerModel($mangerId)
     {
         try {
-            $user     = $this->edit($mangerId);
-            $company  = ($user->company === 'tcs') ? 'selected' : '';
-            $country  = ($user->country === 'de') ? 'selected' : '';
+            $user           = $this->edit($mangerId);
+            $companyOptions = '';
+
+            foreach($this->company() as $company) {
+                $companySelected = ($user->company->id === $company->id) ? 'selected' : '';
+                $companyOptions .= '<option value="'.$company->id.'" '.$companySelected.'>'.$company->company.'</option>';
+            }
+
+            $country  = 'de'; //($user->country === 'de') ? 'selected' : '';
             $html     = '<a class="btn btn-secondary btn-sm editManager" data-managerid="'.$user->id.'" data-toggle="modal" data-target="#editManagerModal_'.$user->id.'"><i class="fas fa-cog"></i></a>
             <div class="modal fade" id="editManagerModal_'.$user->id.'" tabindex="-1" role="dialog" aria-labelledby="editManagerModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -277,7 +281,7 @@ class ManagerController extends Controller
             <label for="company">Company <span class="required">*</span></label>
             <select id="company_'.$user->id.'" class="form-control" name="company">
             <option value="">Choose Company</option>
-            <option value="tcs" '.$company.'>TCS</option>
+            '.$companyOptions.'
             </select>
 
             </div>
@@ -324,10 +328,11 @@ class ManagerController extends Controller
             return $html;
             
         } 
-        catch(\Exception $e){
+        catch(\Exception $e) {
             abort(404);
         }
     }
+
     /**
      * Show the form to create a new resource.
      *
@@ -363,7 +368,7 @@ class ManagerController extends Controller
 
             return response()->json(['managerStatus' => 'success', 'message' => 'Well done! User created successfully'], 201);
         } 
-        catch(\Exception $e){
+        catch(\Exception $e) {
             return response()->json(['managerStatus' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
         }
     }
@@ -387,7 +392,7 @@ class ManagerController extends Controller
      */
     public function edit($id)
     {
-        $user = User::manager()->findOrFail($id);
+        $user = User::manager()->with('company:id,company')->findOrFail($id);
         return $user;
     }
 
@@ -429,5 +434,19 @@ class ManagerController extends Controller
     {
         $user            = User::destroy($id);
         return response()->json(['message' => 'User deleted successfully!'], 201);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function company()
+    {
+        $company = Company::select('id', 'company')
+            ->active()
+            ->get();
+
+        return $company;    
     }
 }

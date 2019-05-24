@@ -93,4 +93,9 @@ class User extends Authenticatable
         return $query->where('role', 'employee');
     }
 
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
 }
