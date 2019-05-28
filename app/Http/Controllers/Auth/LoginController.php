@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,7 +30,24 @@ class LoginController extends Controller
 
     protected $redirectTo;
 
-    public function redirectTo() 
+    /**
+     * Get the needed authorization credentials from the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    protected function credentials(Request $request)
+    {
+        $credentials = $request->only($this->username(), 'password');
+        $credentials['active'] = 'yes';
+        return $credentials;
+    }
+
+    /**
+     * If the redirect path needs custom generation logic you may define a redirectTo method 
+     * instead of a redirectTo property.
+     */
+    protected function redirectTo() 
     {
         if (Auth::check() && Auth::user()->role === 'employee') {
             $this->redirectTo = '/employee/dashboard';
