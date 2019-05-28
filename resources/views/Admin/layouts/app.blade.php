@@ -83,6 +83,13 @@
                                 Manager List
                             </a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/dashboard/shop/list">
+                                <i class="fas fa-store"></i>
+                                Shop List
+                            </a>
+                        </li>
                         
                     </ul>
                 </div>

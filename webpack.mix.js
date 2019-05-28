@@ -58,7 +58,8 @@ mix.scripts(
 	[
 		"resources/js/dashboard.js",
 		"resources/js/adminManagerList.js",
-		"resources/js/adminCompanyList.js"
+		"resources/js/adminCompanyList.js",
+		"resources/js/adminShopList.js"
 	],
 	"public/js/all.js"
 ).version();
