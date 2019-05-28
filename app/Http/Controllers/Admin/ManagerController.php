@@ -38,11 +38,11 @@ class ManagerController extends Controller
             2 => 'active',
         );
 
-        $totalData = User::select('name', 'email', 'phone', 'street', 'postal', 'city', 'country', 'active', 'role', 'created_at')
+        $totalData = User::select('id', 'name', 'active')
         ->manager()
         ->count();
 
-        $q         = User::select('id', 'name', 'email', 'phone', 'street', 'postal', 'city', 'country', 'active', 'role', 'created_at')
+        $q         = User::select('id', 'name', 'active')
         ->manager();
 
         $totalFiltered = $totalData;

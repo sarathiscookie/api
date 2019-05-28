@@ -15,14 +15,14 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 255);
-            $table->string('email', 255)->unique();
+            $table->string('name');
+            $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phone', 20)->nullable();
-            $table->string('street', 255)->nullable();
+            $table->string('street')->nullable();
             $table->string('postal', 20)->nullable();
-            $table->string('city', 255)->nullable();
+            $table->string('city')->nullable();
             $table->string('country')->nullable();
             $table->unsignedBigInteger('company_id')->nullable();
             $table->enum('active', ['yes', 'no'])->default('no');
@@ -31,8 +31,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
 
             $table->foreign('company_id')
-            ->references('id')->on('companies')
-            ->onDelete('cascade');
+            ->references('id')->on('companies');
         });
     }
 

@@ -15,11 +15,11 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('company', 255);
+            $table->string('company');
             $table->string('country')->nullable();
-            $table->string('street', 255)->nullable();
+            $table->string('street')->nullable();
             $table->string('postal', 20)->nullable();
-            $table->string('city', 255)->nullable();
+            $table->string('city')->nullable();
             $table->string('phone', 20)->nullable();
             $table->enum('active', ['yes', 'no'])->default('no');
             $table->timestamps();

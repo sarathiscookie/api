@@ -34,10 +34,10 @@ class CompaniesController extends Controller
             2 => 'active',
         );
 
-        $totalData = Company::select('company', 'phone', 'street', 'postal', 'city', 'country', 'active', 'created_at')
+        $totalData = Company::select('id', 'company', 'active')
         ->count();
 
-        $q         = Company::select('id','company', 'phone', 'street', 'postal', 'city', 'country', 'active', 'created_at');
+        $q         = Company::select('id', 'company', 'active');
 
         $totalFiltered = $totalData;
         $limit         = (int)$request->input('length');
