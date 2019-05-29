@@ -32,7 +32,7 @@ class CompanyRequest extends FormRequest
                     'street'    => ['required', 'string', 'max:255'],
                     'phone'     => ['required', 'string', 'max:20'],
                     'country'   => ['required', 'not_in:0'],
-                    'company'   => ['required', 'string', 'max:255']
+                    'company'   => ['required', 'not_in:0']
                 ];
             }
             case 'PUT':
@@ -43,7 +43,7 @@ class CompanyRequest extends FormRequest
                     'street'    => ['required', 'string', 'max:255'],
                     'phone'     => ['required', 'string', 'max:20'],
                     'country'   => ['required', 'not_in:0'],
-                    'company'   => ['required', 'string', 'max:255']
+                    'company'   => ['required', 'not_in:0']
                 ];
             }
             default:break;
