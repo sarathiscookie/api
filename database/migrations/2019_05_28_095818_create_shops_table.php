@@ -22,10 +22,10 @@ class CreateShopsTable extends Migration
             $table->string('mail_port', 20);
             $table->string('mail_from_address');
             $table->string('mail_from_name', 150);
-            $table->string('mail_username', 50);
+            $table->string('mail_username', 100);
             $table->string('mail_password');
             $table->string('mail_encryption', 20);
-            $table->string('customer_number')->nullable();
+            $table->string('customer_number', 100)->nullable();
             $table->string('password')->nullable();
             $table->string('api_key')->nullable();
             $table->enum('active', ['yes', 'no'])->default('no');

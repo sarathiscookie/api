@@ -77,43 +77,83 @@
 
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="name">Shop <span class="required">*</span></label>
-                  <input id="shop" type="text" class="form-control" name="shop" autocomplete="shop" maxlength="255" autofocus>
+                  <label for="shop">Shop <span class="required">*</span></label>
+                  <input id="shop" type="text" class="form-control" name="shop" autocomplete="shop" maxlength="150" autofocus>
 
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="country">Country <span class="required">*</span></label>
-                  <select id="country" class="form-control" name="country">
+                  <label for="company">Company <span class="required">*</span></label>
+                  <select id="company" class="form-control" name="company">
                     <option value="">Choose...</option>
-                    <option value="de">Germany</option>
+                    <option value="de">company</option>
                   </select>
                 </div>
               </div>
 
               <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="phone">Phone <span class="required">*</span></label>
-                  <input id="phone" type="text" class="form-control" name="phone" maxlength="20" autocomplete="phone">
-
+                <div class="form-group col-md-4">
+                  <label for="mail_driver">Mail Driver <span class="required">*</span></label>
+                  <input id="mail_driver" type="text" class="form-control" name="mail_driver" maxlength="150" autocomplete="mail_driver">
                 </div>
-                <div class="form-group col-md-6">
-                  <label for="street">Street <span class="required">*</span></label>
-                  <input id="street" type="text" class="form-control" name="street" maxlength="255" autocomplete="street">
 
+                <div class="form-group col-md-4">
+                  <label for="mail_port">Mail Port <span class="required">*</span></label>
+                  <input id="mail_port" type="text" class="form-control" name="mail_port" maxlength="20" autocomplete="mail_port">
+                </div>
+
+                <div class="form-group col-md-4">
+                  <label for="mail_encryption">Mail Encryption <span class="required">*</span></label>
+                  <input id="mail_encryption" type="text" class="form-control" name="mail_encryption" maxlength="20" autocomplete="mail_encryption">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="mail_host">Mail Host <span class="required">*</span></label>
+                  <input id="mail_host" type="text" class="form-control" name="mail_host" maxlength="150" autocomplete="mail_host">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="city">City <span class="required">*</span></label>
-                  <input id="city" type="text" class="form-control" name="city" maxlength="255" autocomplete="city">
-
+                  <label for="mail_from_address">Mail From Address <span class="required">*</span></label>
+                  <input id="mail_from_address" type="text" class="form-control" name="mail_from_address" maxlength="255" autocomplete="mail_from_address">
                 </div>
                 
                 <div class="form-group col-md-6">
-                  <label for="zip">Zip <span class="required">*</span></label>
-                  <input id="zip" type="text" class="form-control" name="zip" maxlength="20" autocomplete="zip">
+                  <label for="mail_from_name">Mail From Name <span class="required">*</span></label>
+                  <input id="mail_from_name" type="text" class="form-control" name="mail_from_name" maxlength="150" autocomplete="mail_from_name">
+                </div>
+              </div>
 
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="mail_username">Mail Username <span class="required">*</span></label>
+                  <input id="mail_username" type="text" class="form-control" name="mail_username" maxlength="100" autocomplete="mail_username">
+                </div>
+                
+                <div class="form-group col-md-6">
+                  <label for="mail_password">Mail Password <span class="required">*</span></label>
+                  <input id="mail_password" type="text" class="form-control" name="mail_password" maxlength="255" autocomplete="mail_password">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="api_key">Api Key</label>
+                  <input id="api_key" type="text" class="form-control" name="api_key" maxlength="255" autocomplete="api_key">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="customer_number">Customer Number</label>
+                  <input id="customer_number" type="text" class="form-control" name="customer_number" maxlength="100" autocomplete="customer_number">
+                </div>
+                
+                <div class="form-group col-md-6">
+                  <label for="password">Password</label>
+                  <input id="password" type="password" class="form-control" name="password" maxlength="255">
                 </div>
               </div>
 

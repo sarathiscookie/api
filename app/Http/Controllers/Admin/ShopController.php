@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Shop;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ShopRequest;
+use App\Http\Traits\CompanyTrait;
+use App\Shop;
+use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
+    use CompanyTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +19,8 @@ class ShopController extends Controller
      */
     public function index()
     {
-        return view('admin.shop');
+        $companies = $this->company();
+        return view('admin.shop', ['companies' => $companies]);
     }
 
     /**
@@ -293,12 +298,34 @@ class ShopController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Admin\CompanyRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ShopRequest $request)
     {
-        //
+        try {
+            $shop                   = new Shop;
+            $shop->shop             = $request->company;
+            $shop->company          = $request->company;
+            $shop->mail_driver      = $request->company;
+            $shop->mail_port        = $request->company;
+            $shop->mail_encryption  = $request->company;
+            $shop->mail_host        = $request->company;
+            $shop->mail_from_address= $request->company;
+            $shop->mail_from_name   = $request->company;
+            $shop->mail_username    = $request->company;
+            $shop->mail_password    = $request->company;
+            $shop->api_key          = $request->company;
+            $shop->customer_number  = $request->company;
+            $shop->password         = $request->company;
+            $shop->active           = 'no';
+            $shop->save();
+
+            return response()->json(['companyStatus' => 'success', 'message' => 'Well done! Company created successfully'], 201);
+        } 
+        catch(\Exception $e){
+            return response()->json(['companyStatus' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
+        }
     }
 
     /**
