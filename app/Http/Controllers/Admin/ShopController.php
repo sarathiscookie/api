@@ -69,22 +69,11 @@ class ShopController extends Controller
         ->orderBy($order, $dir)
         ->get();
 
-        $data = [];
-
         if(!empty($shopLists)) {
             foreach ($shopLists as $key=> $shopList) {
-                if($shopList->active === 'yes') {
-                    $yesStatus    = 'btn-success';
-                    $noStatus     = 'btn-secondary';
-                }
-                else {
-                    $yesStatus    = 'btn-secondary';
-                    $noStatus     = 'btn-danger';
-                }
-
                 $nestedData['hash']       = '<input class="checked" type="checkbox" name="id[]" value="'.$shopList->id.'" />';
                 $nestedData['shop']       = $shopList->shop;
-                $nestedData['active']     = $this->shopStatusHtml($shopList->id, $shopList->active, $yesStatus, $noStatus);
+                $nestedData['active']     = $this->shopStatusHtml($shopList->id, $shopList->active);
                 $nestedData['actions']    = $this->editShopModel($shopList->id);
                 $data[]                   = $nestedData;
             }
@@ -163,12 +152,10 @@ class ShopController extends Controller
     /**
      * html group button to change shop status 
      * @param  int $id
-     * @param  string $oldStatus 
-     * @param  string $yesStatus
-     * @param  string $noStatus  
+     * @param  string $oldStatus   
      * @return \Illuminate\Http\Response
      */
-    public function shopStatusHtml($id, $oldStatus, $yesStatus, $noStatus)
+    public function shopStatusHtml($id, $oldStatus)
     {
         $checked = ($oldStatus === 'yes') ? 'checked' : "";
         $html    = '<label class="switch" data-shopstatusid="'.$id.'">
@@ -187,9 +174,14 @@ class ShopController extends Controller
     public function editShopModel($shopId)
     {
         try {
-            $html               = '<a class="btn btn-secondary btn-sm editShop" data-shopid="'.$shop->id.'" data-toggle="modal" data-target="#editShopModal_'.$shop->id.'"><i class="fas fa-cog"></i></a>';
-            /*$shop            = $this->edit($shopId);
-            $countrySelected    = ($shop->country === 'de') ? 'selected' : '';
+            $shop               = $this->edit($shopId);
+            $companyOptions     = '';
+
+            foreach($this->company() as $company) {
+                $companySelected = ($shop->company->id === $company->id) ? 'selected' : '';
+                $companyOptions .= '<option value="'.$company->id.'" '.$companySelected.'>'.$company->company.'</option>';
+            }
+
             $html               = '<a class="btn btn-secondary btn-sm editShop" data-shopid="'.$shop->id.'" data-toggle="modal" data-target="#editShopModal_'.$shop->id.'"><i class="fas fa-cog"></i></a>
             <div class="modal fade" id="editShopModal_'.$shop->id.'" tabindex="-1" role="dialog" aria-labelledby="editShopModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -211,7 +203,7 @@ class ShopController extends Controller
             <div class="form-row">
             <div class="form-group col-md-6">
 
-            <label for="phone">Created On:</label>
+            <label for="createdon">Created On:</label>
             <div class="badge badge-secondary" style="width: 6rem;">
             '.date('d.m.y', strtotime($shop->created_at)).'
             </div>
@@ -223,49 +215,85 @@ class ShopController extends Controller
             <div class="form-row">
             <div class="form-group col-md-6">
 
-            <label for="name">Shop <span class="required">*</span></label>
-            <input id="shop_'.$shop->id.'" type="text" class="form-control" name="shop" value="'.$shop->shop.'" autocomplete="shop" maxlength="255">
+            <label for="shop">Shop <span class="required">*</span></label>
+            <input id="shop_'.$shop->id.'" type="text" class="form-control" name="shop" value="'.$shop->shop.'" maxlength="150">
 
             </div>
             <div class="form-group col-md-6">
 
-            <label for="phone">Phone <span class="required">*</span></label>
-            <input id="phone_'.$shop->id.'" type="text" class="form-control" name="phone" value="'.$shop->phone.'" maxlength="20" autocomplete="phone">
-
-            </div>
-            </div>
-
-            <div class="form-row">
-            <div class="form-group col-md-6">
-
-            <label for="street">Street <span class="required">*</span></label>
-            <input id="street_'.$shop->id.'" type="text" class="form-control" name="street" value="'.$shop->street.'" maxlength="255" autocomplete="street">
-
-            </div>
-            <div class="form-group col-md-6">
-
-            <label for="city">City <span class="required">*</span></label>
-            <input id="city_'.$shop->id.'" type="text" class="form-control" name="city" value="'.$shop->city.'" maxlength="255" autocomplete="city">
-
-            </div>
-            </div>
-
-            <div class="form-row">
-            
-            <div class="form-group col-md-6">
-
-            <label for="country">Country <span class="required">*</span></label>
-            <select id="country_'.$shop->id.'" class="form-control" name="country">
-            <option value="">Choose Country</option>
-            <option value="de" '.$countrySelected.'>Germany</option>
+            <label for="company">Company <span class="required">*</span></label>
+            <select id="company_'.$shop->id.'" class="form-control" name="company">
+            <option value="">Choose Company</option>
+            '.$companyOptions.'
             </select>
 
             </div>
+            </div>
+
+            <div class="form-row">
+            <div class="form-group col-md-4">
+            <label for="mail_driver">Mail Driver <span class="required">*</span></label>
+            <input id="mail_driver_'.$shop->id.'" type="text" class="form-control" name="mail_driver" maxlength="150" value="'.$shop->mail_driver.'">
+            </div>
+
+            <div class="form-group col-md-4">
+            <label for="mail_port">Mail Port <span class="required">*</span></label>
+            <input id="mail_port_'.$shop->id.'" type="text" class="form-control" name="mail_port" maxlength="20" value="'.$shop->mail_port.'">
+            </div>
+
+            <div class="form-group col-md-4">
+            <label for="mail_encryption">Mail Encryption <span class="required">*</span></label>
+            <input id="mail_encryption_'.$shop->id.'" type="text" class="form-control" name="mail_encryption" maxlength="20" value="'.$shop->mail_encryption.'">
+            </div>
+            </div>
+
+            <div class="form-row">
+            <div class="form-group col-md-12">
+            <label for="mail_host">Mail Host <span class="required">*</span></label>
+            <input id="mail_host_'.$shop->id.'" type="text" class="form-control" name="mail_host" maxlength="150" value="'.$shop->mail_host.'">
+            </div>
+            </div>
+
+            <div class="form-row">
             <div class="form-group col-md-6">
+            <label for="mail_from_address">Mail From Address <span class="required">*</span></label>
+            <input id="mail_from_address_'.$shop->id.'" type="text" class="form-control" name="mail_from_address" maxlength="255" value="'.$shop->mail_from_address.'">
+            </div>
 
-            <label for="zip">Zip <span class="required">*</span></label>
-            <input id="zip_'.$shop->id.'" type="text" class="form-control" name="zip" value="'.$shop->postal.'" maxlength="20" autocomplete="zip">
+            <div class="form-group col-md-6">
+            <label for="mail_from_name">Mail From Name <span class="required">*</span></label>
+            <input id="mail_from_name_'.$shop->id.'" type="text" class="form-control" name="mail_from_name" maxlength="150" value="'.$shop->mail_from_name.'">
+            </div>
+            </div>
 
+            <div class="form-row">
+            <div class="form-group col-md-6">
+            <label for="mail_username">Mail Username <span class="required">*</span></label>
+            <input id="mail_username_'.$shop->id.'" type="text" class="form-control" name="mail_username" maxlength="100" value="'.$shop->mail_username.'">
+            </div>
+
+            <div class="form-group col-md-6">
+            <label for="mail_password">Mail Password <span class="required">*</span></label>
+            <input id="mail_password_'.$shop->id.'" type="password" class="form-control" name="mail_password" maxlength="255" value="'.$shop->mail_password.'">
+            </div>
+            </div>
+
+            <div class="form-row">
+            <div class="form-group col-md-12">
+            <label for="api_key">Api Key</label>
+            <input id="api_key_'.$shop->id.'" type="text" class="form-control" name="api_key" maxlength="255" value="'.$shop->api_key.'">
+            </div>
+            </div>
+
+            <div class="form-row">
+            <div class="form-group col-md-6">
+            <label for="customer_number">Customer Number</label>
+            <input id="customer_number_'.$shop->id.'" type="text" class="form-control" name="customer_number" maxlength="100" value="'.$shop->customer_number.'">
+            </div>
+
+            <div class="form-group col-md-6">
+            <label for="password">Password</label>
+            <input id="password_'.$shop->id.'" type="password" class="form-control" name="password" maxlength="255" value="'.$shop->password.'">
             </div>
             </div>
 
@@ -275,7 +303,7 @@ class ShopController extends Controller
 
             </div>
             </div>
-            </div>';*/
+            </div>';
 
             return $html;
             
@@ -298,33 +326,33 @@ class ShopController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Admin\CompanyRequest  $request
+     * @param  \App\Http\Requests\Admin\ShopRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(ShopRequest $request)
     {
         try {
             $shop                   = new Shop;
-            $shop->shop             = $request->company;
-            $shop->company          = $request->company;
-            $shop->mail_driver      = $request->company;
-            $shop->mail_port        = $request->company;
-            $shop->mail_encryption  = $request->company;
-            $shop->mail_host        = $request->company;
-            $shop->mail_from_address= $request->company;
-            $shop->mail_from_name   = $request->company;
-            $shop->mail_username    = $request->company;
-            $shop->mail_password    = $request->company;
-            $shop->api_key          = $request->company;
-            $shop->customer_number  = $request->company;
-            $shop->password         = $request->company;
+            $shop->shop             = $request->shop;
+            $shop->company_id       = $request->company;
+            $shop->mail_driver      = $request->mail_driver;
+            $shop->mail_port        = $request->mail_port;
+            $shop->mail_encryption  = $request->mail_encryption;
+            $shop->mail_host        = $request->mail_host;
+            $shop->mail_from_address= $request->mail_from_address;
+            $shop->mail_from_name   = $request->mail_from_name;
+            $shop->mail_username    = $request->mail_username;
+            $shop->mail_password    = $request->mail_password;
+            $shop->api_key          = $request->api_key;
+            $shop->customer_number  = $request->customer_number;
+            $shop->password         = $request->password;
             $shop->active           = 'no';
             $shop->save();
 
-            return response()->json(['companyStatus' => 'success', 'message' => 'Well done! Company created successfully'], 201);
+            return response()->json(['shopStatus' => 'success', 'message' => 'Well done! Shop created successfully'], 201);
         } 
         catch(\Exception $e){
-            return response()->json(['companyStatus' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
+            return response()->json(['shopStatus' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
         }
     }
 
@@ -347,19 +375,42 @@ class ShopController extends Controller
      */
     public function edit($id)
     {
-        //
+        $shop = Shop::with('company:id,company')->findOrFail($id);
+        return $shop;
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\Admin\ShopRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ShopRequest $request)
     {
-        //
+        try {
+            //dd($request->all());
+            Shop::where('id', (int)$request->shopid)
+            ->update([
+                'shop'              => $request->shop,
+                'company_id'        => $request->company,
+                'mail_driver'       => $request->mail_driver,
+                'mail_port'         => $request->mail_port,
+                'mail_encryption'   => $request->mail_encryption,
+                'mail_host'         => $request->mail_host,
+                'mail_from_address' => $request->mail_from_address,
+                'mail_from_name'    => $request->mail_from_name,
+                'mail_username'     => $request->mail_username,
+                'mail_password'     => $request->mail_password,
+                'api_key'           => $request->api_key,
+                'customer_number'   => $request->customer_number,
+                'password'          => $request->password
+            ]);
+
+            return response()->json(['shopStatusUpdate' => 'success', 'message' => 'Well done! Shop details updated successfully'], 201);
+        } 
+        catch(\Exception $e){
+            return response()->json(['shopStatusUpdate' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
+        } 
     }
 
     /**

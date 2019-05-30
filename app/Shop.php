@@ -36,6 +36,28 @@ class Shop extends Model
     }
 
     /**
+     * Set the mail from name.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setMailFromNameAttribute($value)
+    {
+        $this->attributes['mail_from_name'] = strtolower($value);
+    }
+
+    /**
+    * Get the mail from name.
+    *
+    * @param  string  $value
+    * @return string
+    */
+    public function getMailFromNameAttribute($value)
+    {
+        return ucwords($value);
+    }
+
+    /**
     * Scope for shop status.
     *
     * @param  string  $query
@@ -44,6 +66,14 @@ class Shop extends Model
     public function scopeActive($query)
     {
         return $query->where('active', 'yes');
+    }
+
+    /**
+    * Get the matching company
+    */
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
 
 }

@@ -85,7 +85,11 @@
                   <label for="company">Company <span class="required">*</span></label>
                   <select id="company" class="form-control" name="company">
                     <option value="">Choose...</option>
-                    <option value="de">company</option>
+                    @isset($companies)
+                      @foreach( $companies as $company )
+                          <option value="{{ $company->id }}">{{ $company->company }}</option>
+                      @endforeach
+                    @endisset
                   </select>
                 </div>
               </div>
@@ -134,7 +138,7 @@
                 
                 <div class="form-group col-md-6">
                   <label for="mail_password">Mail Password <span class="required">*</span></label>
-                  <input id="mail_password" type="text" class="form-control" name="mail_password" maxlength="255" autocomplete="mail_password">
+                  <input id="mail_password" type="password" class="form-control" name="mail_password" maxlength="255">
                 </div>
               </div>
 
