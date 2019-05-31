@@ -89,4 +89,12 @@ class Company extends Model
     {
         return $query->where('active', 'yes');
     }
+
+    /**
+    * Get the matching shops
+    */
+    public function shops()
+    {
+        return $this->hasMany(Shops::class);
+    }
 }

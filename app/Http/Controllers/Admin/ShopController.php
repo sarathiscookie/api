@@ -38,10 +38,10 @@ class ShopController extends Controller
             2 => 'active',
         );
 
-        $totalData = Shop::select('id', 'shop', 'active')
+        $totalData = Shop::select('id', 'shop', 'active', 'company_id')
         ->count();
 
-        $q         = Shop::select('id', 'shop', 'active');
+        $q         = Shop::select('id', 'shop', 'active', 'company_id');
 
         $totalFiltered = $totalData;
         $limit         = (int)$request->input('length');
@@ -74,7 +74,7 @@ class ShopController extends Controller
         if(!empty($shopLists)) {
             foreach ($shopLists as $key=> $shopList) {
                 $nestedData['hash']       = '<input class="checked" type="checkbox" name="id[]" value="'.$shopList->id.'" />';
-                $nestedData['shop']       = $shopList->shop;
+                $nestedData['shop']       = $shopList->shop.' <span class="badge badge-secondary">'.$this->fetchCompany($shopList->company_id)->company.'</span>';
                 $nestedData['active']     = $this->shopStatusHtml($shopList->id, $shopList->active);
                 $nestedData['actions']    = $this->editShopModel($shopList->id);
                 $data[]                   = $nestedData;

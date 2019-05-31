@@ -61,7 +61,7 @@
         </div>
       </div>
   
-      <!-- Create hop modal -->
+      <!-- Create shop modal -->
       <div class="modal fade" id="createShopModal" tabindex="-1" role="dialog" aria-labelledby="createShopModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
