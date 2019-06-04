@@ -39,7 +39,7 @@ Route::prefix('admin')->group(function(){
 		Route::get('/dashboard/manager/list', 'Admin\ManagerController@index')->name('admin.dashboard.manager.list');
 		/* Listing managers on datatable */
 		Route::post('/dashboard/manager/list/datatables', 'Admin\ManagerController@datatable')->name('admin.dashboard.manager.list.datatable');
-		/* Delete bookings */
+		/* Delete manager */
 		Route::delete('/dashboard/manager/delete/{id}', 'Admin\ManagerController@destroy')->name('admin.dashboard.manager.delete');
 		/* Update manager status */
 		Route::post('/dashboard/manager/status/update', 'Admin\ManagerController@updateStatus')->name('admin.dashboard.manager.status.update');
@@ -52,7 +52,7 @@ Route::prefix('admin')->group(function(){
 		Route::get('/dashboard/company/list', 'Admin\CompaniesController@index')->name('admin.dashboard.company.list');
 		/* Listing company on datatable */
 		Route::post('/dashboard/company/list/datatables', 'Admin\CompaniesController@datatable')->name('admin.dashboard.company.list.datatable');
-		/* Delete bookings */
+		/* Delete company */
 		Route::delete('/dashboard/company/delete/{id}', 'Admin\CompaniesController@destroy')->name('admin.dashboard.company.delete');
 		/* Update company status */
 		Route::post('/dashboard/company/status/update', 'Admin\CompaniesController@updateStatus')->name('admin.dashboard.company.status.update');
@@ -65,14 +65,27 @@ Route::prefix('admin')->group(function(){
 		Route::get('/dashboard/shop/list', 'Admin\ShopController@index')->name('admin.dashboard.shop.list');
 		/* Listing shop on datatable */
 		Route::post('/dashboard/shop/list/datatables', 'Admin\ShopController@datatable')->name('admin.dashboard.shop.list.datatable');
-		/* Delete bookings */
+		/* Delete shops */
 		Route::delete('/dashboard/shop/delete/{id}', 'Admin\ShopController@destroy')->name('admin.dashboard.shop.delete');
 		/* Update shop status */
-		Route::post('/dashboard/shop/status/update', 'Admin\ShopController@updateStatus')->name('admin.dashboard.v.status.update');
+		Route::post('/dashboard/shop/status/update', 'Admin\ShopController@updateStatus')->name('admin.dashboard.status.update');
 		/* Store shop */
 		Route::post('/dashboard/shop/store', 'Admin\ShopController@store')->name('admin.dashboard.shop.store');
 		/* Update shop */
 		Route::put('/dashboard/shop/update', 'Admin\ShopController@update')->name('admin.dashboard.shop.update');
+
+		/* Show user listing page */
+		Route::get('/dashboard/user/list', 'Admin\UserController@index')->name('admin.dashboard.user.list');
+		/* Listing user on datatable */
+		Route::post('/dashboard/user/list/datatables', 'Admin\UserController@datatable')->name('admin.dashboard.user.list.datatable');
+		/* Delete users */
+		Route::delete('/dashboard/user/delete/{id}', 'Admin\UserController@destroy')->name('admin.dashboard.user.delete');
+		/* Update user status */
+		Route::post('/dashboard/user/status/update', 'Admin\UserController@updateStatus')->name('admin.dashboard.status.update');
+		/* Store user */
+		Route::post('/dashboard/user/store', 'Admin\UserController@store')->name('admin.dashboard.user.store');
+		/* Update user */
+		Route::put('/dashboard/user/update', 'Admin\UserController@update')->name('admin.dashboard.user.update');
 	});
 });
 
