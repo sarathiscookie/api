@@ -13,7 +13,7 @@ return [
     */
 
     'Signin Heading'    => 'Please sign in',
-    'E-Mail Address'    => 'E-Mail Address',
+    'E-Mail Address'    => 'E-Mail Address or Username',
     'Password'          => 'Password',
     'Remember Me'       => 'Remember Me',
 ];
