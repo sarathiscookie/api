@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('street')->nullable();
             $table->string('postal', 20)->nullable();
             $table->string('city')->nullable();
-            $table->string('country')->nullable();
+            $table->unsignedBigInteger('country_id')->nullable();
             $table->unsignedBigInteger('company_id')->nullable();
             $table->enum('active', ['yes', 'no'])->default('no');
             $table->enum('role', ['admin', 'manager', 'employee']);
@@ -33,6 +33,9 @@ class CreateUsersTable extends Migration
 
             $table->foreign('company_id')
             ->references('id')->on('companies');
+
+            $table->foreign('country_id')
+            ->references('id')->on('countries');
         });
     }
 
