@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Company;
 use App\Http\Controllers\Controller;
+use App\Http\Traits\CountryTrait;
 use App\Http\Requests\Admin\CompanyRequest;
 use Illuminate\Http\Request;
 
 class CompaniesController extends Controller
 {
+    use CountryTrait;
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +18,8 @@ class CompaniesController extends Controller
      */
     public function index()
     {
-        return view('admin.company');
+        $countries = $this->country();
+        return view('admin.company', ['countries' => $countries]);
     }
 
     /**
@@ -196,7 +199,14 @@ class CompaniesController extends Controller
     {
         try {
             $company            = $this->edit($companyId);
-            $countrySelected    = ($company->country === 'de') ? 'selected' : '';
+            
+            $countryOptions     = '';
+
+            foreach($this->country() as $country) {
+                $countrySelected = ($company->country->id === $country->id) ? 'selected' : '';
+                $countryOptions .= '<option value="'.$country->id.'" '.$countrySelected.'>'.$country->name.'</option>';
+            }
+
             $html               = '<a class="btn btn-secondary btn-sm editCompany" data-companyid="'.$company->id.'" data-toggle="modal" data-target="#editCompanyModal_'.$company->id.'"><i class="fas fa-cog"></i></a>
             <div class="modal fade" id="editCompanyModal_'.$company->id.'" tabindex="-1" role="dialog" aria-labelledby="editCompanyModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -264,7 +274,7 @@ class CompaniesController extends Controller
             <label for="country">Country <span class="required">*</span></label>
             <select id="country_'.$company->id.'" class="form-control" name="country">
             <option value="">Choose Country</option>
-            <option value="de" '.$countrySelected.'>Germany</option>
+            '.$countryOptions.'
             </select>
 
             </div>
@@ -311,15 +321,15 @@ class CompaniesController extends Controller
     public function store(CompanyRequest $request)
     {
         try {
-            $user               = new Company;
-            $user->company      = $request->company;
-            $user->phone        = $request->phone;
-            $user->street       = $request->street;
-            $user->city         = $request->city;
-            $user->country      = $request->country;
-            $user->postal       = $request->zip;
-            $user->active       = 'no';
-            $user->save();
+            $company               = new Company;
+            $company->company      = $request->company;
+            $company->phone        = $request->phone;
+            $company->street       = $request->street;
+            $company->city         = $request->city;
+            $company->country_id   = $request->country;
+            $company->postal       = $request->zip;
+            $company->active       = 'no';
+            $company->save();
 
             return response()->json(['companyStatus' => 'success', 'message' => 'Well done! Company created successfully'], 201);
         } 
@@ -366,7 +376,7 @@ class CompaniesController extends Controller
                 'phone'     => $request->phone, 
                 'street'    => $request->street, 
                 'city'      => $request->city, 
-                'country'   => $request->country,
+                'country_id'=> $request->country,
                 'postal'    => $request->zip
             ]);
 

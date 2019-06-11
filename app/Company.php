@@ -97,4 +97,12 @@ class Company extends Model
     {
         return $this->hasMany(Shops::class);
     }
+
+    /**
+    * Get the matching country
+    */
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
 }

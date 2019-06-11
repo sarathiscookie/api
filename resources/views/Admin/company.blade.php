@@ -85,7 +85,9 @@
                   <label for="country">Country <span class="required">*</span></label>
                   <select id="country" class="form-control" name="country">
                     <option value="">Choose...</option>
-                    <option value="de">Germany</option>
+                    @foreach ($countries as $country)
+                      <option value="{{$country->id}}">{{$country->name}}</option>
+                    @endforeach
                   </select>
                 </div>
               </div>

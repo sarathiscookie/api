@@ -12,4 +12,15 @@ class Country extends Model
     * @var array
     */
     protected $guarded = ['id'];
+
+    /**
+    * Scope for country status.
+    *
+    * @param  string  $query
+    * @return string
+    */
+    public function scopeActive($query)
+    {
+        return $query->where('active', 'yes');
+    }
 }
