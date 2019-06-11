@@ -145,4 +145,12 @@ class User extends Authenticatable
         return $this->belongsTo(Company::class);
     }
 
+    /**
+    * Get the matching country
+    */
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
 }

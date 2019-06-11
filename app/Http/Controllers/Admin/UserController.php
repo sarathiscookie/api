@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UserRequest;
 use App\Http\Traits\CompanyTrait;
+use App\Http\Traits\CountryTrait;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    use CompanyTrait;
+    use CompanyTrait, CountryTrait;
     /**
      * Display a listing of the resource.
      *
@@ -20,8 +21,9 @@ class UserController extends Controller
     public function index()
     {
         $companies = $this->company();
+        $countries = $this->country();
 
-        return view('admin.user', ['companies' => $companies]);
+        return view('admin.user', ['companies' => $companies, 'countries' => $countries]);
     }
 
     /**
@@ -180,6 +182,14 @@ class UserController extends Controller
     {
         try {
             $user           = $this->edit($userId);
+
+            $countryOptions     = '';
+
+            foreach($this->country() as $country) {
+                $countrySelected = ($user->country->id === $country->id) ? 'selected' : '';
+                $countryOptions .= '<option value="'.$country->id.'" '.$countrySelected.'>'.$country->name.'</option>';
+            }
+
             $companyOptions = '';
 
             foreach($this->company() as $company) {
@@ -272,7 +282,7 @@ class UserController extends Controller
             <label for="country">Country <span class="required">*</span></label>
             <select id="country_'.$user->id.'" class="form-control" name="country">
             <option value="">Choose Country</option>
-            <option value="de" '.$country.'>Germany</option>
+            '.$countryOptions.'
             </select>
 
             </div>
@@ -350,7 +360,7 @@ class UserController extends Controller
             $user->phone        = $request->phone;
             $user->street       = $request->street;
             $user->city         = $request->city;
-            $user->country      = $request->country;
+            $user->country_id   = $request->country;
             $user->postal       = $request->zip;
             $user->company_id   = $request->company;
             $user->active       = 'no';
@@ -403,7 +413,7 @@ class UserController extends Controller
                 'phone'     => $request->phone, 
                 'street'    => $request->street, 
                 'city'      => $request->city, 
-                'country'   => $request->country,
+                'country_id'=> $request->country,
                 'postal'    => $request->zip,
                 'company_id'=> $request->company,
             ]);

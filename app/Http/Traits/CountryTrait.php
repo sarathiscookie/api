@@ -24,25 +24,6 @@ trait CountryTrait {
             abort(404);
         } 
 	}
-
-    /**
-     * Get country matching with id
-     * @param  string $id
-     * @return \Illuminate\Http\Response
-     */
-    public function fetchCountry($id)
-    {
-        try {
-            $country = Country::select('name')
-            ->active()
-            ->find($id);
-
-            return $country;
-        }
-        catch(\Exception $e) {
-            abort(404);
-        } 
-    }
 }
 
 ?>

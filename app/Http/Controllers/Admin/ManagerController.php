@@ -6,13 +6,14 @@ use App\Company;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ManagerRequest;
 use App\Http\Traits\CompanyTrait;
+use App\Http\Traits\CountryTrait;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class ManagerController extends Controller
 {
-    use CompanyTrait;
+    use CompanyTrait, CountryTrait;
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +23,9 @@ class ManagerController extends Controller
     {
         $companies = $this->company();
 
-        return view('admin.manager', ['companies' => $companies]);
+        $countries = $this->country();
+
+        return view('admin.manager', ['companies' => $companies, 'countries' => $countries]);
     }
 
     /**
@@ -204,6 +207,14 @@ class ManagerController extends Controller
     {
         try {
             $user           = $this->edit($mangerId);
+
+            $countryOptions     = '';
+
+            foreach($this->country() as $country) {
+                $countrySelected = ($user->country->id === $country->id) ? 'selected' : '';
+                $countryOptions .= '<option value="'.$country->id.'" '.$countrySelected.'>'.$country->name.'</option>';
+            }
+
             $companyOptions = '';
 
             foreach($this->company() as $company) {
@@ -296,7 +307,7 @@ class ManagerController extends Controller
             <label for="country">Country <span class="required">*</span></label>
             <select id="country_'.$user->id.'" class="form-control" name="country">
             <option value="">Choose Country</option>
-            <option value="de" '.$country.'>Germany</option>
+            '.$countryOptions.'
             </select>
 
             </div>
@@ -351,7 +362,7 @@ class ManagerController extends Controller
             $user->phone        = $request->phone;
             $user->street       = $request->street;
             $user->city         = $request->city;
-            $user->country      = $request->country;
+            $user->country_id   = $request->country;
             $user->postal       = $request->zip;
             $user->company_id   = $request->company;
             $user->active       = 'no';
@@ -402,9 +413,9 @@ class ManagerController extends Controller
             ->update([
                 'name'      => $request->name,  
                 'phone'     => $request->phone, 
-                'street'    => $request->street, 
+                'street'    => $request->street,
                 'city'      => $request->city, 
-                'country'   => $request->country,
+                'country_id'=> $request->country,
                 'postal'    => $request->zip,
                 'company_id'=> $request->company,
             ]);
