@@ -18,7 +18,7 @@ class CreateKeysTable extends Migration
             $table->unsignedBigInteger('shop_id');
             $table->string('category', 150);
             $table->string('key');
-            $table->string('key_type');
+            $table->string('key_type', 20);
             $table->enum('allot', ['yes', 'no'])->default('no');
             $table->enum('active', ['yes', 'no'])->default('no');
             $table->timestamps();
