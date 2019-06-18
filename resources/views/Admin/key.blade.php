@@ -79,7 +79,7 @@
                 <div class="form-group col-md-6">
                   <label for="shop">Shop <span class="required">*</span></label>
                   <select id="shop" class="form-control" name="shop">
-                    <option value="">Choose Shop</option>
+                    <option value="0">Choose Shop</option>
                     @isset($shopDetails)
                     @foreach ($shopDetails as $shopDetail)
                       <option value="{{$shopDetail->id}}">{{$shopDetail->shop}}</option>
@@ -129,7 +129,7 @@
 
               <div class="form-row ">
                 <div class="form-group col-md-12">
-                  <label for="instruction">Key Instructions</label>
+                  <label for="instruction">Key Instructions <span class="required">*</span></label>
                   <textarea class="form-control" name="instruction" id="instruction" rows="3"></textarea>
                 </div>
               </div>

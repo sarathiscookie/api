@@ -82,7 +82,7 @@ class KeyController extends Controller
         if(!empty($keyLists)) {
             foreach ($keyLists as $key=> $keyList) {
                 $nestedData['hash']       = '<input class="checked" type="checkbox" name="id[]" value="'.$keyList->id.'" />';
-                $nestedData['key']        = $keyList->key.' <span class="badge badge-info badge-pill">'.$keyList->key_type.'</span><p><small>Category: <span class="badge badge-secondary">'.$keyList->category.'</span></small> <small>Shop: <span class="badge badge-secondary">'.$this->fetchShop($keyList->shop_id)->shop.'</span></small></p>';
+                $nestedData['key']        = $keyList->key.'<hr><div><small>Type: <span class="badge badge-info badge-pill">'.$keyList->key_type.'</span></small></div> <div><small>Category: <span class="badge badge-info badge-pill">'.$keyList->category.'</span></small></div> <div><small>Shop: <span class="badge badge-info badge-pill">'.$this->fetchShop($keyList->shop_id)->shop.'</span></small></div>';
                 $nestedData['active']     = $this->keyStatusHtml($keyList->id, $keyList->active);
                 $nestedData['actions']    = $this->editKeyModel($keyList->id);
                 $data[]                   = $nestedData;
@@ -381,7 +381,7 @@ class KeyController extends Controller
         try {
             $keyInstruction  = KeyInstruction::where('key_id', $id)->first();
             $keyInstruction->delete();
-            
+
             $key             = Key::destroy($id);
             
             DB::commit();
