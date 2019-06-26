@@ -1536,7 +1536,7 @@ $(function() {
 		deferRender: true,
 		columns: [
 			{ data: "hash" },
-			{ data: "key" },
+			{ data: "name" },
 			{ data: "active" },
 			{ data: "actions" }
 		],

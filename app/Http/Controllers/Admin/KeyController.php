@@ -65,14 +65,14 @@ class KeyController extends Controller
         $params = $request->all();
 
         $columns = array(
-            1 => 'key',
+            1 => 'name',
             2 => 'active',
         );
 
-        $totalData = Key::select('id', 'shop_id', 'key', 'key_type', 'category', 'active')
+        $totalData     = KeyContainer::select('id', 'name', 'container', 'shop_id', 'company_id', 'active')
         ->count();
 
-        $q         = Key::select('id', 'shop_id', 'key', 'key_type', 'category', 'active');
+        $q             = KeyContainer::select('id', 'name', 'container', 'shop_id', 'company_id', 'active');
 
         $totalFiltered = $totalData;
         $limit         = (int)$request->input('length');
@@ -105,7 +105,7 @@ class KeyController extends Controller
         if(!empty($keyLists)) {
             foreach ($keyLists as $key=> $keyList) {
                 $nestedData['hash']       = '<input class="checked" type="checkbox" name="id[]" value="'.$keyList->id.'" />';
-                $nestedData['key']        = $keyList->key.'<hr><div><small>Type: <span class="badge badge-info badge-pill">'.$keyList->key_type.'</span></small></div> <div><small>Category: <span class="badge badge-info badge-pill">'.$keyList->category.'</span></small></div> <div><small>Shop: <span class="badge badge-info badge-pill">'.$this->fetchShop($keyList->shop_id)->shop.'</span></small></div>';
+                $nestedData['name']        = $keyList->name.'<hr><div><small>Container: <span class="badge badge-info badge-pill">'.$keyList->container.'</span></small></div> <div><small>Company: <span class="badge badge-info badge-pill">'.$this->fetchCompany($keyList->company_id)->company.'</span></small></div> <div><small>Shop: <span class="badge badge-info badge-pill">'.$this->fetchShop($keyList->shop_id)->shop.'</span></small></div>';
                 $nestedData['active']     = $this->keyStatusHtml($keyList->id, $keyList->active);
                 $nestedData['actions']    = $this->editKeyModel($keyList->id);
                 $data[]                   = $nestedData;
@@ -131,11 +131,11 @@ class KeyController extends Controller
     public function searchKey($q, $searchData)
     {
         $q->where(function($query) use ($searchData) {
-            $query->where('key', 'like', "%{$searchData}%");
+            $query->where('container', 'like', "%{$searchData}%");
         });
 
         $totalFiltered = $q->where(function($query) use ($searchData) {
-            $query->where('key', 'like', "%{$searchData}%");
+            $query->where('container', 'like', "%{$searchData}%");
         })
         ->count();
 
@@ -151,11 +151,11 @@ class KeyController extends Controller
     public function tfootKey($q, $searchData)
     {
         $q->where(function($query) use ($searchData) {
-            $query->where('key', 'like', "%{$searchData}%");
+            $query->where('container', 'like', "%{$searchData}%");
         });
 
         $totalFiltered = $q->where(function($query) use ($searchData) {
-            $query->where('key', 'like', "%{$searchData}%");
+            $query->where('continer', 'like', "%{$searchData}%");
         })
         ->count();
 
