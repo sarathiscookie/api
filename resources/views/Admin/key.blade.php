@@ -128,11 +128,7 @@
               <div class="form-row">
                 <div class="form-group col-md-12">
                   <label for="key">Key <span class="required">*</span></label>
-                  <div class="tagHandler">
-                    <ul id="keyTagHandler" class="tagHandlerContainer">
-                      <li class="tagInput"><input type="text" class="tagInputField form-control" ></li>
-                    </ul>
-                  </div>
+                  <textarea class="form-control" name="keys" id="keys" rows="3"></textarea>
                 </div>
               </div>
 

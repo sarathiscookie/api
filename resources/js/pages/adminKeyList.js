@@ -279,12 +279,15 @@ $(function() {
 		var key_type 	= $( "#key_type" ).val();
 		var company 	= $( "#company" ).val();
 		var shops 		= $( "#shop" ).val();
+		var keySplit    = $( "#keys" ).val().split(/\n/);
 		var keys      	= [];
 
-		// Keys are in ul li. Get all keys from li and pushed in to array.
-		$( ".tagItem" ).each(function() {
-			keys.push( $(this).text() );
-		});
+		// Convert textareas string value to javascript array separated by new lines.
+		for( var i = 0; i < keySplit.length; i++ ) {
+			if( keySplit[i] ) {
+				keys.push(keySplit[i]);
+			}
+		}	
 
 		var act_number 	= $( "#activation_number" ).val();
 		var count 		= $( "#count" ).val();
