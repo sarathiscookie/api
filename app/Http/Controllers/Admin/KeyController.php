@@ -101,7 +101,7 @@ class KeyController extends Controller
         if( !empty($keyLists) ) {
             foreach ($keyLists as $key => $keyList) {
                 $nestedData['hash']       = '<input class="checked" type="checkbox" name="id[]" value="'.$keyList->id.'" />';
-                $nestedData['name']       = $keyList->name.'<hr><div>Container: <span class="badge badge-info badge-pill">'.$keyList->container.'</span></div> <div>Company: <span class="badge badge-info badge-pill">'.$this->fetchCompany($keyList->company_id)->company.'</span></div> <div>Shop: <span class="badge badge-info badge-pill">'.$this->getShopsName($keyList->id).'</span></div>';
+                $nestedData['name']       = $keyList->name.'<hr><div>Container: <span class="badge badge-info badge-pill">'.$keyList->container.'</span></div> <div>Company: <span class="badge badge-info badge-pill">'.$this->fetchCompany($keyList->company_id)->company.'</span></div> <div>Shop: '.$this->getShopsName($keyList->id).'</div>';
                 $nestedData['active']     = '<label class="switch"><input type="checkbox" class="buttonStatus"><span class="slider round"></span></label>';
                 $nestedData['actions']    = '<a class="btn btn-secondary btn-sm" data-toggle="modal"><i class="fas fa-cog"></i></a> <a class="btn btn-secondary btn-sm" data-toggle="modal"><i class="fas fa-pen"></i></a>';
                 //$nestedData['active']     = $this->keyStatusHtml($keyList->id, $keyList->active);

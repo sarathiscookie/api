@@ -52,12 +52,16 @@ trait ShopTrait {
     public function getShopsName($id)
     {
         try {
-            $shop = Shop::join('key_shops', 'shops.id', '=', 'key_shops.shop_id')
+            $shops = Shop::join('key_shops', 'shops.id', '=', 'key_shops.shop_id')
             ->select('shops.shop')
             ->where('key_shops.key_container_id', $id)
             ->get();
 
-            return $shop;
+            $html = '';
+            foreach($shops as $shop) {
+                $html .= '<span class="badge badge-info badge-pill">'.$shop->shop.'</span>';
+            }
+            return $html;
         }
         catch(\Exception $e) {
             abort(404);
