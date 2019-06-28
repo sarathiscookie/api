@@ -27,7 +27,6 @@ class KeyContainerRequest extends FormRequest
             case 'POST':
             {
                 return [
-                        'count'         => ['required', 'numeric'],
                         'act_number'    => ['required', 'numeric'],
                         'keys'          => ['required'],
                         'shops'         => ['required', 'not_in:0'],

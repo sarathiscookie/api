@@ -137,11 +137,6 @@
                   <label for="activation_number">Activation Number <span class="required">*</span></label>
                   <input type="number" id="activation_number" class="form-control" name="activation_number" maxlength="10">
                 </div>
-
-                <div class="form-group col-md-6">
-                  <label for="count">Count <span class="required">*</span></label>
-                  <input type="number" id="count" class="form-control" name="count" maxlength="10">
-                </div>
               </div>
 
               <button type="button" class="btn btn-primary btn-lg btn-block createKey"><i class="fas fa-key"></i> Create Key</button>

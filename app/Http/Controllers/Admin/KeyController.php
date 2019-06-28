@@ -337,9 +337,9 @@ class KeyController extends Controller
             $keyContainer->company_id        = $request->company;
             $keyContainer->type              = $request->key_type;
             $keyContainer->activation_number = $request->act_number;
-            $keyContainer->count             = $request->count;
-            $keyContainer->total_activation  = $request->act_number * $request->count;
-            $keyContainer->total_available   = $request->act_number * $request->count;
+            $keyContainer->count             = $this->countKeys($request->keys);
+            $keyContainer->total_activation  = $request->act_number * $this->countKeys($request->keys);
+            $keyContainer->total_available   = $request->act_number * $this->countKeys($request->keys);
             $keyContainer->active            = 'no';
             $keyContainer->save();
 

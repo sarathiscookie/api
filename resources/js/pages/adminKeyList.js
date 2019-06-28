@@ -305,8 +305,7 @@ $(function() {
 				company: company,
 				shops: shops,
 				keys: keys,
-				act_number: act_number,
-				count: count
+				act_number: act_number
 			}
 		})
 		.done(function(result) {

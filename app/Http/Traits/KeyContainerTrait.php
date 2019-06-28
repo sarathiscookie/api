@@ -15,6 +15,16 @@ trait KeyContainerTrait {
 	{
 		return strtoupper($keyType[0]).mt_rand(1000, 99999);
 	}
+
+	/**
+     * Count keys
+     * @param  array  $keys
+     * @return \Illuminate\Http\Response
+     */
+	public function countKeys($keys)
+	{
+		return count($keys);
+	}
 }
 
 ?>
