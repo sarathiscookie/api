@@ -351,11 +351,11 @@ class KeyController extends Controller
                 $keyShops->save();
             }
             
-            //Storing keys in to key table
+            // Storing keys in to key table
             foreach($request->keys as $key) {
                 $keyDetails                   = new Key;
                 $keyDetails->key_container_id = $keyContainer->id;
-                $keyDetails->key              = $key;
+                $keyDetails->key              = preg_replace('/[ ,]+/', '', $key);
                 $keyDetails->available        = 1;
                 $keyDetails->save();
             }

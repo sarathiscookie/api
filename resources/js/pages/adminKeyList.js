@@ -69,8 +69,10 @@ $(function() {
 		});
 	});
 
-	/* Tag Handler for keys */
-	$( "#keyTagHandler" ).tagHandler();
+    /* Tooltip */
+	$('.fa-question-circle').tooltip({
+		container: 'body'
+	});
 
 	/* Multiple select for shops */
 	if( $("#shop")[0] ) {
@@ -275,20 +277,21 @@ $(function() {
 	$( "button.createKey" ).on( "click", function(e) {
 		e.preventDefault();
 
-		var key_name    = $( "#key_name" ).val();
-		var key_type 	= $( "#key_type" ).val();
-		var company 	= $( "#company" ).val();
-		var shops 		= $( "#shop" ).val();
-		var keySplit    = $( "#keys" ).val().split(/\n/);
-		var keys      	= [];
+		var key_name     = $( "#key_name" ).val();
+		var key_type 	 = $( "#key_type" ).val();
+		var company 	 = $( "#company" ).val();
+		var shops 		 = $( "#shop" ).val();
+		var keyTextarea  = $( "#keys" ).val();
+		var replaceSpace = $( "#keys" ).val().replace(/\s/g, ",").split(',');
+		var keys      	 = [];
 
 		// Convert textareas string value to javascript array separated by new lines.
-		for( var i = 0; i < keySplit.length; i++ ) {
-			if( keySplit[i] ) {
-				keys.push(keySplit[i]);
+		for( var i = 0; i < replaceSpace.length; i++ ) {
+			if( replaceSpace[i] ) {
+				keys.push(replaceSpace[i]);
 			}
-		}	
-
+		}
+        
 		var act_number 	= $( "#activation_number" ).val();
 		var count 		= $( "#count" ).val();
 

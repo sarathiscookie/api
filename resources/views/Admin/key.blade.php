@@ -127,7 +127,7 @@
 
               <div class="form-row">
                 <div class="form-group col-md-12">
-                  <label for="key">Key <span class="required">*</span></label>
+                  <label for="key">Key <i class="far fa-question-circle" data-toggle="tooltip" data-placement="right" title="You can separated keys with commas, space and new line. But dont mix with these."></i><span class="required">*</span></label>
                   <textarea class="form-control" name="keys" id="keys" rows="3"></textarea>
                 </div>
               </div>
