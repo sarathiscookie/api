@@ -369,8 +369,7 @@ $(function() {
 					for(let i = 0; i < data.shops.length; i++) {
 						shopEditId = data.shops[i].id;
 						shopEditName = data.shops[i].shop;
-						console.log(key_shops(keyContainerId, shopEditId));
-						$( "#optionChooseEdit_"+keyContainerId ).after('<option class="options_'+ keyContainerId +'" value="'+ shopEditId +'" selected="'+/*key_shops(keyContainerId, shopEditId)*/+'">'+ shopEditName +'</option>');
+						$( "#optionChooseEdit_"+keyContainerId ).after('<option class="options_'+ keyContainerId +'" value="'+ shopEditId +'">'+ shopEditName +'</option>');
 					}
 				}
 
