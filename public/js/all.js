@@ -1799,9 +1799,52 @@ $(function() {
 		let keyContainerCompanyId 	= $(this).data( "keycontainercompanyid" );
 
 		// Multiple select for shops
-		if( $( "#shop_edits_"+keyContainerId )[0] ) {
-			$( "#shop_edits_"+keyContainerId ).select2();
+		if( $( ".shop_edits_"+keyContainerId )[0] ) {
+			$( ".shop_edits_"+keyContainerId ).select2();
 		}
+
+		$( "#company_edit_"+keyContainerId ).change(function() {
+		    
+		    let companyEditId = $(this).val();
+
+			$.ajax({
+				url: "/admin/dashboard/key/get/shops/" + companyEditId,
+				dataType: "JSON",
+				type: "GET"
+			})
+			.done(function(data) {
+				if(data.shopAvailableStatus === 'success') {
+					$( ".first_option_shop_edit_"+keyContainerId ).remove();
+			
+			        $( ".shop_edits_"+keyContainerId ).html( '<option class="second_option_shop_edit_'+keyContainerId+'" value="" disabled="disabled">Choose Shop</option>' );
+
+					console.log(data.shops);
+
+					if( data.shops.length > 0 ) {
+						$( ".second_option_shop_result_"+keyContainerId ).remove();
+
+						let shopEditId = '';
+						let shopEditName = '';
+
+						for(let i = 0; i < data.shops.length; i++) {
+							shopEditId = data.shops[i].id;
+							shopEditName = data.shops[i].shop;
+							$( ".second_option_shop_edit_"+keyContainerId ).after('<option class="second_option_shop_result_'+keyContainerId+'" value="'+ shopEditId +'">'+ shopEditName +'</option>');
+						}
+					}
+					else {
+						//no shops message
+					}
+
+				}
+			})
+			.fail(function(data) {
+				if(data.responseJSON.shopAvailableStatus === 'failure') {
+					console.log(data.responseJSON.shopAvailableStatus);
+				}
+			});
+		});
+		//shop_edits_first_div
 
 		/*$.ajax({
 			url: "/admin/dashboard/key/get/shops/" + keyContainerCompanyId,

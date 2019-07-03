@@ -311,12 +311,14 @@ class KeyController extends Controller
             <div class="form-row">
             <div class="form-group col-md-12" id="divShopEdit">
             <label for="shop_edit">Shops <span class="required">*</span></label>
-            <div class="shop_edits_first_div">
-            <select id="shop_edits_'.$keyContainer->id.'" class="form-control" name="shop_edit[]" multiple="multiple">
-            <option value="" disabled="disabled">Choose Shop</option>
+
+            <div id="shop_edits_first_div_'.$keyContainer->id.'">
+            <select class="form-control shop_edits_'.$keyContainer->id.'" name="shop_edit[]" multiple="multiple">
+            <option class="first_option_shop_edit_'.$keyContainer->id.'" value="" disabled="disabled">Choose Shop</option>
             '.$shopOptions.'
             </select>
             </div>
+
             </div>
             </div>
 
