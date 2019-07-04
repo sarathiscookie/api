@@ -197,14 +197,14 @@ $(function() {
 	});
 
 	/* Updating key status */
-	/*$( "#key_list tbody" ).on("change", "input.buttonStatus", function(e) {
+	$( "#key_list tbody" ).on("change", "input.buttonStatus", function(e) {
 		e.preventDefault();
 
 		var newStatus = "";
 
-		var keyId = $(this)
+		var keycontid = $(this)
 			.parent()
-			.data( "keyid" );
+			.data( "keycontid" );
 
 		if ($(this).is( ":checked" ) === true) {
 			newStatus = "yes";
@@ -216,7 +216,7 @@ $(function() {
 			url: "/admin/dashboard/key/status/update",
 			dataType: "JSON",
 			type: "POST",
-			data: { newStatus: newStatus, keyId: keyId }
+			data: { newStatus: newStatus, keycontid: keycontid }
 		})
 			.done(function(result) {
 				keyList.ajax.reload(null, false);
@@ -224,20 +224,20 @@ $(function() {
 			.fail(function(data) {
 				keyList.ajax.reload(null, false);
 
-				if (data.responseJSON.keyStatusChange === "failure") {
-					$( ".responseMessage" ).html(
+				if (data.responseJSON.keyContainerStatusChange === "failure") {
+					$( ".responseKeyMessage" ).html(
 						'<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="fas fa-times-circle"></i> ' +
 							data.responseJSON.message +
 							'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
 					);
 				}
 
-				$( ".responseMessage" )
+				$( ".responseKeyMessage" )
 					.show()
 					.delay(5000)
 					.fadeOut();
 			});
-	});*/
+	});
 
 	/* Create key */
 	$( "button.createKey" ).on( "click", function(e) {
@@ -318,26 +318,6 @@ $(function() {
 			.prop("checked", "")
 			.end();
 	});
-
-    /* Function to get key shops details */
-	/*function key_shops(key_container_id, key_shop_id) {
-		$.ajax({
-			url: "/admin/dashboard/key/get/keyshop/id/" + key_container_id + "/" + key_shop_id,
-			dataType: "JSON",
-			type: "GET"
-		})
-		.done(function(data) {
-			if(data.keyShopAvailableStatus === 'success') {
-				//console.log(data.keyShop);
-				return data.keyShop;
-			}
-		})
-		.fail(function() {
-			if(data.responseJSON.keyShopAvailableStatus === 'failure') {
-				console.log(data.responseJSON.keyShopAvailableStatus);
-			}
-		});
-	}*/
 
 	/* Edit manager */
 	$( "#key_list tbody" ).on("click", "a.editKey", function(e) {

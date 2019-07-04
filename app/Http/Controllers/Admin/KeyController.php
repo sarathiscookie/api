@@ -107,10 +107,11 @@ class KeyController extends Controller
                     $htmlBadgeShopName .= '<span class="badge badge-info badge-pill">'.$shopName->shop.'</span>';
                 }
 
+                $company_key_list         = (isset($this->fetchCompany($keyList->company_id)->company)) ? $this->fetchCompany($keyList->company_id)->company : '';
+
                 $nestedData['hash']       = '<input class="checked" type="checkbox" name="id[]" value="'.$keyList->id.'" />';
-                $nestedData['name']       = $keyList->name.'<hr><div>Container: <span class="badge badge-info badge-pill">'.$keyList->container.'</span></div> <div>Company: <span class="badge badge-info badge-pill">'.$this->fetchCompany($keyList->company_id)->company.'</span></div> <div>Shops: '.$htmlBadgeShopName.'</div>';
-                $nestedData['active']     = '<label class="switch"><input type="checkbox" class="buttonStatus"><span class="slider round"></span></label>';
-                //$nestedData['active']     = $this->keyStatusHtml($keyList->id, $keyList->active);
+                $nestedData['name']       = $keyList->name.'<hr><div>Container: <span class="badge badge-info badge-pill">'.$keyList->container.'</span></div> <div>Company: <span class="badge badge-info badge-pill">'.$company_key_list.'</span></div> <div>Shops: '.$htmlBadgeShopName.'</div>';
+                $nestedData['active']     = $this->keyStatusHtml($keyList->id, $keyList->active);
                 $nestedData['actions']    = $this->editKeyContainerModel($keyList->id);
                 $data[]                   = $nestedData;
             }
@@ -195,7 +196,7 @@ class KeyController extends Controller
     public function keyStatusHtml($id, $oldStatus)
     {
         $checked = ($oldStatus === 'yes') ? 'checked' : "";
-        $html    = '<label class="switch" data-keyid="'.$id.'">
+        $html    = '<label class="switch" data-keycontid="'.$id.'">
         <input type="checkbox" class="buttonStatus" '.$checked.'>
         <span class="slider round"></span>
         </label>';
@@ -213,16 +214,16 @@ class KeyController extends Controller
     {
         try {
 
-            $key         = Key::findOrFail($request->keyId);
+            $keyContainer         = KeyContainer::findOrFail($request->keycontid);
 
-            $key->active = $request->newStatus;
+            $keyContainer->active = $request->newStatus;
 
-            $key->save();
+            $keyContainer->save();
 
-            return response()->json(['keyStatusChange' => 'success', 'message' => 'Key status updated successfully'], 201);
+            return response()->json(['keyContainerStatusChange' => 'success', 'message' => 'Key status updated successfully'], 201);
         } 
         catch(\Exception $e){
-            return response()->json(['keyStatusChange' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
+            return response()->json(['keyContainerStatusChange' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
         }
     }
 
