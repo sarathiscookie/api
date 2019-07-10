@@ -98,9 +98,7 @@ class KeyController extends Controller
         $keyLists = $q->skip($start)
             ->take($limit)
             ->orderBy($order, $dir)
-            ->toSql();
-
-            dd($keyLists);
+            ->get();
 
         $data = [];
 
