@@ -59,7 +59,6 @@ class KeyController extends Controller
      */
     public function datatable(Request $request)
     {
-        dd($request->all());
         $params = $request->all();
 
         $columns = array(
@@ -100,6 +99,8 @@ class KeyController extends Controller
             ->take($limit)
             ->orderBy($order, $dir)
             ->get();
+
+            dd($keyLists);
 
         $data = [];
 
