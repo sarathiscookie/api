@@ -59,6 +59,7 @@ class KeyController extends Controller
      */
     public function datatable(Request $request)
     {
+        dd($request->all());
         $params = $request->all();
 
         $columns = array(
@@ -140,8 +141,6 @@ class KeyController extends Controller
             $query->where('key_containers.name', 'like', "%{$searchData}%")
             ->orWhere('companies.company', 'like', "%{$searchData}%")
             ->orWhere('shops.shop', 'like', "%{$searchData}%");
-
-            //WHERE kc.id = 2 AND kc.name LIKE '%10%' AND s.shop LIKE '%amaz%' AND c.company LIKE '%info%'
         });
 
         $totalFiltered = $q->count();
