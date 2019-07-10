@@ -80,7 +80,7 @@ class KeyController extends Controller
         $order         = $columns[$params['order'][0]['column']]; //contains column index
         $dir           = $params['order'][0]['dir']; //contains order such as asc/desc
 
-        /*// Search query for key
+        // Search query for key
         if(!empty($request->input('search.value'))) {
             $this->searchKey($q, $request->input('search.value'));
         }
@@ -93,7 +93,7 @@ class KeyController extends Controller
         // tfoot search query for key status
         if( !empty($params['columns'][2]['search']['value']) ) {
             $this->tfootKeyStatus($q, $params['columns'][2]['search']['value']);
-        }*/
+        }
 
         $keyLists = $q->skip($start)
             ->take($limit)
