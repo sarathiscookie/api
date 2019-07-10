@@ -70,7 +70,9 @@ class KeyController extends Controller
         ->join('shops', 'key_shops.shop_id', '=', 'shops.id')
         ->join('companies', 'key_containers.company_id', '=', 'companies.id')
         ->select('key_containers.id', 'key_containers.name', 'key_containers.container', 'companies.company', DB::raw('group_concat(distinct shops.shop separator ", ") as shopName'), 'key_containers.active')
-        ->groupBy('key_containers.id');
+        ->groupBy('key_containers.id')
+        ->toSql();
+        dd($q);
 
         $totalData     = $q->count();
 
