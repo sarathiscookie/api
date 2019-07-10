@@ -107,7 +107,7 @@
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="company">Company <span class="required">*</span></label>
-                  <select id="company" class="form-control" name="company">
+                  <select id="company" class="form-control" name="company[]" multiple="multiple">
                     <option value="">Choose...</option>
                     @isset($companies)
                       @foreach( $companies as $company )

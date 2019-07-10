@@ -67,6 +67,11 @@ $(function() {
 		}
 	});
 
+	/* Select multiple companies */
+	if( $("#company")[0] ) {
+		$( "#company" ).select2();
+	}
+
 	/* Datatable scripts */
 	let datatableList = $("#manager_list").DataTable({
 		lengthMenu: [10, 25, 50, 75, 100],
