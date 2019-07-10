@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\ManagerRequest;
 use App\Http\Traits\CompanyTrait;
 use App\Http\Traits\CountryTrait;
 use App\User;
+use App\UserCompany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -364,10 +365,16 @@ class ManagerController extends Controller
             $user->city         = $request->city;
             $user->country_id   = $request->country;
             $user->postal       = $request->zip;
-            $user->company_id   = $request->company;
             $user->active       = 'no';
             $user->role         = 'manager';
             $user->save();
+
+            foreach($request->company as $company) {
+                $userCompany             = new UserCompany;
+                $userCompany->user_id    = $user->id;
+                $userCompany->company_id = $company;
+                $userCompany->save();
+            }
 
             return response()->json(['managerStatus' => 'success', 'message' => 'Well done! User created successfully'], 201);
         } 

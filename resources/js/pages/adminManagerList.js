@@ -205,16 +205,16 @@ $(function() {
 	$("button.createManager").on("click", function(e) {
 		e.preventDefault();
 
-		var name = $("#name").val();
-		var email = $("#email").val();
-		var username = $("#username").val();
-		var phone = $("#phone").val();
-		var street = $("#street").val();
-		var city = $("#city").val();
-		var country = $("#country").val();
-		var company = $("#company").val();
-		var zip = $("#zip").val();
-		var password = $("#password").val();
+		var name 			= $("#name").val();
+		var email 			= $("#email").val();
+		var username 		= $("#username").val();
+		var phone 			= $("#phone").val();
+		var street 			= $("#street").val();
+		var city 			= $("#city").val();
+		var country 		= $("#country").val();
+		var company 		= $("#company").val();
+		var zip 			= $("#zip").val();
+		var password 		= $("#password").val();
 		var passwordConfirm = $("#password_confirmation").val();
 
 		$.ajax({
@@ -235,41 +235,41 @@ $(function() {
 				password_confirmation: passwordConfirm
 			}
 		})
-			.done(function(result) {
-				if (result.managerStatus === "success") {
+		.done(function(result) {
+			if (result.managerStatus === "success") {
 					$("#createManagerModal").modal("hide"); // It hides the modal
 
 					datatableList.ajax.reload(null, false);
 
 					$(".responseMessage").html(
 						'<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="icon fa fa-check-circle"></i> ' +
-							result.message +
-							'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
-					);
+						result.message +
+						'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+						);
 
 					$(".responseMessage")
-						.show()
-						.delay(5000)
-						.fadeOut();
+					.show()
+					.delay(5000)
+					.fadeOut();
 				}
 			})
-			.fail(function(data) {
-				if (data.responseJSON.managerStatus === "failure") {
-					$(".managerValidationAlert").html(
-						'<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="fas fa-times-circle"></i> ' +
-							data.responseJSON.message +
-							'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+		.fail(function(data) {
+			if (data.responseJSON.managerStatus === "failure") {
+				$(".managerValidationAlert").html(
+					'<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="fas fa-times-circle"></i> ' +
+					data.responseJSON.message +
+					'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
 					);
-				}
+			}
 
-				if (data.status === 422) {
-					$.each(data.responseJSON.errors, function(key, val) {
-						$(".managerValidationAlert").html(
-							"<p class='alert alert-danger'>" + val + "</p>"
+			if (data.status === 422) {
+				$.each(data.responseJSON.errors, function(key, val) {
+					$(".managerValidationAlert").html(
+						"<p class='alert alert-danger'>" + val + "</p>"
 						);
-					});
-				}
-			});
+				});
+			}
+		});
 	});
 
 	/* Clearing data of create manager modal fields */
