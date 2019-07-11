@@ -457,12 +457,16 @@ class ManagerController extends Controller
      */
     public function destroy($id)
     {
+        DB::beginTransaction();
         try {
-            $user            = User::destroy($id);
+            $managerCompany = UserCompany::where('user_id', $id)->delete();
+            $user           = User::destroy($id);
 
+            DB::commit();
             return response()->json(['deletedManagerStatus' => 'success', 'message' => 'Manager details deleted successfully'], 201);
         }   
         catch(\Exception $e) {
+            DB::rollBack();
             return response()->json(['deletedManagerStatus' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
         }
     }
