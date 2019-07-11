@@ -172,6 +172,9 @@ $(function() {
 
 	/* Clearing data of create company modal fields */
 	$("#createCompanyModal").on("hidden.bs.modal", function(e) {
+		
+		// On model close, it will hide alert messages. Reason is, it shows default when model opens.
+		$( "p .alert, .alert-danger" ).hide();
 		$(this)
 			.find("input,textarea,select")
 			.val("")

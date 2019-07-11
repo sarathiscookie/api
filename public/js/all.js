@@ -328,7 +328,7 @@ $(function() {
 	/* Clearing data of create manager modal fields */
 	$("#createManagerModal").on("hidden.bs.modal", function(e) {
 
-		// On model close it will hide alert messages and multiselect. Reason for hiding is, it shows default when model opens.
+		// On model close, it will hide alert messages and multiselect. Reason is, it shows default when model opens.
 		$( "p .alert, .alert-danger" ).hide();
 		$( ".select2-selection__choice" ).hide();
 		
@@ -589,6 +589,9 @@ $(function() {
 
 	/* Clearing data of create company modal fields */
 	$("#createCompanyModal").on("hidden.bs.modal", function(e) {
+		
+		// On model close, it will hide alert messages. Reason is, it shows default when model opens.
+		$( "p .alert, .alert-danger" ).hide();
 		$(this)
 			.find("input,textarea,select")
 			.val("")
