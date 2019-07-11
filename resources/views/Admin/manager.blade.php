@@ -106,9 +106,8 @@
 
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="company">Company <span class="required">*</span></label>
-                  <select id="company" class="form-control" name="company[]" multiple="multiple">
-                    <option value="">Choose...</option>
+                  <label for="manager_company">Company <span class="required">*</span></label>
+                  <select id="manager_company" class="form-control" name="manager_company[]" multiple="multiple">
                     @isset($companies)
                       @foreach( $companies as $company )
                           <option value="{{ $company->id }}">{{ $company->company }}</option>

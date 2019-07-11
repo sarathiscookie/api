@@ -68,8 +68,8 @@ $(function() {
 	});
 
 	/* Select multiple companies */
-	if( $("#company")[0] ) {
-		$( "#company" ).select2();
+	if( $( "#manager_company" )[0] ) {
+		$( "#manager_company" ).select2();
 	}
 
 	/* Datatable scripts */
@@ -258,34 +258,34 @@ $(function() {
 	$("button.createManager").on("click", function(e) {
 		e.preventDefault();
 
-		var name 			= $("#name").val();
-		var email 			= $("#email").val();
-		var username 		= $("#username").val();
-		var phone 			= $("#phone").val();
-		var street 			= $("#street").val();
-		var city 			= $("#city").val();
-		var country 		= $("#country").val();
-		var company 		= $("#company").val();
-		var zip 			= $("#zip").val();
-		var password 		= $("#password").val();
-		var passwordConfirm = $("#password_confirmation").val();
+		let manager_name 			 = $("#name").val();
+		let manager_email 			 = $("#email").val();
+		let manager_username 		 = $("#username").val();
+		let manager_phone 			 = $("#phone").val();
+		let manager_street 			 = $("#street").val();
+		let manager_city 			 = $("#city").val();
+		let manager_country 		 = $("#country").val();
+		let manager_company 		 = $("#manager_company").val();
+		let manager_zip 			 = $("#zip").val();
+		let manager_password 	     = $("#password").val();
+		let manager_password_confirm = $("#password_confirmation").val();
 
 		$.ajax({
 			url: "/admin/dashboard/manager/store",
 			dataType: "JSON",
 			type: "POST",
 			data: {
-				name: name,
-				email: email,
-				username: username,
-				phone: phone,
-				street: street,
-				city: city,
-				country: country,
-				company: company,
-				zip: zip,
-				password: password,
-				password_confirmation: passwordConfirm
+				name: manager_name,
+				email: manager_email,
+				username: manager_username,
+				phone: manager_phone,
+				street: manager_street,
+				city: manager_city,
+				country: manager_country,
+				manager_company: manager_company,
+				zip: manager_zip,
+				password: manager_password,
+				password_confirmation: manager_password_confirm
 			}
 		})
 		.done(function(result) {
@@ -327,6 +327,11 @@ $(function() {
 
 	/* Clearing data of create manager modal fields */
 	$("#createManagerModal").on("hidden.bs.modal", function(e) {
+
+		// On model close it will hide alert messages and multiselect. Reason for hiding is, it shows default when model opens.
+		$( "p .alert, .alert-danger" ).hide();
+		$( ".select2-selection__choice" ).hide();
+		
 		$(this)
 			.find("input,textarea,select")
 			.val("")
@@ -341,28 +346,33 @@ $(function() {
 		e.preventDefault();
 		var managerid = $(this).data("managerid");
 
+		/* Select multiple companies */
+		if( $( "#manger_company_" + managerid )[0] ) {
+			$( "#manger_company_" + managerid ).select2();
+		}
+		
 		$(".updateManager_" + managerid).on("click", function(e) {
 			e.preventDefault();
-			var name = $("#name_" + managerid).val();
-			var phone = $("#phone_" + managerid).val();
-			var company = $("#company_" + managerid).val();
-			var street = $("#street_" + managerid).val();
-			var city = $("#city_" + managerid).val();
-			var country = $("#country_" + managerid).val();
-			var zip = $("#zip_" + managerid).val();
+			let manager_edit_name    = $("#name_" + managerid).val();
+			let manager_edit_phone 	 = $("#phone_" + managerid).val();
+			let manager_edit_company = $("#manger_company_" + managerid).val();
+			let manager_edit_street  = $("#street_" + managerid).val();
+			let manager_edit_city    = $("#city_" + managerid).val();
+			let manager_edit_country = $("#country_" + managerid).val();
+			let manager_edit_zip     = $("#zip_" + managerid).val();
 
 			$.ajax({
 				url: "/admin/dashboard/manager/update",
 				dataType: "JSON",
 				type: "PUT",
 				data: {
-					name: name,
-					phone: phone,
-					street: street,
-					city: city,
-					country: country,
-					company: company,
-					zip: zip,
+					name: manager_edit_name,
+					phone: manager_edit_phone,
+					street: manager_edit_street,
+					city: manager_edit_city,
+					country: manager_edit_country,
+					manager_company: manager_edit_company,
+					zip: manager_edit_zip,
 					managerid: managerid
 				}
 			})

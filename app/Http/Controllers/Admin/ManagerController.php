@@ -11,6 +11,7 @@ use App\User;
 use App\UserCompany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use DB;
 
 class ManagerController extends Controller
 {
@@ -209,17 +210,22 @@ class ManagerController extends Controller
         try {
             $user           = $this->edit($mangerId);
 
-            $countryOptions     = '';
-
+            //Getting countries and selecting matcing countries
+            $countryOptions = '';
             foreach($this->country() as $country) {
                 $countrySelected = ($user->country->id === $country->id) ? 'selected' : '';
                 $countryOptions .= '<option value="'.$country->id.'" '.$countrySelected.'>'.$country->name.'</option>';
             }
 
-            $companyOptions = '';
+            //Getting companies and selecting matching companies
+            $managerCompanyId = [];
+            foreach($user->userCompanies as $managerCompany) {
+                $managerCompanyId[] = $managerCompany->company_id;
+            }
 
+            $companyOptions = '';
             foreach($this->company() as $company) {
-                $companySelected = ($user->company->id === $company->id) ? 'selected' : '';
+                $companySelected = (in_array($company->id, $managerCompanyId)) ? 'selected' : '';
                 $companyOptions .= '<option value="'.$company->id.'" '.$companySelected.'>'.$company->company.'</option>';
             }
 
@@ -281,9 +287,8 @@ class ManagerController extends Controller
             <div class="form-row">
             <div class="form-group col-md-6">
 
-            <label for="company">Company <span class="required">*</span></label>
-            <select id="company_'.$user->id.'" class="form-control" name="company">
-            <option value="">Choose Company</option>
+            <label for="manger_company">Company <span class="required">*</span></label>
+            <select id="manger_company_'.$user->id.'" class="form-control" name="manger_company[]" multiple="multiple">
             '.$companyOptions.'
             </select>
 
@@ -369,7 +374,7 @@ class ManagerController extends Controller
             $user->role         = 'manager';
             $user->save();
 
-            foreach($request->company as $company) {
+            foreach($request->manager_company as $company) {
                 $userCompany             = new UserCompany;
                 $userCompany->user_id    = $user->id;
                 $userCompany->company_id = $company;
@@ -402,7 +407,7 @@ class ManagerController extends Controller
      */
     public function edit($id)
     {
-        $user = User::manager()->with('company:id,company')->findOrFail($id);
+        $user = User::manager()->findOrFail($id);
         return $user;
     }
 
@@ -414,22 +419,32 @@ class ManagerController extends Controller
      */
     public function update(ManagerRequest $request)
     {
+        DB::beginTransaction();
         try {
-            User::where('id', $request->managerid)
-            ->manager()
-            ->update([
-                'name'      => $request->name,  
-                'phone'     => $request->phone, 
-                'street'    => $request->street,
-                'city'      => $request->city, 
-                'country_id'=> $request->country,
-                'postal'    => $request->zip,
-                'company_id'=> $request->company,
-            ]);
+            $manager             = User::manager()->find($request->managerid);
+            $manager->name       = $request->name;
+            $manager->phone      = $request->phone;
+            $manager->street     = $request->street;
+            $manager->city       = $request->city;
+            $manager->country_id = $request->country;
+            $manager->postal     = $request->zip;
+            $manager->save();
 
+            //Delete ansd store company id in user companies table
+            UserCompany::where('user_id', $manager->id)->delete();
+
+            foreach($request->manager_company as $company) {
+                $userCompany             = new UserCompany;
+                $userCompany->user_id    = $manager->id;
+                $userCompany->company_id = $company;
+                $userCompany->save();
+            }
+
+            DB::commit();
             return response()->json(['managerStatusUpdate' => 'success', 'message' => 'Well done! User details updated successfully'], 201);
         } 
         catch(\Exception $e){
+            DB::rollBack();
             return response()->json(['managerStatusUpdate' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
         } 
     }

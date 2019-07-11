@@ -138,11 +138,11 @@ class User extends Authenticatable
     }
 
     /**
-    * Get the matching company
+    * Getting the companies
     */
-    public function company()
+    public function userCompanies()
     {
-        return $this->belongsTo(Company::class);
+        return $this->hasMany(UserCompany::class);
     }
 
     /**
