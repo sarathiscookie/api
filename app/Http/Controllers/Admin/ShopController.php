@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ShopRequest;
 use App\Http\Traits\CompanyTrait;
+use App\Http\Traits\ShopnameTrait;
 use App\Shop;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
-    use CompanyTrait;
+    use CompanyTrait, ShopnameTrait;
 
     /**
      * Display a listing of the resource.
@@ -20,7 +22,10 @@ class ShopController extends Controller
     public function index()
     {
         $companies = $this->company();
-        return view('admin.shop', ['companies' => $companies]);
+
+        $shopNames = $this->shopNames();
+
+        return view('admin.shop', ['companies' => $companies, 'shopNames' => $shopNames]);
     }
 
     /**
@@ -38,10 +43,10 @@ class ShopController extends Controller
             2 => 'active',
         );
 
-        $totalData = Shop::select('id', 'shop', 'active', 'company_id')
+        $totalData = Shop::select('id', 'shopname_id', 'active', 'company_id')
         ->count();
 
-        $q         = Shop::select('id', 'shop', 'active', 'company_id');
+        $q         = Shop::select('id', 'shopname_id', 'active', 'company_id');
 
         $totalFiltered = $totalData;
         $limit         = (int)$request->input('length');
@@ -359,19 +364,19 @@ class ShopController extends Controller
     {
         try {
             $shop                   = new Shop;
-            $shop->shop             = $request->shop;
-            $shop->company_id       = $request->company;
-            $shop->mail_driver      = $request->mail_driver;
-            $shop->mail_port        = $request->mail_port;
-            $shop->mail_encryption  = $request->mail_encryption;
-            $shop->mail_host        = $request->mail_host;
-            $shop->mail_from_address= $request->mail_from_address;
-            $shop->mail_from_name   = $request->mail_from_name;
-            $shop->mail_username    = $request->mail_username;
-            $shop->mail_password    = $request->mail_password;
-            $shop->api_key          = $request->api_key;
-            $shop->customer_number  = $request->customer_number;
-            $shop->password         = $request->password;
+            $shop->shopname_id      = $request->shop_name;
+            $shop->company_id       = $request->shop_company;
+            $shop->mail_driver      = $request->shop_mail_driver;
+            $shop->mail_port        = $request->shop_mail_port;
+            $shop->mail_encryption  = $request->shop_mail_encryption;
+            $shop->mail_host        = $request->shop_mail_host;
+            $shop->mail_from_address= $request->shop_mail_from_address;
+            $shop->mail_from_name   = $request->shop_mail_from_name;
+            $shop->mail_username    = $request->shop_mail_username;
+            $shop->mail_password    = Hash::make($request->shop_mail_password);
+            $shop->api_key          = $request->shop_api_key;
+            $shop->customer_number  = $request->shop_customer_number;
+            $shop->password         = Hash::make($request->shop_password);
             $shop->active           = 'no';
             $shop->save();
 

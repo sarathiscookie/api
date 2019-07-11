@@ -15,7 +15,7 @@ class CreateShopsTable extends Migration
     {
         Schema::create('shops', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('shop', 150);
+            $table->unsignedBigInteger('shopname_id')->nullable();
             $table->unsignedBigInteger('company_id')->nullable();
             $table->string('mail_driver', 150);
             $table->string('mail_host', 150);
@@ -31,6 +31,9 @@ class CreateShopsTable extends Migration
             $table->string('token')->nullable();
             $table->enum('active', ['yes', 'no'])->default('no');
             $table->timestamps();
+
+            $table->foreign('shopname_id')
+            ->references('id')->on('shopnames');
 
             $table->foreign('company_id')
             ->references('id')->on('companies');

@@ -868,38 +868,38 @@ $(function() {
 	$("button.createShop").on("click", function(e) {
 		e.preventDefault();
 
-		var shop = $("#shop").val();
-		var company = $("#company").val();
-		var mail_driver = $("#mail_driver").val();
-		var mail_port = $("#mail_port").val();
-		var mail_encryption = $("#mail_encryption").val();
-		var mail_host = $("#mail_host").val();
-		var mail_from_address = $("#mail_from_address").val();
-		var mail_from_name = $("#mail_from_name").val();
-		var mail_username = $("#mail_username").val();
-		var mail_password = $("#mail_password").val();
-		var api_key = $("#api_key").val();
-		var customer_number = $("#customer_number").val();
-		var password = $("#password").val();
+		let shop_name         		= $("#shop_name").val();
+		let shop_company      		= $("#shop_company").val();
+		let shop_mail_driver 	  	= $("#shop_mail_driver").val();
+		let shop_mail_port 		  	= $("#shop_mail_port").val();
+		let shop_mail_encryption   	= $("#shop_mail_encryption").val();
+		let shop_mail_host 		  	= $("#shop_mail_host").val();
+		let shop_mail_from_address 	= $("#shop_mail_from_address").val();
+		let shop_mail_from_name 	= $("#shop_mail_from_name").val();
+		let shop_mail_username 	  	= $("#shop_mail_username").val();
+		let shop_mail_password 	  	= $("#shop_mail_password").val();
+		let shop_api_key 		  	= $("#shop_api_key").val();
+		let shop_customer_number  	= $("#shop_customer_number").val();
+		let shop_password 		  	= $("#shop_password").val();
 
 		$.ajax({
 			url: "/admin/dashboard/shop/store",
 			dataType: "JSON",
 			type: "POST",
 			data: {
-				shop: shop,
-				company: company,
-				mail_driver: mail_driver,
-				mail_port: mail_port,
-				mail_encryption: mail_encryption,
-				mail_host: mail_host,
-				mail_from_address: mail_from_address,
-				mail_from_name: mail_from_name,
-				mail_username: mail_username,
-				mail_password: mail_password,
-				api_key: api_key,
-				customer_number: customer_number,
-				password: password
+				shop_name: shop_name,
+				shop_company: shop_company,
+				shop_mail_driver: shop_mail_driver,
+				shop_mail_port: shop_mail_port,
+				shop_mail_encryption: shop_mail_encryption,
+				shop_mail_host: shop_mail_host,
+				shop_mail_from_address: shop_mail_from_address,
+				shop_mail_from_name: shop_mail_from_name,
+				shop_mail_username: shop_mail_username,
+				shop_mail_password: shop_mail_password,
+				shop_api_key: shop_api_key,
+				shop_customer_number: shop_customer_number,
+				shop_password: shop_password
 			}
 		})
 			.done(function(result) {
@@ -1109,6 +1109,10 @@ $(function() {
 
 	/* Clearing data of create shop modal fields */
 	$("#createShopModal").on("hidden.bs.modal", function(e) {
+
+		// On model close, it will hide alert messages. Reason is, it shows default when model opens.
+		$( "p .alert, .alert-danger" ).hide();
+		
 		$(this)
 			.find("input,textarea,select")
 			.val("")

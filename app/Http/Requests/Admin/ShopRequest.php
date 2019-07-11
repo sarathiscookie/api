@@ -27,37 +27,37 @@ class ShopRequest extends FormRequest
             case 'POST':
             {
                 return [
-                    'password'          => ['max:255'],
-                    'customer_number'   => ['max:100'],
-                    'api_key'           => ['max:255'],
-                    'mail_password'     => ['required', 'string', 'max:255'],
-                    'mail_username'     => ['required', 'string', 'max:100'],
-                    'mail_from_name'    => ['required', 'string', 'max:150'],
-                    'mail_from_address' => ['required', 'string', 'email', 'max:255'],
-                    'mail_host'         => ['required', 'string', 'max:150'],
-                    'mail_encryption'   => ['required', 'string', 'max:20'],
-                    'mail_port'         => ['required', 'string', 'max:20'],
-                    'mail_driver'       => ['required', 'string', 'max:150'],
-                    'company'           => ['required', 'not_in:0'],
-                    'shop'              => ['required', 'string', 'max:150']
+                    'shop_password'          => ['max:255'],
+                    'shop_customer_number'   => ['max:100'],
+                    'shop_api_key'           => ['max:255'],
+                    'shop_mail_password'     => ['required', 'string', 'max:255'],
+                    'shop_mail_username'     => ['required', 'string', 'max:100'],
+                    'shop_mail_from_name'    => ['required', 'string', 'max:150'],
+                    'shop_mail_from_address' => ['required', 'string', 'email', 'max:255'],
+                    'shop_mail_host'         => ['required', 'string', 'max:150'],
+                    'shop_mail_encryption'   => ['required', 'string', 'max:20'],
+                    'shop_mail_port'         => ['required', 'string', 'max:20'],
+                    'shop_mail_driver'       => ['required', 'string', 'max:150'],
+                    'shop_company'           => ['required', 'not_in:0'],
+                    'shop_name'              => ['required', 'not_in:0']
                 ];
             }
             case 'PUT':
             {
                 return [
-                    'password'          => ['max:255'],
-                    'customer_number'   => ['max:100'],
-                    'api_key'           => ['max:255'],
-                    'mail_password'     => ['required', 'string', 'max:255'],
-                    'mail_username'     => ['required', 'string', 'max:100'],
-                    'mail_from_name'    => ['required', 'string', 'max:150'],
-                    'mail_from_address' => ['required', 'string', 'max:255'],
-                    'mail_host'         => ['required', 'string', 'max:150'],
-                    'mail_encryption'   => ['required', 'string', 'max:20'],
-                    'mail_port'         => ['required', 'string', 'max:20'],
-                    'mail_driver'       => ['required', 'string', 'max:150'],
-                    'company'           => ['required', 'not_in:0'],
-                    'shop'              => ['required', 'string', 'max:150']
+                    'shop_password'          => ['max:255'],
+                    'shop_customer_number'   => ['max:100'],
+                    'shop_api_key'           => ['max:255'],
+                    'shop_mail_password'     => ['required', 'string', 'max:255'],
+                    'shop_mail_username'     => ['required', 'string', 'max:100'],
+                    'shop_mail_from_name'    => ['required', 'string', 'max:150'],
+                    'shop_mail_from_address' => ['required', 'string', 'max:255'],
+                    'shop_mail_host'         => ['required', 'string', 'max:150'],
+                    'shop_mail_encryption'   => ['required', 'string', 'max:20'],
+                    'shop_mail_port'         => ['required', 'string', 'max:20'],
+                    'shop_mail_driver'       => ['required', 'string', 'max:150'],
+                    'shop_company'           => ['required', 'not_in:0'],
+                    'shop_name'              => ['required', 'not_in:0']
                 ];
             }
             default: break;

@@ -27,7 +27,7 @@
 
             <div class="responseShopMessage"></div>
 
-            <table id="shop_list" class="table table-bordered table-hover display" style="width:100%">
+            <table id="{{-- shop_list --}}" class="table table-bordered table-hover display" style="width:100%">
               <thead class="thead-light">
                 <tr>
                   <th>#</th>
@@ -77,13 +77,21 @@
 
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="shop">Shop <span class="required">*</span></label>
-                  <input id="shop" type="text" class="form-control" name="shop" autocomplete="shop" maxlength="150" autofocus>
+                  <label for="shop_name">Shop <span class="required">*</span></label>
+
+                  <select class="form-control" id="shop_name" name="shop_name">
+                    <option>Choose shop name</option>
+                    @isset($shopNames)
+                    @foreach($shopNames as $shopName) 
+                    <option value="{{ $shopName->id }}">{{ $shopName->name }}</option>
+                    @endforeach
+                    @endisset
+                  </select>
 
                 </div>
                 <div class="form-group col-md-6">
-                  <label for="company">Company <span class="required">*</span></label>
-                  <select id="company" class="form-control" name="company">
+                  <label for="shop_company">Company <span class="required">*</span></label>
+                  <select id="shop_company" class="form-control" name="shop_company">
                     <option value="">Choose...</option>
                     @isset($companies)
                       @foreach( $companies as $company )
@@ -96,68 +104,68 @@
 
               <div class="form-row">
                 <div class="form-group col-md-4">
-                  <label for="mail_driver">Mail Driver <span class="required">*</span></label>
-                  <input id="mail_driver" type="text" class="form-control" name="mail_driver" maxlength="150" autocomplete="mail_driver">
+                  <label for="shop_mail_driver">Mail Driver <span class="required">*</span></label>
+                  <input id="shop_mail_driver" type="text" class="form-control" name="shop_mail_driver" maxlength="150">
                 </div>
 
                 <div class="form-group col-md-4">
-                  <label for="mail_port">Mail Port <span class="required">*</span></label>
-                  <input id="mail_port" type="text" class="form-control" name="mail_port" maxlength="20" autocomplete="mail_port">
+                  <label for="shop_mail_port">Mail Port <span class="required">*</span></label>
+                  <input id="shop_mail_port" type="text" class="form-control" name="shop_mail_port" maxlength="20">
                 </div>
 
                 <div class="form-group col-md-4">
-                  <label for="mail_encryption">Mail Encryption <span class="required">*</span></label>
-                  <input id="mail_encryption" type="text" class="form-control" name="mail_encryption" maxlength="20" autocomplete="mail_encryption">
+                  <label for="shop_mail_encryption">Mail Encryption <span class="required">*</span></label>
+                  <input id="shop_mail_encryption" type="text" class="form-control" name="shop_mail_encryption" maxlength="20">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-12">
-                  <label for="mail_host">Mail Host <span class="required">*</span></label>
-                  <input id="mail_host" type="text" class="form-control" name="mail_host" maxlength="150" autocomplete="mail_host">
+                  <label for="shop_mail_host">Mail Host <span class="required">*</span></label>
+                  <input id="shop_mail_host" type="text" class="form-control" name="shop_mail_host" maxlength="150">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="mail_from_address">Mail From Address <span class="required">*</span></label>
-                  <input id="mail_from_address" type="text" class="form-control" name="mail_from_address" maxlength="255" autocomplete="mail_from_address">
+                  <label for="shop_mail_from_address">Mail From Address <span class="required">*</span></label>
+                  <input id="shop_mail_from_address" type="text" class="form-control" name="shop_mail_from_address" maxlength="255">
                 </div>
                 
                 <div class="form-group col-md-6">
-                  <label for="mail_from_name">Mail From Name <span class="required">*</span></label>
-                  <input id="mail_from_name" type="text" class="form-control" name="mail_from_name" maxlength="150" autocomplete="mail_from_name">
+                  <label for="shop_mail_from_name">Mail From Name <span class="required">*</span></label>
+                  <input id="shop_mail_from_name" type="text" class="form-control" name="shop_mail_from_name" maxlength="150">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="mail_username">Mail Username <span class="required">*</span></label>
-                  <input id="mail_username" type="text" class="form-control" name="mail_username" maxlength="100" autocomplete="mail_username">
+                  <label for="shop_mail_username">Mail Username <span class="required">*</span></label>
+                  <input id="shop_mail_username" type="text" class="form-control" name="shop_mail_username" maxlength="100">
                 </div>
                 
                 <div class="form-group col-md-6">
-                  <label for="mail_password">Mail Password <span class="required">*</span></label>
-                  <input id="mail_password" type="password" class="form-control" name="mail_password" maxlength="255">
+                  <label for="shop_mail_password">Mail Password <span class="required">*</span></label>
+                  <input id="shop_mail_password" type="password" class="form-control" name="shop_mail_password" maxlength="255">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-12">
-                  <label for="api_key">Api Key</label>
-                  <input id="api_key" type="text" class="form-control" name="api_key" maxlength="255" autocomplete="api_key">
+                  <label for="shop_api_key">Api Key</label>
+                  <input id="shop_api_key" type="text" class="form-control" name="shop_api_key" maxlength="255">
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="customer_number">Customer Number</label>
-                  <input id="customer_number" type="text" class="form-control" name="customer_number" maxlength="100" autocomplete="customer_number">
+                  <label for="shop_customer_number">Customer Number</label>
+                  <input id="shop_customer_number" type="text" class="form-control" name="shop_customer_number" maxlength="100">
                 </div>
                 
                 <div class="form-group col-md-6">
-                  <label for="password">Password</label>
-                  <input id="password" type="password" class="form-control" name="password" maxlength="255">
+                  <label for="shop_password">Password</label>
+                  <input id="shop_password" type="password" class="form-control" name="shop_password" maxlength="255">
                 </div>
               </div>
 
