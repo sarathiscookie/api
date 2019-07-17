@@ -1282,16 +1282,16 @@ $(function() {
 	$("button.createUser").on("click", function(e) {
 		e.preventDefault();
 
-		var name = $("#name").val();
-		var email = $("#email").val();
-		var username = $("#username").val();
-		var phone = $("#phone").val();
-		var street = $("#street").val();
-		var city = $("#city").val();
-		var country = $("#country").val();
-		var company = $("#company").val();
-		var zip = $("#zip").val();
-		var password = $("#password").val();
+		var name 			= $("#name").val();
+		var email 			= $("#email").val();
+		var username 		= $("#username").val();
+		var phone 			= $("#phone").val();
+		var street 			= $("#street").val();
+		var city 			= $("#city").val();
+		var country 		= $("#country").val();
+		var user_company    = $("#user_company").val();
+		var zip 			= $("#zip").val();
+		var password 		= $("#password").val();
 		var passwordConfirm = $("#password_confirmation").val();
 
 		$.ajax({
@@ -1306,7 +1306,7 @@ $(function() {
 				street: street,
 				city: city,
 				country: country,
-				company: company,
+				user_company: user_company,
 				zip: zip,
 				password: password,
 				password_confirmation: passwordConfirm
@@ -1351,6 +1351,10 @@ $(function() {
 
 	/* Clearing data of create user modal fields */
 	$("#createUserModal").on("hidden.bs.modal", function(e) {
+
+		// On model close, it will hide alert messages. Reason is, it shows default when model opens.
+		$( "p .alert, .alert-danger" ).hide();
+
 		$(this)
 			.find("input,textarea,select")
 			.val("")
@@ -1367,13 +1371,13 @@ $(function() {
 
 		$(".updateUser_" + userid).on("click", function(e) {
 			e.preventDefault();
-			var name = $("#name_" + userid).val();
-			var phone = $("#phone_" + userid).val();
-			var company = $("#company_" + userid).val();
-			var street = $("#street_" + userid).val();
-			var city = $("#city_" + userid).val();
-			var country = $("#country_" + userid).val();
-			var zip = $("#zip_" + userid).val();
+			var name 		 = $("#name_" + userid).val();
+			var phone 		 = $("#phone_" + userid).val();
+			var user_company = $("#user_company_" + userid).val();
+			var street 		 = $("#street_" + userid).val();
+			var city 		 = $("#city_" + userid).val();
+			var country 	 = $("#country_" + userid).val();
+			var zip  	     = $("#zip_" + userid).val();
 
 			$.ajax({
 				url: "/admin/dashboard/user/update",
@@ -1385,7 +1389,7 @@ $(function() {
 					street: street,
 					city: city,
 					country: country,
-					company: company,
+					user_company: user_company,
 					zip: zip,
 					userid: userid
 				}

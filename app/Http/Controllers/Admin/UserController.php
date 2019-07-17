@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UserRequest;
 use App\Http\Traits\CompanyTrait;
 use App\Http\Traits\CountryTrait;
 use App\User;
+use App\UserCompany;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -181,19 +182,24 @@ class UserController extends Controller
     public function editMangerModel($userId)
     {
         try {
-            $user           = $this->edit($userId);
+            $user                = $this->edit($userId);
 
-            $countryOptions     = '';
-
+            $countryOptions      = '';
             foreach($this->country() as $country) {
                 $countrySelected = ($user->country->id === $country->id) ? 'selected' : '';
                 $countryOptions .= '<option value="'.$country->id.'" '.$countrySelected.'>'.$country->name.'</option>';
             }
 
-            $companyOptions = '';
+            //Getting companies and selecting matching companies
+            
+            $userCompanyId = [];
+            foreach($user->userCompanies as $userCompany) {
+                $userCompanyId[] = $userCompany->company_id;
+            }
 
+            $companyOptions = '';
             foreach($this->company() as $company) {
-                $companySelected = ($user->company->id === $company->id) ? 'selected' : '';
+                $companySelected = ( in_array($company->id, $userCompanyId) ) ? 'selected' : '';
                 $companyOptions .= '<option value="'.$company->id.'" '.$companySelected.'>'.$company->company.'</option>';
             }
 
@@ -255,8 +261,8 @@ class UserController extends Controller
             <div class="form-row">
             <div class="form-group col-md-6">
 
-            <label for="company">Company <span class="required">*</span></label>
-            <select id="company_'.$user->id.'" class="form-control" name="company">
+            <label for="user_company">Company <span class="required">*</span></label>
+            <select id="user_company_'.$user->id.'" class="form-control" name="user_company">
             <option value="">Choose Company</option>
             '.$companyOptions.'
             </select>
@@ -362,10 +368,14 @@ class UserController extends Controller
             $user->city         = $request->city;
             $user->country_id   = $request->country;
             $user->postal       = $request->zip;
-            $user->company_id   = $request->company;
             $user->active       = 'no';
             $user->role         = 'employee';
             $user->save();
+
+            $userCompany             = new UserCompany;
+            $userCompany->user_id    = $user->id;
+            $userCompany->company_id = $request->user_company;
+            $userCompany->save();
 
             return response()->json(['userStatus' => 'success', 'message' => 'Well done! User created successfully'], 201);
         } 
@@ -393,7 +403,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::employee()->with('company:id,company')->findOrFail($id);
+        $user = User::employee()->findOrFail($id);
         return $user;
     }
 
@@ -406,17 +416,22 @@ class UserController extends Controller
     public function update(UserRequest $request)
     {
         try {
-            User::where('id', $request->userid)
-            ->employee()
-            ->update([
-                'name'      => $request->name,  
-                'phone'     => $request->phone, 
-                'street'    => $request->street, 
-                'city'      => $request->city, 
-                'country_id'=> $request->country,
-                'postal'    => $request->zip,
-                'company_id'=> $request->company,
-            ]);
+            //Delete ansd store company id in user companies table
+            UserCompany::where('user_id', $request->userid)->delete();
+            
+            $user             = User::find($request->userid);
+            $user->name       = $request->name; 
+            $user->phone      = $request->phone; 
+            $user->street     = $request->street; 
+            $user->city       = $request->city; 
+            $user->country_id = $request->country;
+            $user->postal     = $request->zip;
+            $user->save();
+
+            $userCompany             = new UserCompany;
+            $userCompany->user_id    = $user->id;
+            $userCompany->company_id = $request->user_company;
+            $userCompany->save();
 
             return response()->json(['userStatusUpdate' => 'success', 'message' => 'Well done! User details updated successfully'], 201);
         } 
@@ -434,7 +449,8 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
-            $user            = User::destroy($id);
+            $userCompany = UserCompany::where('user_id', $id)->delete();
+            $user        = User::destroy($id);
 
             return response()->json(['deletedUserStatus' => 'success', 'message' => 'User details deleted successfully'], 201);
         }   

@@ -421,6 +421,9 @@ class ManagerController extends Controller
     {
         DB::beginTransaction();
         try {
+            //Delete ansd store company id in user companies table
+            UserCompany::where('user_id', $request->managerid)->delete();
+            
             $manager             = User::manager()->find($request->managerid);
             $manager->name       = $request->name;
             $manager->phone      = $request->phone;
@@ -429,9 +432,6 @@ class ManagerController extends Controller
             $manager->country_id = $request->country;
             $manager->postal     = $request->zip;
             $manager->save();
-
-            //Delete ansd store company id in user companies table
-            UserCompany::where('user_id', $manager->id)->delete();
 
             foreach($request->manager_company as $company) {
                 $userCompany             = new UserCompany;
