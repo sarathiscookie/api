@@ -16,8 +16,6 @@ class CreateKeyInstructionsTable extends Migration
         Schema::create('key_instructions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('container_id');
-            $table->unsignedBigInteger('key_id');
-            $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('country_id');
             $table->string('instruction_url');
             $table->enum('active', ['yes', 'no'])->default('no');
@@ -25,12 +23,6 @@ class CreateKeyInstructionsTable extends Migration
 
             $table->foreign('container_id')
             ->references('id')->on('key_containers');
-
-            $table->foreign('key_id')
-            ->references('id')->on('keys');
-
-            $table->foreign('company_id')
-            ->references('id')->on('companies');
 
             $table->foreign('country_id')
             ->references('id')->on('countries');

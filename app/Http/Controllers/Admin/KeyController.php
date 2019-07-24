@@ -262,7 +262,6 @@ class KeyController extends Controller
                 $shopOptions .= '<option value="'.$shop->id.'" '.$shopSelected.'>'.$shop->shop.'</option>';
             }
 
-            /*<a class="btn btn-secondary btn-sm" data-toggle="modal"><i class="fas fa-pen"></i></a>*/
             $html        = '<a class="btn btn-secondary btn-sm editKey" data-keycontainerid="'.$keyContainer->id.'" data-keycontainercompanyid="'.$keyContainer->company->id.'"  data-toggle="modal" data-target="#editKeyModal_'.$keyContainer->id.'"><i class="fas fa-cog"></i></a>
             <div class="modal fade" id="editKeyModal_'.$keyContainer->id.'" tabindex="-1" role="dialog" aria-labelledby="editKeyModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
