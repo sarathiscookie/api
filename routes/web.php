@@ -103,6 +103,11 @@ Route::prefix('admin')->group(function(){
 		Route::get('/dashboard/key/get/shops/{id}', 'Admin\KeyController@findShops')->name('admin.dashboard.key.get.shop');
 		/* Get key shop id */
 		Route::get('/dashboard/key/get/keyshop/id/{keyContainerId}/{keyShopId}', 'Admin\KeyController@findKeyShopId')->name('admin.dashboard.key.get.keyshop.id');
+
+		/* Show key instruction listing page */
+		Route::get('/dashboard/key/instruction/list', 'Admin\KeyInstructionController@index')->name('admin.dashboard.key.instruction.list');
+		/* Store key instruction*/
+		Route::post('/dashboard/key/instruction/store', 'Admin\KeyInstructionController@store')->name('admin.dashboard.key.instruction.store');
 	});
 });
 

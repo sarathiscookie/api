@@ -10,6 +10,7 @@ use App\Http\Traits\KeyTypeTrait;
 use App\Http\Traits\ShopTrait;
 use App\Http\Traits\CompanyTrait;
 use App\Http\Traits\KeyShopTrait;
+use App\Http\Traits\CountryTrait;
 use App\Key;
 use App\KeyContainer;
 use App\KeyInstruction;
@@ -19,7 +20,7 @@ use DB;
 
 class KeyController extends Controller
 {
-    use KeyTypeTrait, ShopTrait, CompanyTrait, KeyContainerTrait, KeyShopTrait;
+    use KeyTypeTrait, ShopTrait, CompanyTrait, KeyContainerTrait, KeyShopTrait, CountryTrait;
     /**
      * Display a listing of the resource.
      *
@@ -233,18 +234,16 @@ class KeyController extends Controller
     {
         try {
             $keyContainer   = $this->edit($keyContainerId);
-            $keyTypes       = $this->keytypes();
-            $companies      = $this->company();
 
+            // Getting key types
             $keyTypeOptions = '';
-
             foreach($this->keytypes() as $keyValue => $keyType) {
                 $keyTypeSelected = ($keyContainer->type === $keyValue) ? 'selected' : '';
                 $keyTypeOptions .= '<option value="'.$keyValue.'" '.$keyTypeSelected.'>'.$keyType.'</option>';
             }
 
+            // Getting companies
             $companyOptions = '';
-
             foreach($this->company() as $company) {
                 $companySelected = ($keyContainer->company->id === $company->id) ? 'selected' : '';
                 $companyOptions .= '<option value="'.$company->id.'" '.$companySelected.'>'.$company->company.'</option>';
@@ -262,7 +261,45 @@ class KeyController extends Controller
                 $shopOptions .= '<option value="'.$shop->id.'" '.$shopSelected.'>'.$shop->shop.'</option>';
             }
 
-            $html        = '<a class="btn btn-secondary btn-sm editKey" data-keycontainerid="'.$keyContainer->id.'" data-keycontainercompanyid="'.$keyContainer->company->id.'"  data-toggle="modal" data-target="#editKeyModal_'.$keyContainer->id.'"><i class="fas fa-cog"></i></a>
+            // Getting Countries
+            $countryOptions = '';
+            foreach($this->country() as $country) {
+                $countryOptions .= '<option value="'.$country->id.'">'.$country->code.'</option>';
+            }
+
+            $html        = '<a class="btn btn-secondary btn-sm editKey" data-keycontainerid="'.$keyContainer->id.'" data-keycontainercompanyid="'.$keyContainer->company->id.'"  data-toggle="modal" data-target="#editKeyModal_'.$keyContainer->id.'"><i class="fas fa-cog"></i></a> <a class="btn btn-secondary btn-sm createKeyInstruction" data-keyinstructioncontainerid="'.$keyContainer->id.'" data-toggle="modal" data-target="#keyInstructionModal_'.$keyContainer->id.'" data-toggle="tooltip" data-placement="top" title="Create Key Instructions"><i class="fas fa-folder-plus"></i></a>
+
+            <div class="modal fade" id="keyInstructionModal_'.$keyContainer->id.'" tabindex="-1" role="dialog" aria-labelledby="createKeyInstructionLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="createKeyInstructionLabel">Create Key Instruction</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+
+            <div class="modal-body">
+            <div class="keyInstructionValidationAlert"></div>
+            <div class="form-group col-md-6">
+            <label for="key_instruction_language">Language <span class="required">*</span></label>
+            <select id="key_instruction_language_'.$keyContainer->id.'" class="form-control" name="key_instruction_language">
+            <option value="">Choose Language</option>
+            '.$countryOptions.'
+            </select>
+            </div>
+
+            <div class="form-group col-md-12">
+            <label for="key_instruction_file">Key Instruction File <span class="required">*</span></label>
+            <input type="file" id="key_instruction_file_'.$keyContainer->id.'" class="form-control-file" name="key_instruction_file">
+            </div>
+            <button type="button" class="btn btn-primary btn-lg btn-block createKeyInstruction_'.$keyContainer->id.'"><i class="fas fa-plus"></i> Create Instruction </button>
+            </div>
+
+            </div>
+            </div>
+            </div>
+
             <div class="modal fade" id="editKeyModal_'.$keyContainer->id.'" tabindex="-1" role="dialog" aria-labelledby="editKeyModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -272,6 +309,7 @@ class KeyController extends Controller
             <span aria-hidden="true">&times;</span>
             </button>
             </div>
+
 
             <div class="modal-body">
             <div class="keyUpdateValidationAlert_'.$keyContainer->id.'"></div>

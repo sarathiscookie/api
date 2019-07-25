@@ -70,7 +70,7 @@ $(function() {
 	});
 
     /* Tooltip */
-	$('.fa-question-circle').tooltip({
+	$( ".createKeyInstruction" ).tooltip({
 		container: 'body'
 	});
 
@@ -140,6 +140,80 @@ $(function() {
 					": aktivieren, um Spalte absteigend zu sortieren"
 			}
 		}
+	});
+
+	/* Create Key Instructions */
+	$( "#key_list tbody" ).on("click", "a.createKeyInstruction", function(e) {
+		e.preventDefault();
+		
+		let keyInstructionContainerId = $(this).data( "keyinstructioncontainerid" );
+
+		/* Clearing data of create manager modal fields */
+		$("#keyInstructionModal_" + keyInstructionContainerId).on( "hidden.bs.modal", function(e) {
+
+		// On model close, it will hide alert messages. Reason is, it shows default when model opens.
+		$( "p .alert, .alert-danger" ).hide();
+
+		$(this)
+		.find("input,textarea,select")
+		.val("")
+		.end()
+		.find("input[type=checkbox], input[type=radio]")
+		.prop("checked", "")
+		.end();
+	    });
+
+		$( ".createKeyInstruction_" + keyInstructionContainerId).on("click", function(e) {
+			e.preventDefault();
+
+			let formData = new FormData();
+			formData.append('key_instruction_file', $( "#key_instruction_file_"+keyInstructionContainerId)[0].files[0]);
+			formData.append('key_instruction_container_id', keyInstructionContainerId);
+			formData.append('key_instruction_language', $( "#key_instruction_language_"+keyInstructionContainerId ).val());
+
+			$.ajax({
+				url: "/admin/dashboard/key/instruction/store",
+				dataType: "JSON",
+				type: "POST",
+				contentType: false, // It is the type of data you're sending, so application/json; charset=utf-8 is a common one, as is application/x-www-form-urlencoded; charset=UTF-8, which is the default. 
+				processData: false,
+				data: formData
+			})
+			.done(function(result) {
+				if(result.keyInstructionStatus === 'success') {
+					$("#keyInstructionModal_" + keyInstructionContainerId).modal("hide"); // It hides the modal
+					keyList.ajax.reload(null, false); //Reload data on table
+
+					$(".responseKeyMessage").html(
+						'<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="icon fa fa-check-circle"></i> ' +
+						result.message +
+						'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+						);
+
+					$(".responseKeyMessage")
+					.show()
+					.delay(5000)
+					.fadeOut();	
+				}
+			})
+			.fail(function(data) {
+				if (data.responseJSON.keyInstructionStatus === "failure") {
+					$(".keyInstructionValidationAlert").html(
+						'<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="fas fa-times-circle"></i> ' +
+						data.responseJSON.message +
+						'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+						);
+				}
+
+				if (data.status === 422) {
+					$.each(data.responseJSON.errors, function(key, val) {
+						$(".keyInstructionValidationAlert").html(
+							"<p class='alert alert-danger'>" + val + "</p>"
+							);
+					});
+				}
+			});
+		});
 	});
 
 	/* Delete key functionality */

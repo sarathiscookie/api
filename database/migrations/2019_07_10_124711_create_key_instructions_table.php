@@ -15,13 +15,13 @@ class CreateKeyInstructionsTable extends Migration
     {
         Schema::create('key_instructions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('container_id');
+            $table->unsignedBigInteger('key_container_id');
             $table->unsignedBigInteger('country_id');
             $table->string('instruction_url');
             $table->enum('active', ['yes', 'no'])->default('no');
             $table->timestamps();
 
-            $table->foreign('container_id')
+            $table->foreign('key_container_id')
             ->references('id')->on('key_containers');
 
             $table->foreign('country_id')
