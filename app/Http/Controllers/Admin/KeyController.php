@@ -112,8 +112,21 @@ class KeyController extends Controller
                     $htmlBadgeShopName .= '<span class="badge badge-info badge-pill">'.$shopName.'</span>';
                 }
 
+                $keyInstructions    = '';
+                $keyInstrutionDatas = KeyInstruction::select('key_instructions.id', 'key_instructions.country_id', 'key_instructions.key_container_id', 'key_instructions.instruction_url', 'countries.code AS countryCode')
+                ->join('countries', 'key_instructions.country_id', '=', 'countries.id')
+                ->where('key_instructions.key_container_id', $keyList->id)
+                ->get();
+
+                if(count($keyInstrutionDatas) > 0) {
+                    $keyInstructions = '<br> <h6>Key Instructions</h6> <hr>';
+                    foreach($keyInstrutionDatas as $keyInstrutionData) {
+                        $keyInstructions .= '<div class="keyinstructiondata">'.$keyInstrutionData->countryCode.': <a class="downloadKeyInstruction" data-keyinstructionid="'.$keyInstrutionData->id.'" data-keyinstructionurl="'.$keyInstrutionData->instruction_url.'"><i class="fas fa-download"></i></a> <a  class="deleteKeyInstruction"><i class="far fa-trash-alt" style="color:#DC143C;"></i></a></div>';
+                    }
+                }
+
                 $nestedData['hash']     = '<input class="checked" type="checkbox" name="id[]" value="'.$keyList->id.'" />';
-                $nestedData['name']     = $keyList->name.'<hr><div>Container: <span class="badge badge-info badge-pill">'.$keyList->container.'</span></div> <div>Company: <span class="badge badge-info badge-pill text-capitalize">'.$keyList->company.'</span></div> <div>Shops: '.$htmlBadgeShopName.'</div>';
+                $nestedData['name']     = '<h6>'.$keyList->name.'</h6> <hr><div>Container: <span class="badge badge-info badge-pill">'.$keyList->container.'</span></div> <div>Company: <span class="badge badge-info badge-pill text-capitalize">'.$keyList->company.'</span></div> <div>Shops: '.$htmlBadgeShopName.'</div>'.$keyInstructions;
                 $nestedData['active']   = $this->keyStatusHtml($keyList->id, $keyList->active);
                 $nestedData['actions']  = $this->editKeyContainerModel($keyList->id);
                 $data[]                 = $nestedData;

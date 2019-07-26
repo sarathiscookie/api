@@ -108,6 +108,8 @@ Route::prefix('admin')->group(function(){
 		Route::get('/dashboard/key/instruction/list', 'Admin\KeyInstructionController@index')->name('admin.dashboard.key.instruction.list');
 		/* Store key instruction*/
 		Route::post('/dashboard/key/instruction/store', 'Admin\KeyInstructionController@store')->name('admin.dashboard.key.instruction.store');
+		/* Download key instructions file */
+		Route::post('/dashboard/key/instruction/download/file', 'Admin\KeyInstructionController@download')->name('admin.dashboard.key.instruction.download.file');
 	});
 });
 

@@ -84,6 +84,32 @@ class KeyInstructionController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function download(Request $request)
+    {
+        /*array:2 [
+  "keyInstructionId" => "14"
+  "keyInstructionUrl" => "key_instruction/2/IT/KvMxukrpCEY6dUvJxdS0fvbhDs0tqZlYhMOEqdbI.pdf"
+]*/
+        // Check if file exists in app/storage/file folder
+        $file_path       = storage_path(). "/app/" . $request->keyInstructionUrl;
+        $explodeFilename = explode('/', $request->keyInstructionUrl);
+        $filename        = end($explodeFilename);
+
+        $headers = ['Content-Disposition: attachment; filename='.$filename];
+        if ( file_exists( $file_path ) ) {
+            return response()->download( $file_path, $filename, $headers );
+        } 
+        else {
+            exit( 'Requested file does not exist on our server!' );
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

@@ -23,22 +23,9 @@ class KeyInstructionRequest extends FormRequest
      */
     public function rules()
     {
-        switch($this->method()) {
-            case 'POST':
-            {
-                return [
-                    'key_instruction_file' => ['file'],
-                    'key_instruction_language' => ['required', 'not_in:0']
-                ]; 
-            }
-            case 'PUT':
-            {
-                return [
-                    'key_instruction_file' => ['required'],
-                    'key_instruction_language' => ['required', 'not_in:0']
-                ]; 
-            }
-            default:break;        
-        }
+        return [
+            'key_instruction_file' => ['file'], //Here we can mention mime type and size of file
+            'key_instruction_language' => ['required', 'not_in:0']
+        ];
     }
 }

@@ -22,6 +22,8 @@
 
     <!-- Each page Styles -->
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
+
+    @yield('css')
 </head>
 <body>
     <div id="app" class="site-wrapper">
@@ -44,7 +46,6 @@
                         <a class="dropdown-item" href="/admin/dashboard/shop/list"><i class="fas fa-store"></i> Shop List</a>
                         <a class="dropdown-item" href="/admin/dashboard/user/list"><i class="fas fa-users"></i> User List</a>
                         <a class="dropdown-item" href="/admin/dashboard/key/list"><i class="fas fa-key"></i> Key List</a>
-                        <a class="dropdown-item" href="/admin/dashboard/key/instruction/list"><i class="fab fa-keycdn"></i> Key Instruction List</a>
                         
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -111,12 +112,6 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/dashboard/key/instruction/list">
-                                <i class="fab fa-keycdn"></i>
-                                Key Instruction List
-                            </a>
-                        </li>
                     </ul>
                 </div>
             </nav>
