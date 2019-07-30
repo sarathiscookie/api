@@ -121,7 +121,7 @@ class KeyController extends Controller
                 if(count($keyInstrutionDatas) > 0) {
                     $keyInstructions = '<br> <h6>Key Instructions</h6> <hr>';
                     foreach($keyInstrutionDatas as $keyInstrutionData) {
-                        $keyInstructions .= '<div class="keyinstructiondata">'.$keyInstrutionData->countryCode.': <a class="downloadKeyInstruction" data-keyinstructionid="'.$keyInstrutionData->id.'" data-keyinstructionurl="'.$keyInstrutionData->instruction_url.'"><i class="fas fa-download"></i></a> <a  class="deleteKeyInstruction"><i class="far fa-trash-alt" style="color:#DC143C;"></i></a></div>';
+                        $keyInstructions .= '<div class="keyinstructiondata">'.$keyInstrutionData->countryCode.': <a href="/admin/dashboard/key/instruction/download/file/'.$keyInstrutionData->id.'" class="downloadKeyInstruction"><i class="fas fa-download cursor"></i></a> <a  class="deleteKeyInstruction" data-keydeleteinstructionid="'.$keyInstrutionData->id.'"><i class="far fa-trash-alt cursor" style="color:#DC143C;"></i></a></div>';
                     }
                 }
 
@@ -280,7 +280,7 @@ class KeyController extends Controller
                 $countryOptions .= '<option value="'.$country->id.'">'.$country->code.'</option>';
             }
 
-            $html        = '<a class="btn btn-secondary btn-sm editKey" data-keycontainerid="'.$keyContainer->id.'" data-keycontainercompanyid="'.$keyContainer->company->id.'"  data-toggle="modal" data-target="#editKeyModal_'.$keyContainer->id.'"><i class="fas fa-cog"></i></a> <a class="btn btn-secondary btn-sm createKeyInstruction" data-keyinstructioncontainerid="'.$keyContainer->id.'" data-toggle="modal" data-target="#keyInstructionModal_'.$keyContainer->id.'" data-toggle="tooltip" data-placement="top" title="Create Key Instructions"><i class="fas fa-folder-plus"></i></a>
+            $html        = '<a class="btn btn-secondary btn-sm editKey cursor" data-keycontainerid="'.$keyContainer->id.'" data-keycontainercompanyid="'.$keyContainer->company->id.'"  data-toggle="modal" data-target="#editKeyModal_'.$keyContainer->id.'"><i class="fas fa-cog"></i></a> <a class="btn btn-secondary btn-sm createKeyInstruction cursor" data-keyinstructioncontainerid="'.$keyContainer->id.'" data-toggle="modal" data-target="#keyInstructionModal_'.$keyContainer->id.'" data-toggle="tooltip" data-placement="top" title="Create Key Instructions"><i class="fas fa-folder-plus"></i></a>
 
             <div class="modal fade" id="keyInstructionModal_'.$keyContainer->id.'" tabindex="-1" role="dialog" aria-labelledby="createKeyInstructionLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">

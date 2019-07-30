@@ -109,7 +109,9 @@ Route::prefix('admin')->group(function(){
 		/* Store key instruction*/
 		Route::post('/dashboard/key/instruction/store', 'Admin\KeyInstructionController@store')->name('admin.dashboard.key.instruction.store');
 		/* Download key instructions file */
-		Route::post('/dashboard/key/instruction/download/file', 'Admin\KeyInstructionController@download')->name('admin.dashboard.key.instruction.download.file');
+		Route::get('/dashboard/key/instruction/download/file/{id}', 'Admin\KeyInstructionController@download')->name('admin.dashboard.key.instruction.download.file');
+		/* Delete key */
+		Route::delete('/dashboard/key/instruction/delete/{keydeleteinstructionid}', 'Admin\KeyInstructionController@destroy')->name('admin.dashboard.key.instruction.delete');
 	});
 });
 

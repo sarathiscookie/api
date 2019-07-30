@@ -2056,23 +2056,49 @@ $(function() {
 		});
 	});
 
-    //Download key instructions
-    $( "#key_list tbody, div.keyinstructiondata" ).on("click", "a.downloadKeyInstruction", function(e) {
+	// Delete key instruction data and files.
+	$( "#key_list tbody, div.keyinstructiondata" ).on("click", "a.deleteKeyInstruction", function(e) {
 		e.preventDefault();
 
-		let keyInstructionId = $(this).data( "keyinstructionid" );
-		let keyInstructionUrl = $(this).data( "keyinstructionurl" );
-
-		$.ajax({
-			url: "/admin/dashboard/key/instruction/download/file",
+		let keydeleteinstructionid = $(this).data( "keydeleteinstructionid" );
+		let confirmDelete          = confirm("Are you sure you want to remove the file?");
+		if(confirmDelete === true) {
+			$.ajax({
+			url: "/admin/dashboard/key/instruction/delete/" + keydeleteinstructionid,
 			dataType: "JSON",
-			type: "POST",
-			data: {keyInstructionId: keyInstructionId, keyInstructionUrl: keyInstructionUrl}
+			type: "DELETE"
 		})
 		.done(function(result) {
+			if (result.keyInstructionDeleteStatus === "success") {
+				
+				keyList
+				.row($(this).parents("tr"))
+				.remove()
+				.draw();
+
+				$( ".responseKeyMessage" ).html(
+					'<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="icon fa fa-check-circle"></i> ' +
+					result.message +
+					'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+					);
+
+				$( ".responseKeyMessage" )
+				.show()
+				.delay(5000)
+				.fadeOut();
+			}
+
 		})
 		.fail(function(data) {
+			if (data.responseJSON.keyInstructionDeleteStatus === "failure") {
+				$( ".responseKeyMessage" ).html(
+					'<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="fas fa-times-circle"></i> ' +
+					data.responseJSON.message +
+					'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+					);
+			}
 		});
-		
+		}
 	});
+	
 });

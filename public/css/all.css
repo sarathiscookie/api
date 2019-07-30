@@ -110,6 +110,10 @@ body {
   color: red;
 }
 
+.cursor:hover {
+  cursor:pointer;
+}
+
 
 /* adminManagerList.css */
 /*Switch toggle buttons*/

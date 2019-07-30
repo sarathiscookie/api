@@ -44,7 +44,6 @@ class KeyInstructionController extends Controller
     {
         try {
             if( !empty($request->key_instruction_container_id) && !empty($request->key_instruction_language) ) {
-
                 $countryCode         = Country::select('code')->find($request->key_instruction_language);
 
                 // Path of directory.
@@ -55,19 +54,37 @@ class KeyInstructionController extends Controller
                     $createDirectory = Storage::makeDirectory($path_of_directory, 0775);
                 }
 
-                // Getting and delete files from directory
-                $files               = Storage::files($path_of_directory); 
-                Storage::delete($files);
+                // Checking data already exist or not
+                $findKeyInstruction = KeyInstruction::where('key_container_id', $request->key_instruction_container_id)
+                ->where('country_id', $request->key_instruction_language)
+                ->first();
 
-                // Storing new file in to folder.
-                $path_of_file        = $request->file('key_instruction_file')->store($path_of_directory);
+                if( !empty($findKeyInstruction) && Storage::exists($findKeyInstruction->instruction_url) ) {
+                    
+                    Storage::delete($findKeyInstruction->instruction_url);// Delete files from directory
+                    KeyInstruction::destroy($findKeyInstruction->id);// Delete data from directory
 
-                // Storing data in to database
-                $keyInstruction                   = New KeyInstruction;
-                $keyInstruction->key_container_id = $request->key_instruction_container_id;
-                $keyInstruction->country_id       = $request->key_instruction_language;
-                $keyInstruction->instruction_url  = $path_of_file;
-                $keyInstruction->save();
+                    // Storing new file in to folder.
+                    $path_of_file = $request->file('key_instruction_file')->store($path_of_directory);
+
+                    // Storing data in to database
+                    $keyInstruction                   = New KeyInstruction;
+                    $keyInstruction->key_container_id = $request->key_instruction_container_id;
+                    $keyInstruction->country_id       = $request->key_instruction_language;
+                    $keyInstruction->instruction_url  = $path_of_file;
+                    $keyInstruction->save();
+                }
+                else {
+                    // Storing new file in to folder.
+                    $path_of_file = $request->file('key_instruction_file')->store($path_of_directory);
+
+                    // Storing data in to database
+                    $keyInstruction                   = New KeyInstruction;
+                    $keyInstruction->key_container_id = $request->key_instruction_container_id;
+                    $keyInstruction->country_id       = $request->key_instruction_language;
+                    $keyInstruction->instruction_url  = $path_of_file;
+                    $keyInstruction->save();
+                }
 
                 return response()->json(['keyInstructionStatus' => 'success', 'message' => 'Well done! Key instruction created successfully'], 201);
             }
@@ -84,27 +101,27 @@ class KeyInstructionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function download(Request $request)
+    public function download($id)
     {
-        /*array:2 [
-  "keyInstructionId" => "14"
-  "keyInstructionUrl" => "key_instruction/2/IT/KvMxukrpCEY6dUvJxdS0fvbhDs0tqZlYhMOEqdbI.pdf"
-]*/
-        // Check if file exists in app/storage/file folder
-        $file_path       = storage_path(). "/app/" . $request->keyInstructionUrl;
-        $explodeFilename = explode('/', $request->keyInstructionUrl);
-        $filename        = end($explodeFilename);
-
-        $headers = ['Content-Disposition: attachment; filename='.$filename];
-        if ( file_exists( $file_path ) ) {
-            return response()->download( $file_path, $filename, $headers );
+        try {
+            $keyInstruction  = KeyInstruction::find($id);
+            if( !empty($keyInstruction) && Storage::exists($keyInstruction->instruction_url)) {
+                $explodeFilename = explode('/', $keyInstruction->instruction_url); //Exploding file name from file path
+                $filename        = end($explodeFilename);
+                $headers         = ['Content-Disposition: attachment; filename='.$filename];
+                return Storage::download($keyInstruction->instruction_url, $filename, $headers);
+            }
+            else {
+                abort(404);
+            }
         } 
-        else {
-            exit( 'Requested file does not exist on our server!' );
+        catch(\Exception $e) {
+            abort(404);
         }
+        
     }
 
     /**
@@ -144,11 +161,24 @@ class KeyInstructionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $keydeleteinstructionid
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($keydeleteinstructionid)
     {
-        //
+        try {
+            $keyInstruction = KeyInstruction::find($keydeleteinstructionid);
+
+            if( !empty($keyInstruction) && Storage::exists($keyInstruction->instruction_url) ) {
+                Storage::delete($keyInstruction->instruction_url); // Delete files from storage
+                KeyInstruction::destroy($keydeleteinstructionid); // Delete data from database
+            }
+
+            return response()->json(['keyInstructionDeleteStatus' => 'success', 'message' => 'Key instruction deleted successfully'], 201);
+        } 
+        catch(\Exception $e) {
+            return response()->json(['keyInstructionDeleteStatus' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
+        }
+
     }
 }
