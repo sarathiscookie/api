@@ -230,7 +230,7 @@ class ManagerController extends Controller
             }
 
             $country  = ($user->country === 'de') ? 'selected' : '';
-            $html     = '<a class="btn btn-secondary btn-sm editManager" data-managerid="'.$user->id.'" data-toggle="modal" data-target="#editManagerModal_'.$user->id.'"><i class="fas fa-cog"></i></a>
+            $html     = '<a class="btn btn-secondary btn-sm editManager cursor" data-managerid="'.$user->id.'" data-toggle="modal" data-target="#editManagerModal_'.$user->id.'"><i class="fas fa-cog"></i></a>
             <div class="modal fade" id="editManagerModal_'.$user->id.'" tabindex="-1" role="dialog" aria-labelledby="editManagerModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
             <div class="modal-content">

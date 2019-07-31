@@ -207,7 +207,7 @@ class CompaniesController extends Controller
                 $countryOptions .= '<option value="'.$country->id.'" '.$countrySelected.'>'.$country->name.'</option>';
             }
 
-            $html               = '<a class="btn btn-secondary btn-sm editCompany" data-companyid="'.$company->id.'" data-toggle="modal" data-target="#editCompanyModal_'.$company->id.'"><i class="fas fa-cog"></i></a>
+            $html               = '<a class="btn btn-secondary btn-sm editCompany cursor" data-companyid="'.$company->id.'" data-toggle="modal" data-target="#editCompanyModal_'.$company->id.'"><i class="fas fa-cog"></i></a>
             <div class="modal fade" id="editCompanyModal_'.$company->id.'" tabindex="-1" role="dialog" aria-labelledby="editCompanyModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
             <div class="modal-content">

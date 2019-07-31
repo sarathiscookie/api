@@ -204,7 +204,7 @@ class UserController extends Controller
             }
 
             $country  = ($user->country === 'de') ? 'selected' : '';
-            $html     = '<a class="btn btn-secondary btn-sm editUser" data-userid="'.$user->id.'" data-toggle="modal" data-target="#editUserModal_'.$user->id.'"><i class="fas fa-cog"></i></a>
+            $html     = '<a class="btn btn-secondary btn-sm editUser cursor" data-userid="'.$user->id.'" data-toggle="modal" data-target="#editUserModal_'.$user->id.'"><i class="fas fa-cog"></i></a>
             <div class="modal fade" id="editUserModal_'.$user->id.'" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
             <div class="modal-content">

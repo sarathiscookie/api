@@ -220,7 +220,7 @@ class ShopController extends Controller
             //Getting shop token
             $shopToken = ( ($shop->shopname->name === env('SHOP_NAME_AMAZONE')) || ($shop->shopname->name === env('SHOP_NAME_EBAY')) ) ? $shop->token : '';
 
-            $html               = '<a class="btn btn-secondary btn-sm editShop" data-shoptoken="'.$shopToken.'" data-shopid="'.$shop->id.'" data-toggle="modal" data-target="#editShopModal_'.$shop->id.'"><i class="fas fa-cog"></i></a>
+            $html               = '<a class="btn btn-secondary btn-sm editShop cursor" data-shoptoken="'.$shopToken.'" data-shopid="'.$shop->id.'" data-toggle="modal" data-target="#editShopModal_'.$shop->id.'"><i class="fas fa-cog"></i></a>
             <div class="modal fade" id="editShopModal_'.$shop->id.'" tabindex="-1" role="dialog" aria-labelledby="editShopModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
             <div class="modal-content">
