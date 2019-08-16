@@ -56,12 +56,12 @@ class SupplierController extends Controller
         $order         = $columns[$params['order'][0]['column']]; //contains column index
         $dir           = $params['order'][0]['dir']; //contains order such as asc/desc
 
-        // Search query for name
-        if(!empty($request->input('search.value'))) {
+        // Search query for supplier name
+        if( !empty($request->input('search.value')) ) {
             $this->searchSupplierName($q, $request->input('search.value'));
         }
 
-        // tfoot search query for name
+        // tfoot search query for supplier name
         if( !empty($params['columns'][1]['search']['value']) ) {
             $this->tfootSupplierName($q, $params['columns'][1]['search']['value']);
         }

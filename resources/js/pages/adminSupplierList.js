@@ -311,5 +311,13 @@ $(function() {
 		}
 	});
 
-
+	/* <tfoot> search functionality */
+	$(".search-input").on("keyup change", function() {
+		var i = $(this).attr("id"); // getting column index
+		var v = $(this).val(); // getting search input value
+		supplierList
+			.columns(i)
+			.search(v)
+			.draw();
+	});
 });	

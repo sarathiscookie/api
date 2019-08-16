@@ -757,7 +757,7 @@ $(function() {
 
 /**
  * User: Sarath TS
- * Date: 28.05.2019
+ * Date: 12.08.2019
  * Created for: adminShopList
  */
 
@@ -2416,5 +2416,30 @@ $(function() {
 		}
 	});
 
+	/* <tfoot> search functionality */
+	$(".search-input").on("keyup change", function() {
+		var i = $(this).attr("id"); // getting column index
+		var v = $(this).val(); // getting search input value
+		supplierList
+			.columns(i)
+			.search(v)
+			.draw();
+	});
+});	
+/**
+ * User: Sarath TS
+ * Date: 16.08.2019
+ * Created for: productList
+ */
 
+$(function() {
+	/* Checking for the CSRF token */
+	$.ajaxSetup({
+		headers: {
+			"X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+		}
+	});
+
+
+	
 });	
