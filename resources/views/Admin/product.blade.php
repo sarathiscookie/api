@@ -8,7 +8,7 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/admin/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
-          <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-user-tie"></i> Product List</li>
+          <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-list-ul"></i> Product List</li>
         </ol>
       </nav>
 
@@ -19,7 +19,7 @@
 
         <div class="card-body">
           <div class="text-right">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productModal"><i class="fas fa-shopping-cart"></i> Get Products</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productModal"><i class="fab fa-get-pocket"></i> Get Products</button>
             <hr>
           </div>
           
@@ -89,7 +89,7 @@
                 </div>
               </div>  
 
-              <button type="button" class="btn btn-primary btn-lg btn-block getProducts">Get Products</button>
+              <button type="button" class="btn btn-primary btn-lg btn-block getProducts"><i class="fab fa-get-pocket"></i> Get Products</button>
             </div>
 
           </div>
