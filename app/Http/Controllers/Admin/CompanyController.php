@@ -8,7 +8,7 @@ use App\Http\Traits\CountryTrait;
 use App\Http\Requests\Admin\CompanyRequest;
 use Illuminate\Http\Request;
 
-class CompaniesController extends Controller
+class CompanyController extends Controller
 {
     use CountryTrait;
     /**

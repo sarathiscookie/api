@@ -49,17 +49,17 @@ Route::prefix('admin')->group(function(){
 		Route::put('/dashboard/manager/update', 'Admin\ManagerController@update')->name('admin.dashboard.manager.update');
 
 		/* Show companies listing page */
-		Route::get('/dashboard/company/list', 'Admin\CompaniesController@index')->name('admin.dashboard.company.list');
+		Route::get('/dashboard/company/list', 'Admin\CompanyController@index')->name('admin.dashboard.company.list');
 		/* Listing company on datatable */
-		Route::post('/dashboard/company/list/datatables', 'Admin\CompaniesController@datatable')->name('admin.dashboard.company.list.datatable');
+		Route::post('/dashboard/company/list/datatables', 'Admin\CompanyController@datatable')->name('admin.dashboard.company.list.datatable');
 		/* Delete company */
-		Route::delete('/dashboard/company/delete/{id}', 'Admin\CompaniesController@destroy')->name('admin.dashboard.company.delete');
+		Route::delete('/dashboard/company/delete/{id}', 'Admin\CompanyController@destroy')->name('admin.dashboard.company.delete');
 		/* Update company status */
-		Route::post('/dashboard/company/status/update', 'Admin\CompaniesController@updateStatus')->name('admin.dashboard.company.status.update');
+		Route::post('/dashboard/company/status/update', 'Admin\CompanyController@updateStatus')->name('admin.dashboard.company.status.update');
 		/* Store company */
-		Route::post('/dashboard/company/store', 'Admin\CompaniesController@store')->name('admin.dashboard.company.store');
+		Route::post('/dashboard/company/store', 'Admin\CompanyController@store')->name('admin.dashboard.company.store');
 		/* Update company */
-		Route::put('/dashboard/company/update', 'Admin\CompaniesController@update')->name('admin.dashboard.company.update');
+		Route::put('/dashboard/company/update', 'Admin\CompanyController@update')->name('admin.dashboard.company.update');
 
 		/* Show shop listing page */
 		Route::get('/dashboard/shop/list', 'Admin\ShopController@index')->name('admin.dashboard.shop.list');
@@ -130,8 +130,8 @@ Route::prefix('admin')->group(function(){
         Route::get('/dashboard/product/get', 'Admin\ProductController@index')->name('admin.dashboard.product.get');
 		/* Show product listing page */
 		Route::get('/dashboard/product/list/{shopId}/{companyId}', 'Admin\ProductController@show')->name('admin.dashboard.product.list');
-		/* Listing product on datatable */
-		//Route::post('/dashboard/product/list/datatables', 'Admin\ProductController@datatable')->name('admin.dashboard.product.list.datatable');
+		/* Listing supplier on datatable */
+		Route::post('/dashboard/product/list/datatables', 'Admin\ProductController@datatable')->name('admin.dashboard.product.list.datatable');
 	});
 });
 

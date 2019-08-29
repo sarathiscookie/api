@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Product List')
+@section('title', 'Get Products')
 
 @section('content')
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
@@ -19,8 +19,6 @@
 
         <div class="card-body">
           <div class="col-md-12">
-
-            <div class="productValidationAlert"></div>
 
             <div class="form-row">
               <div class="form-group col-md-12">
