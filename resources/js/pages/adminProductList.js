@@ -36,7 +36,7 @@ $(function() {
 	});
 
 	//* Datatable scripts */
-	let companyList = $("#product_list").DataTable({
+	let productList = $("#product_list").DataTable({
 		lengthMenu: [10, 25, 50, 75, 100],
 		order: [1, "desc"],
 		processing: true,
