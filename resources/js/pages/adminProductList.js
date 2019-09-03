@@ -35,16 +35,25 @@ $(function() {
 		}
 	});
 
-	//* Datatable scripts */
+	/* Datatable scripts */
 	let productList = $("#product_list").DataTable({
-		lengthMenu: [10, 25, 50, 75, 100],
+		pageLength: 20,
 		order: [1, "desc"],
 		processing: true,
 		serverSide: true,
+		lengthChange: false,
 		ajax: {
 			url: "/admin/dashboard/product/list/datatables",
 			dataType: "json",
-			type: "POST"
+			type: "POST",
+			data: {
+				productListShopID: $(".productListShopIdClass").val(),
+				productListCompanyId: $(".productListCompanyIdClass").val(),
+				pageActive: function() {
+					let productListTableInfo = $("#product_list").DataTable().page.info();
+					return productListTableInfo.page + 1;
+				}
+			}
 		},
 		deferRender: true,
 		columns: [

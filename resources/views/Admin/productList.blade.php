@@ -21,6 +21,8 @@
            <div class="table-responsive">
 
             <div class="responseProductListMessage"></div>
+            <input type="hidden" name="productListShopId" value="{{ $shopId }}" class="productListShopIdClass">
+            <input type="hidden" name="productListCompanyId" value="{{ $companyId }}" class="productListCompanyIdClass">
 
             <table id="product_list" class="table table-bordered table-hover display" style="width:100%">
               <thead class="thead-light">
