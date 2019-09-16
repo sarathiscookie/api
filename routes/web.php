@@ -132,8 +132,6 @@ Route::prefix('admin')->group(function(){
 		Route::get('/dashboard/product/list/{shopId}/{companyId}', 'Admin\ProductController@show')->name('admin.dashboard.product.list');
 		/* Listing supplier on datatable */
 		Route::post('/dashboard/product/list/datatables', 'Admin\ProductController@datatable')->name('admin.dashboard.product.list.datatable');
-		/* Listing categories on dropdown */
-		Route::get('/dashboard/product/list/get/categories/{shopId}/{companyId}', 'Admin\ProductController@getProductCategories')->name('admin.dashboard.product.list.get.categories');
 		
 	});
 });

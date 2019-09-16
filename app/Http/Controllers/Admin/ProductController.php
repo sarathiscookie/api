@@ -41,39 +41,6 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $shopId
-     * @param  int  $companyId
-     * @return \Illuminate\Http\Response
-     */
-    public function getProductCategories($shopId, $companyId)
-    {
-        $category_details = [];
-        //If shop is rakuten then below code will execute.
-        if($shopId === '1') {
-            //get company api key from shops
-            $api_key = $this->getApiKey($shopId, $companyId);
-
-            $url     = 'http://webservice.rakuten.de/merchants/categories/getShopCategories?key='.$api_key->api_key.'&format=json';
-
-            if( !empty($url) ) {
-                //Fetching data from API
-                $jsonDecodedResults = $this->curl($url);
-
-                //If json status is success then value is '1' error value is '-1'
-                if($jsonDecodedResults['result']['success'] === '1') {
-                    if($jsonDecodedResults['result']['categories']['paging'][0]['total'] != 0) {
-                        $category_details[]   = $jsonDecodedResults['result']['categories']['category'];
-                    }
-                }
-            }
-        }
-
-        return response()->json($category_details[0]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */

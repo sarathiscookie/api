@@ -35,31 +35,6 @@ $(function() {
 		}
 	});
 
-	//Listing all categories of a shop
-	/*$( "#shopCategoriesSelect" ).on('click', function() {
-
-		let productListShopID    = $(".productListShopIdClass").val();
-	    let productListCompanyId = $(".productListCompanyIdClass").val();
-
-		$.ajax({
-			url: "/admin/dashboard/product/list/get/categories/"+productListShopID+"/"+productListCompanyId,
-			dataType: "JSON",
-			type: "GET"
-		})
-			.done(function(result) {
-				if(result.length > 0) {
-					$( ".shop_categories_options" ).remove();
-
-					for(i = 0; i < result.length; i++) {
-						$( "#shopCategoriesSelect" ).append('<option class="shop_categories_options" value="'+ result[i].shop_category_id +'">'+ result[i].name +'</option>');
-					}
-				}
-			})
-			.fail(function(data) {
-				$( "#shopCategoriesSelect" ).append('<option class="shop_categories_options" value="">Not found any categories</option>');
-			});
-	});*/
-
 	/* Datatable scripts */
 	let productList = $("#product_list").DataTable({
 		pageLength: 20,

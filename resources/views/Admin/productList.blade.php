@@ -8,6 +8,7 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/admin/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+          <li class="breadcrumb-item active"><a href="/admin/dashboard/product/get"><i class="fas fa-list-ul"></i> Get Products</a></li>
           <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-list-ul"></i> Product List</li>
         </ol>
       </nav>
