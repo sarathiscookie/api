@@ -55,6 +55,7 @@ $(function() {
 				}
 			},
 			dataSrc: function(result) {
+				$( ".shop_categories_options" ).remove();
 				if(result.categoryDetails.length > 0) {
 					if(result.categoryDetails.length > 1) {
 						$( "#shopCategoriesSelect" ).append('<option class="shop_categories_options" value="0">All Categories</option>'); 
