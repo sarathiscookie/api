@@ -48,8 +48,6 @@ class ProductController extends Controller
     {
         try {
             $params              = $request->all();
-            $totalData           = '';
-            $totalFiltered       = '';
             $product_details     = '';
             $category_details    = '';
             $search_product_name = '';
@@ -82,9 +80,9 @@ class ProductController extends Controller
 
             $json_data = array(
                 'draw'            => (int)$params['draw'],
-                'recordsTotal'    => (int)$totalData,
-                'recordsFiltered' => (int)$totalFiltered,
-                'data'            => $product_details,
+                'recordsTotal'    => (int)$product_details['totalData'],
+                'recordsFiltered' => (int)$product_details['totalFiltered'],
+                'data'            => $product_details['data'],
                 'categoryDetails' => $category_details
             );
 
@@ -103,37 +101,30 @@ class ProductController extends Controller
      */
     public function getUrlProducts($urlGetProducts)
     {
-        $data               = [];
+        $data          = [];
+        $totalData     = '';
+        $totalFiltered = '';
+        $columns       = [ 1 => 'name', 2 => 'active' ];
 
         //Fetching data from API
         $jsonDecodedResults = $this->curl($urlGetProducts);
 
         //If json status is success then value is '1' error value is '-1'
-        if($jsonDecodedResults['result']['success'] === '1') {
-
-            $columns = array(
-                1 => 'name',
-                2 => 'active',
-            );
+        if( ($jsonDecodedResults['result']['success'] === '1') && ($jsonDecodedResults['result']['products']['paging'][0]['total'] != '0') ) {
 
             $totalData     = $jsonDecodedResults['result']['products']['paging'][0]['total'];
             $totalFiltered = $totalData;
 
-            if($jsonDecodedResults['result']['products']['paging'][0]['total'] != '0') {
-
-                foreach($jsonDecodedResults['result']['products']['product'] as $key => $productList) {
-                    $nestedData['hash']       = '<input class="checked" type="checkbox" name="id[]" value="'.$productList['product_id'].'" />';
-                    $nestedData['name']       = '<h6>'.$productList['name'].'</h6> <hr><div>Product Id: <span class="badge badge-info badge-pill">'.$productList['product_id'].'</span></div> <div>Producer: <span class="badge badge-info badge-pill text-capitalize">'.$productList['producer'].'</span></div> <div>Art No: <span class="badge badge-info badge-pill text-capitalize">'.$productList['product_art_no'].'</span></div>';
-                    $nestedData['active']     = 'active';
-                    $nestedData['actions']    = 'actions';
-                    $data[]                   = $nestedData;
-                }
-
+            foreach($jsonDecodedResults['result']['products']['product'] as $key => $productList) {
+                $nestedData['hash']       = '<input class="checked" type="checkbox" name="id[]" value="'.$productList['product_id'].'" />';
+                $nestedData['name']       = '<h6>'.$productList['name'].'</h6> <hr><div>Product Id: <span class="badge badge-info badge-pill">'.$productList['product_id'].'</span></div> <div>Producer: <span class="badge badge-info badge-pill text-capitalize">'.$productList['producer'].'</span></div> <div>Art No: <span class="badge badge-info badge-pill text-capitalize">'.$productList['product_art_no'].'</span></div>';
+                $nestedData['active']     = 'active';
+                $nestedData['actions']    = 'actions';
+                $data[]                   = $nestedData;
             }
 
         }
-
-        return $data;
+        return compact('data', 'totalData', 'totalFiltered');
     }
 
     /**
