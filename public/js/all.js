@@ -2443,6 +2443,7 @@ $(function() {
 	let shopId = '';
 	let companyId = '';
 	let productList;
+	let selected;
 
 	// Setting href attribute when changing shop
 	$( "#product_shop" ).on( "change", function() {
@@ -2490,18 +2491,26 @@ $(function() {
 				},
 				dataSrc: function(result) {
 					$( ".shop_categories_options" ).remove();
+					
 					if(result.categoryDetails.length > 0) {
 						if(result.categoryDetails.length > 1) {
 							$( "#shopCategoriesSelect" ).append('<option class="shop_categories_options" value="allCategories">All Categories</option>'); 
 						}
 						for(let i = 0; i < result.categoryDetails.length; i++) {
-							$( "#shopCategoriesSelect" ).append('<option class="shop_categories_options" value="'+ result.categoryDetails[i].shop_category_id +'">'+ result.categoryDetails[i].name +'</option>');
+							if(productCategoryId == result.categoryDetails[i].shop_category_id) {
+								selected = 'selected="selected"';
+							}
+							else {
+								selected = '';
+							}
+							$( "#shopCategoriesSelect" ).append('<option class="shop_categories_options" '+selected+' value="'+ result.categoryDetails[i].shop_category_id +'">'+ result.categoryDetails[i].name +'</option>');
 						}
 					}
 					else  {
 						$( ".noCategoriesFound" ).remove();
 						$( "#shopCategoriesSelect" ).append('<option class="shop_categories_options" value="0">Categories are not available for this shop</option>'); 
 					}
+
 					return result.data;
 				}
 			},
