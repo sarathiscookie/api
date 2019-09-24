@@ -2469,7 +2469,7 @@ $(function() {
 	dataTableFn(null);
 
 	/* Datatable scripts */
-	function dataTableFn(productCategoryId) {
+	function dataTableFn(productCategoryId, visible) {
 		productList = $("#product_list").DataTable({
 			pageLength: 20,
 			order: [1, "desc"],
@@ -2487,7 +2487,8 @@ $(function() {
 						let productListTableInfo = $("#product_list").DataTable().page.info();
 						return productListTableInfo.page + 1;
 					},
-					productCategoryId: productCategoryId
+					productCategoryId: productCategoryId,
+					visible: visible
 				},
 				dataSrc: function(result) {
 					$( ".shop_categories_options" ).remove();
@@ -2576,7 +2577,34 @@ $(function() {
 			productList.destroy();
 			dataTableFn(categoryId);
 		}
-	});    
+	});
+
+	//Filter for visible
+	$( ".visibleActive" ).on("click", function() {
+		if($(this).hasClass('btn-secondary')) {
+			$(this).addClass('btn-success').removeClass('btn-secondary');
+			productList.destroy();
+			dataTableFn(null, 1);
+		}
+		else {
+			$(this).addClass('btn-secondary').removeClass('btn-success');
+			productList.destroy();
+			dataTableFn(null, null);
+		}
+	});   
+
+	$( ".visibleDisable" ).on("click", function() {
+		if($(this).hasClass('btn-secondary')) {
+			$(this).addClass('btn-success').removeClass('btn-secondary');
+			productList.destroy();
+			dataTableFn(null, 0);
+		}
+		else {
+			$(this).addClass('btn-secondary').removeClass('btn-success');
+			productList.destroy();
+			dataTableFn(null, null);
+		}
+	});
 
 
 });	

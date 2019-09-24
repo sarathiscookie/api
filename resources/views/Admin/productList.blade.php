@@ -31,38 +31,34 @@
               <div class="row">
 
                 <div class="form-group col-md-3">
-                  <label for="exampleFormControlSelect1">Visible:</label>
+                  <label for="visible">Visible:</label>
                   <div>
-                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check-circle"></i></a>
-                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-times-circle"></i></a>
-                    <a href="#" class="btn btn-primary btn-sm">All</a>
+                    <a href="#" class="btn btn-secondary btn-sm visibleActive"><i class="fas fa-check-circle"></i></a>
+                    <a href="#" class="btn btn-secondary btn-sm visibleDisable"><i class="fas fa-times-circle"></i></a>
                   </div>
                 </div>
 
                 <div class="form-group col-md-3">
                   <label for="exampleFormControlSelect1">Available:</label>
                   <div>
-                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check-circle"></i></a>
-                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-times-circle"></i></a>
-                    <a href="#" class="btn btn-primary btn-sm">All</a>
+                    <a href="#" class="btn btn-secondary btn-sm"><i class="fas fa-check-circle"></i></a>
+                    <a href="#" class="btn btn-secondary btn-sm"><i class="fas fa-times-circle"></i></a>
                   </div>
                 </div>
 
                 <div class="form-group col-md-3">
                   <label for="exampleFormControlSelect1">Active:</label>
                   <div>
-                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check-circle"></i></a>
-                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-times-circle"></i></a>
-                    <a href="#" class="btn btn-primary btn-sm">All</a>
+                    <a href="#" class="btn btn-secondary btn-sm"><i class="fas fa-check-circle"></i></a>
+                    <a href="#" class="btn btn-secondary btn-sm"><i class="fas fa-times-circle"></i></a>
                   </div>
                 </div>
 
                 <div class="form-group col-md-3">
                   <label for="exampleFormControlSelect1">Config:</label>
                   <div>
-                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check-circle"></i></a>
-                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-times-circle"></i></a>
-                    <a href="#" class="btn btn-primary btn-sm">All</a>
+                    <a href="#" class="btn btn-secondary btn-sm"><i class="fas fa-check-circle"></i></a>
+                    <a href="#" class="btn btn-secondary btn-sm"><i class="fas fa-times-circle"></i></a>
                   </div>
                 </div>
 
