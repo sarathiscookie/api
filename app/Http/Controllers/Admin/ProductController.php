@@ -51,23 +51,36 @@ class ProductController extends Controller
             $product_details  = '';
             $category_details = '';
             $search           = '';
+            $visible          = '';
+            $available        = '';
 
             // Search query for product name
             if( !empty($request->input('search.value')) ) {
                 $search = "&search=".urlencode($request->input('search.value'))."&search_field=name";
             }
 
-            // Search query for category
-            if( ($request->productCategoryId !== 'allCategories') && ($request->productCategoryId !== null) ) {
-                $search = "&search=".urlencode($request->productCategoryId)."&search_field=shop_category_id";
-            }
-
             //If shop is rakuten then below code will execute.
             if($request->productListShopID === '1') {
+
+                // Search query for category
+                if( ($request->productCategoryId !== 'allCategories') && ($request->productCategoryId !== null) ) {
+                    $search = "&search=".urlencode($request->productCategoryId)."&search_field=shop_category_id";
+                }
+
+                //Filter visible: 1 = Visible & 0 = Not visible
+                if($request->visible !== null) {
+                    $visible = "&visible=".$request->visible;
+                }
+
+                //Filter available: 1 = Available & 0 = Not available
+                if($request->available !== null) {
+                    $available = "&available=".$request->available;
+                }
+
                 //get company api key from shops
                 $api_key           = $this->getApiKey($request->productListShopID, $request->productListCompanyId);
 
-                $urlGetProducts    = 'http://webservice.rakuten.de/merchants/products/getProducts?key='.$api_key->api_key.'&format=json&page='.$request->pageActive.$search;
+                $urlGetProducts    = 'http://webservice.rakuten.de/merchants/products/getProducts?key='.$api_key->api_key.'&format=json&page='.$request->pageActive.$visible.$available.$search;
 
                 $urlShopCategories = 'http://webservice.rakuten.de/merchants/categories/getShopCategories?key='.$api_key->api_key.'&format=json';
             }
@@ -81,7 +94,6 @@ class ProductController extends Controller
             if( !empty($urlShopCategories) ) {
                 $category_details = $this->getUrlShopCategories($urlShopCategories);
             }
-            
 
             $json_data = array(
                 'draw'            => (int)$params['draw'],

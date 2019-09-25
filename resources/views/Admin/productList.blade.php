@@ -33,16 +33,18 @@
                 <div class="form-group col-md-3">
                   <label for="visible">Visible:</label>
                   <div>
-                    <a href="#" class="btn btn-secondary btn-sm visibleActive"><i class="fas fa-check-circle"></i></a>
-                    <a href="#" class="btn btn-secondary btn-sm visibleDisable"><i class="fas fa-times-circle"></i></a>
+                    <a href="" class="btn btn-secondary btn-sm visibleActive"><i class="fas fa-check-circle"></i></a>
+                    <a href="" class="btn btn-secondary btn-sm visibleDisable"><i class="fas fa-times-circle"></i></a>
+                    <a href="" class="btn btn-secondary btn-sm visibleAll">All</a>
                   </div>
                 </div>
 
                 <div class="form-group col-md-3">
-                  <label for="exampleFormControlSelect1">Available:</label>
+                  <label for="available">Available:</label>
                   <div>
-                    <a href="#" class="btn btn-secondary btn-sm"><i class="fas fa-check-circle"></i></a>
-                    <a href="#" class="btn btn-secondary btn-sm"><i class="fas fa-times-circle"></i></a>
+                    <a href="" class="btn btn-secondary btn-sm availableActive"><i class="fas fa-check-circle"></i></a>
+                    <a href="" class="btn btn-secondary btn-sm availableDisable"><i class="fas fa-times-circle"></i></a>
+                    <a href="" class="btn btn-secondary btn-sm availableAll">All</a>
                   </div>
                 </div>
 

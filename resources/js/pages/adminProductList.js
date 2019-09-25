@@ -38,10 +38,10 @@ $(function() {
 	});
 
 	//On page loading it works 
-	dataTableFn(null);
+	dataTableFn(null, null, null);
 
 	/* Datatable scripts */
-	function dataTableFn(productCategoryId, visible) {
+	function dataTableFn(productCategoryId, visible, available) {
 		productList = $("#product_list").DataTable({
 			pageLength: 20,
 			order: [1, "desc"],
@@ -60,7 +60,8 @@ $(function() {
 						return productListTableInfo.page + 1;
 					},
 					productCategoryId: productCategoryId,
-					visible: visible
+					visible: visible,
+					available: available
 				},
 				dataSrc: function(result) {
 					$( ".shop_categories_options" ).remove();
@@ -147,34 +148,75 @@ $(function() {
 		let categoryId = $( "#shopCategoriesSelect" ).val();
 		if( categoryId !== null ) {
 			productList.destroy();
-			dataTableFn(categoryId);
+			dataTableFn(categoryId, null, null);
 		}
 	});
 
 	//Filter for visible
-	$( ".visibleActive" ).on("click", function() {
+	$( ".visibleActive" ).on("click", function(e) {
+		e.preventDefault();
 		if($(this).hasClass('btn-secondary')) {
 			$(this).addClass('btn-success').removeClass('btn-secondary');
+			$( ".visibleDisable" ).addClass('btn-secondary').removeClass('btn-success');
+			$( ".visibleAll" ).addClass('btn-secondary').removeClass('btn-success');
 			productList.destroy();
-			dataTableFn(null, 1);
-		}
-		else {
-			$(this).addClass('btn-secondary').removeClass('btn-success');
-			productList.destroy();
-			dataTableFn(null, null);
+			dataTableFn(null, 1, null);
 		}
 	});   
 
-	$( ".visibleDisable" ).on("click", function() {
+	$( ".visibleDisable" ).on("click", function(e) {
+		e.preventDefault();
 		if($(this).hasClass('btn-secondary')) {
 			$(this).addClass('btn-success').removeClass('btn-secondary');
+			$( ".visibleActive" ).addClass('btn-secondary').removeClass('btn-success');
+			$( ".visibleAll" ).addClass('btn-secondary').removeClass('btn-success');
 			productList.destroy();
-			dataTableFn(null, 0);
+			dataTableFn(null, 0, null);
 		}
-		else {
-			$(this).addClass('btn-secondary').removeClass('btn-success');
+	});
+
+	$( ".visibleAll" ).on("click", function(e) {
+		e.preventDefault();
+		if($(this).hasClass('btn-secondary')) {
+			$(this).addClass('btn-success').removeClass('btn-secondary');
+			$( ".visibleActive" ).addClass('btn-secondary').removeClass('btn-success');
+			$( ".visibleDisable" ).addClass('btn-secondary').removeClass('btn-success');
 			productList.destroy();
-			dataTableFn(null, null);
+			dataTableFn(null, null, null);
+		}
+	});
+
+	//Filter for available
+	$( ".availableActive" ).on("click", function(e) {
+		e.preventDefault();
+		if($(this).hasClass('btn-secondary')) {
+			$(this).addClass('btn-success').removeClass('btn-secondary');
+			$( ".availableDisable" ).addClass('btn-secondary').removeClass('btn-success');
+			$( ".availableAll" ).addClass('btn-secondary').removeClass('btn-success');
+			productList.destroy();
+			dataTableFn(null, null, 1);
+		}
+	});   
+
+	$( ".availableDisable" ).on("click", function(e) {
+		e.preventDefault();
+		if($(this).hasClass('btn-secondary')) {
+			$(this).addClass('btn-success').removeClass('btn-secondary');
+			$( ".availableActive" ).addClass('btn-secondary').removeClass('btn-success');
+			$( ".availableAll" ).addClass('btn-secondary').removeClass('btn-success');
+			productList.destroy();
+			dataTableFn(null, null, 0);
+		}
+	});
+
+	$( ".availableAll" ).on("click", function(e) {
+		e.preventDefault();
+		if($(this).hasClass('btn-secondary')) {
+			$(this).addClass('btn-success').removeClass('btn-secondary');
+			$( ".availableActive" ).addClass('btn-secondary').removeClass('btn-success');
+			$( ".availableDisable" ).addClass('btn-secondary').removeClass('btn-success');
+			productList.destroy();
+			dataTableFn(null, null, null);
 		}
 	});
 
