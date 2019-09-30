@@ -135,6 +135,7 @@ class ProductController extends Controller
             foreach($jsonDecodedResults['result']['products']['product'] as $key => $productList) {
                 $visibleStatus            = ($productList['visible'] === '1') ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
 
+                //Some products doesn't have available status in product array. Eg:1918778210,1918779405,1918780015
                 if( $productList['has_variants'] === '1' && empty($productList['available']) ) {
                     $availableStatus      = '<i class="fas fa-thumbs-down"></i>';
                 }
