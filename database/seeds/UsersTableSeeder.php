@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $data = [/*[
+        $data = [[
         	'name' => 'admin',
         	'email' => 'admin@gmail.com',
             'username' => 'admin',
@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder
             'created_at' => Carbon::now(),
             'role' => 'admin',
             'active' => 'yes',
-        ],*/
+        ],
         [
             'name' => 'marko',
             'email' => 'marko@herm.de',
