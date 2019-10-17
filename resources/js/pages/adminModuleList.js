@@ -65,8 +65,80 @@ $(function() {
 		}
 	});
 
+	/* <tfoot> search functionality */
+	$(".search-input").on("keyup change", function() {
+		var i = $(this).attr("id"); // getting column index
+		var v = $(this).val(); // getting search input value
+		moduleList
+			.columns(i)
+			.search(v)
+			.draw();
+	});
 
+	/* Create module */
+	$("button.createModule").on("click", function(e) {
+		e.preventDefault();
 
+		let module_name = $("#module").val();
+
+		$.ajax({
+			url: "/admin/dashboard/module/store",
+			dataType: "JSON",
+			type: "POST",
+			data: {
+				module: module_name
+			}
+		})
+		.done(function(result) {
+			if (result.moduleStatus === "success") {
+					$("#createModuleModal").modal("hide"); // It hides the modal
+
+					moduleList.ajax.reload(null, false); //Reload data on table
+
+					$(".responseModuleMessage").html(
+						'<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="icon fa fa-check-circle"></i> ' +
+						result.message +
+						'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+						);
+
+					$(".responseModuleMessage")
+					.show()
+					.delay(5000)
+					.fadeOut();
+				}
+		})
+		.fail(function(data) {
+			if (data.responseJSON.moduleStatus === "failure") {
+				$(".companyValidationAlert").html(
+					'<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="fas fa-times-circle"></i> ' +
+					data.responseJSON.message +
+					'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+					);
+			}
+
+			if (data.status === 422) {
+				$.each(data.responseJSON.errors, function(key, val) {
+					$(".moduleValidationAlert").html(
+						"<p class='alert alert-danger'>" + val + "</p>"
+						);
+				});
+			}
+		});
+	});
+
+	/* Clearing data of create module modal fields */
+	$("#createModuleModal").on("hidden.bs.modal", function(e) {
+		
+		// On model close, it will hide alert messages. Reason is, it shows default when model opens.
+		$( "p .alert, .alert-danger" ).hide();
+		$(this)
+			.find("input,textarea,select")
+			.val("")
+			.end()
+			.find("input[type=checkbox], input[type=radio]")
+			.prop("checked", "")
+			.end();
+	});
 
 
 });	

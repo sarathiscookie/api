@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ModuleRequest;
 use App\Module;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class ModuleController extends Controller
 {
@@ -99,12 +100,22 @@ class ModuleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Admin\ModuleRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ModuleRequest $request)
     {
-        //
+        try {
+            $module           = new Module;
+            $module->module   = $request->module;
+            $module->active  = 'yes';
+            $module->save();
+
+            return response()->json(['moduleStatus' => 'success', 'message' => 'Well done! Module created successfully'], 201);
+        } 
+        catch(\Exception $e){
+            return response()->json(['moduleStatus' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
+        }
     }
 
     /**

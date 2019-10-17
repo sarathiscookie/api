@@ -72,8 +72,8 @@
               <div class="moduleValidationAlert"></div>
 
               <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="name">Module <span class="required">*</span></label>
+                <div class="form-group col-md-12">
+                  <label for="module">Module Name <span class="required">*</span></label>
                   <input id="module" type="text" class="form-control" name="module" autocomplete="module" maxlength="150" autofocus>
                 </div>
               </div>

@@ -137,6 +137,8 @@ Route::prefix('admin')->group(function(){
 		Route::get('/dashboard/module/list', 'Admin\ModuleController@index')->name('admin.dashboard.module.list');
 		/* Listing managers on datatable */
 		Route::post('/dashboard/module/list/datatables', 'Admin\ModuleController@datatable')->name('admin.dashboard.module.list.datatable');
+		/* Store module */
+		Route::post('/dashboard/module/store', 'Admin\ModuleController@store')->name('admin.dashboard.module.store');
 		
 	});
 });
