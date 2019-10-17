@@ -228,7 +228,7 @@ class ModuleController extends Controller
             </div>
 
             <div class="form-row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
 
             <label for="name">Module <span class="required">*</span></label>
             <input id="module_'.$module->id.'" type="text" class="form-control" name="module" value="'.$module->module.'" autocomplete="module" maxlength="255">
