@@ -19,8 +19,8 @@ class CreateModuleDetailsTable extends Migration
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('company_id');
             $table->tinyInteger('status')->default(0); // Status to enable and disable module_details
-            $table->integer()->nullable();// Wait with execution until the MOD pointer number is reached
-            $table->integer()->nullable();// Wait until MOD has successfully completed with ID
+            $table->integer('wait_mod_no')->nullable();// Wait with execution until the MOD pointer number is reached
+            $table->integer('wait_mod_id')->nullable();// Wait until MOD has successfully completed with ID
             $table->dateTime('last_call')->nullable(); // When was cron job last call 
             $table->tinyInteger('call_count')->default(0); // How many times cron job called
             $table->tinyInteger('run_count')->default(0); // How many times cron runned
