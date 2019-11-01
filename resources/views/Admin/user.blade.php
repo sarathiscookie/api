@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'User List')
+@section('title', 'Employee List')
 
 @section('content')
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
