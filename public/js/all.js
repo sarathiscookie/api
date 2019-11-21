@@ -2823,11 +2823,11 @@ $(function() {
 	}
 
     // If clicks on settings button then store api_product_id, shop name_id, company_id and module_status in to the products table.
-	$('#product_list tbody').on( 'click', 'a.moduleAtag', function(e){
+	$("#product_list tbody").on( "click", "a.moduleAtag", function(e){
 		e.preventDefault();
 
-		let productApiId = $(this).data("productid");
-		let productListShopId = $(".productListShopIdClass").val();
+		let productApiId         = $(this).data("productid");
+		let productListShopId    = $(".productListShopIdClass").val();
 		let productListCompanyId = $(".productListCompanyIdClass").val();
 
 		$.ajax({
@@ -2841,11 +2841,21 @@ $(function() {
 			}
 		})
 		.done(function(data) {
-			//
+			if(data.productStatus === 'success') {
+				$("#moduleModal_"+productApiId).modal('show');
+			}
 		})
 		.fail(function(data) {
-			//
+			if(data.responseJSON.productStatus === 'failure') {
+				$("#moduleModal_"+productApiId).modal('hide');
+			}
 		});
+	});
+
+	// Storing module settings
+	$("#product_list tbody").on( "click", "button.saveModuleDetails", function(e){
+		e.preventDefault();
+		console.log('clicked');
 	});
 
 });

@@ -175,7 +175,7 @@ class ProductController extends Controller
          $moduleOptions .= '<option value="'.$module->id.'">'.$module->module.'</option>';
        }
 
-       $html = '<a href="" style="color:black;" class="moduleSettings_'.$productApiId.' moduleAtag" data-productid="'.$productApiId.'" data-toggle="modal" data-target="#moduleModal_'.$productApiId.'"><i class="fas fa-cog"></i></a>
+       $html = '<a href="" style="color:black;" class="moduleSettings_'.$productApiId.' moduleAtag" data-productid="'.$productApiId.'" data-target="#moduleModal_'.$productApiId.'"><i class="fas fa-cog"></i></a>
                 <div class="modal fade" id="moduleModal_'.$productApiId.'" tabindex="-1" role="dialog" aria-labelledby="moduleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
                 <div class="modal-content">
