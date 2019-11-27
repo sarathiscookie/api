@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SupplierRequest;
 use App\Http\Traits\CompanyTrait;
 use App\Http\Traits\CountryTrait;
-use App\Company;
 use App\User;
 use App\UserCompany;
 use Illuminate\Http\Request;
@@ -22,13 +21,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $companies = Company::select('id', 'company')
-            ->whereNotIn('id', UserCompany::select('user_companies.company_id')
-            ->join('users', 'user_companies.user_id', '=', 'users.id')
-            ->where('users.role', 'supplier')
-            ->get()
-            ->toArray())
-            ->get();   
+        $companies = $this->company();
 
         $countries = $this->country();
 
