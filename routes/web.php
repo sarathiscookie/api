@@ -147,6 +147,11 @@ Route::prefix('admin')->group(function(){
 		Route::post('/dashboard/module/status/update', 'Admin\ModuleController@updateStatus')->name('admin.dashboard.module.status.update');
 		/* Update module */
 		Route::put('/dashboard/module/update', 'Admin\ModuleController@update')->name('admin.dashboard.module.update');
+
+		/* Show order listing page */
+		Route::get('/dashboard/order/list', 'Admin\OrderController@index')->name('admin.dashboard.order.list');
+		/* Listing order on datatable */
+		Route::post('/dashboard/order/list/datatables', 'Admin\OrderController@datatable')->name('admin.dashboard.order.list.datatable');
 		
 	});
 });

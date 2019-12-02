@@ -75,6 +75,7 @@ mix.scripts(
 		"resources/js/pages/adminSupplierList.js",
 		"resources/js/pages/adminProductList.js",
 		"resources/js/pages/adminModuleList.js",
+		"resources/js/pages/adminOrderList.js",
 	],
 	"public/js/all.js"
 ).version();
