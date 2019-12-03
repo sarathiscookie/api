@@ -12,13 +12,15 @@ $(function() {
 		}
 	});
 
-	let orderList;
+	let orderList = '';
+	let orderCompany = '';
+    let orderListDateRange = '';
 
 	// On page load this function works
-	orderDatatableFunc();
+	orderDatatableFunc(orderCompany, orderListDateRange);
 
-	/* Datatable scripts */
-	function orderDatatableFunc() {
+	/* Datatable script */
+	function orderDatatableFunc(orderCompany, orderListDateRange) {
 		orderList = $( "#order_list" ).DataTable({
 			lengthMenu: [10, 25, 50, 75, 100],
 			order: [1, "desc"],
@@ -27,7 +29,11 @@ $(function() {
 			ajax: {
 				url: "/admin/dashboard/order/list/datatables",
 				dataType: "json",
-				type: "POST"
+				type: "POST",
+				data: {
+					orderCompany: orderCompany, 
+					orderListDateRange: orderListDateRange
+				}
 			},
 			deferRender: true,
 			columns: [
@@ -69,5 +75,57 @@ $(function() {
 			}
 		});
 	}
+
+	/* Date range script */
+	$( "#orderListDateRange" ).daterangepicker({
+        autoUpdateInput: false,
+        ranges: {
+            'Letzten 7 Tage': [moment().subtract(7, 'days'), moment()],
+            'Letzten 30 Tage': [moment().subtract(30, 'days'), moment()],
+            'Dieser Monat': [moment().startOf('month'), moment().endOf('month')],
+            'Letzter Monat': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        locale: {
+            format: 'DD.MM.YYYY',
+            applyLabel: "Bestätigen",
+            cancelLabel: "Löschen",
+            daysOfWeek: [
+                "So",
+                "Mo",
+                "Di",
+                "Mi",
+                "Do",
+                "Fr",
+                "Sa"
+            ],
+        }
+    });
+
+    $( "#orderListDateRange" ).on("apply.daterangepicker", function(ev, picker) {
+        $(this).val(picker.startDate.format('DD.MM.YYYY') + '-' + picker.endDate.format('DD.MM.YYYY'));
+    });
+
+    $( "#orderListDateRange" ).on("cancel.daterangepicker", function(ev, picker) {
+        let data = $(this).val("");
+        orderList.destroy();
+        orderDatatableFunc(orderCompany, orderListDateRange);
+    });
+
+    /* Generate order list */
+    $( "#generateOrders" ).on("click", function(e) {
+    	e.preventDefault();
+
+    	orderCompany = $( "#orderCompany" ).val();
+    	orderListDateRange = $( "#orderListDateRange" ).val();
+
+    	if(orderCompany !== '' && orderListDateRange !== '') {
+    		orderList.destroy();
+    		orderDatatableFunc(orderCompany, orderListDateRange);
+    	}
+    	else {
+            $('.alertMsg').html('<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> Leere Felder bitte ausfüllen</div>');
+        }
+    	
+    });
 
 });	

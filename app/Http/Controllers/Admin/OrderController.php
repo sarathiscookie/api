@@ -4,10 +4,12 @@ namespace App\Http\Controllers\admin;
 
 use App\Order;
 use Illuminate\Http\Request;
+use App\Http\Traits\CompanyTrait;
 use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
+    use CompanyTrait;
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +17,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return view('admin.order');
+        $companies = $this->company();
+        return view('admin.order', ['companies' => $companies]);
     }
 
     /**
@@ -26,6 +29,7 @@ class OrderController extends Controller
      */
     public function datatable(Request $request)
     {
+        dd($request->all());
         $params = $request->all();
 
         $columns = array(

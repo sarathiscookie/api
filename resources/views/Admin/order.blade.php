@@ -20,32 +20,31 @@
         <div class="card-body">
 
           <div class="form-row">
-            <div class="form-group col-md-3">
-              <select id="inputShop" class="form-control">
-                <option>Choose shop</option>
-                <option>...</option>
-              </select>
-            </div>
-
-            <div class="form-group col-md-3">
-              <select id="inputCompany" class="form-control">
-                <option>Choose company</option>
-                <option>...</option>
+            <div class="form-group col-md-4">
+              <select id="orderCompany" class="form-control">
+                <option value="">Choose company</option>
+                @isset($companies)
+                @foreach( $companies as $company )
+                <option value="{{ $company->id }}">{{ $company->company }}</option>
+                @endforeach
+                @endisset
               </select>
             </div>
 
             <div class="form-group col-md-4">
-              <input type="text" class="form-control" id="dateRange" name="dateRange" placeholder="daterange">
+              <input type="text" class="form-control" id="orderListDateRange" name="orderListDateRange" placeholder="daterange">
             </div>
 
-            <div class="form-group col-md-2">
-              <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search Orders</button>
+            <div class="form-group col-md-4">
+              <button type="submit" class="btn btn-primary" id="generateOrders"> Generate Orders</button>
             </div>
+
+            <div class="alertMsg"></div>
           </div>
           <hr>
 
           <div class="text-right">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createKeyModal"><i class="fas fa-download"></i> Download Invoices</button>
+            <button type="button" class="btn btn-primary"><i class="fas fa-download"></i> Download All Invoices</button>
             <hr>
           </div>
           
@@ -58,7 +57,7 @@
                 <tr>
                   <th>#</th>
                   <th>Order Details</th>
-                  <th>Active</th>
+                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>

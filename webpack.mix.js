@@ -30,9 +30,10 @@ mix.styles(["resources/css/pages/signin.css"], "public/css/signin.css").version(
 /* CSS for all plugins */
 mix.styles(
 	[
-	  "resources/css/datatables.min.css",
-	  "resources/css/select2.css",
-	  "resources/css/select2-bootstrap4.css",
+	  "resources/css/plugins/datatables.min.css",
+	  "resources/css/plugins/select2.css",
+	  "resources/css/plugins/select2-bootstrap4.css",
+	  "resources/css/plugins/daterangepicker.css",
 	],
 	"public/css/plugins.css"
 ).version();
@@ -57,8 +58,10 @@ mix.styles(
 /* js for all plugins */
 mix.scripts(
 	[ 
-	  "resources/js/datatables.min.js",
-	  "resources/js/select2.js",
+	  "resources/js/plugins/datatables.min.js",
+	  "resources/js/plugins/select2.js",
+	  "resources/js/plugins/moment.min.js",
+	  "resources/js/plugins/daterangepicker.js",
 	],
 	"public/js/plugins.js"
 ).version();
