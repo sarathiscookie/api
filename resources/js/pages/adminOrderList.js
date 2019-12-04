@@ -115,10 +115,10 @@ $(function() {
     $( "#generateOrders" ).on("click", function(e) {
     	e.preventDefault();
 
-    	orderCompany = $( "#orderCompany" ).val();
+    	orderCompany       = $( "#orderCompany" ).val();
     	orderListDateRange = $( "#orderListDateRange" ).val();
 
-    	if(orderCompany !== '' && orderListDateRange !== '') {
+    	if( orderCompany !== '' && orderListDateRange !== '' ) {
     		orderList.destroy();
     		orderDatatableFunc(orderCompany, orderListDateRange);
     	}

@@ -52,7 +52,7 @@
 
             <div class="orderResponseKeyMessage"></div>
 
-            <table id="" class="table table-bordered table-hover display" style="width:100%">
+            <table id="order_list" class="table table-bordered table-hover display" style="width:100%">
               <thead class="thead-light">
                 <tr>
                   <th>#</th>

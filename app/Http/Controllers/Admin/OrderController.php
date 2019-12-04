@@ -17,7 +17,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $companies = $this->company();
+        $companies = $this->fetchCompanyMatchingWithShop();
         return view('admin.order', ['companies' => $companies]);
     }
 
@@ -29,13 +29,24 @@ class OrderController extends Controller
      */
     public function datatable(Request $request)
     {
-        dd($request->all());
-        $params = $request->all();
+        /*$params = $request->all();
 
         $columns = array(
             1 => 'name',
             2 => 'active',
-        );
+        );*/
+
+        if( !empty($request->orderListDateRange) && !empty($request->orderCompany) ) {
+            $dateRange  = explode("-", $request->orderListDateRange);
+            $from       = $dateRange[0];
+            $to         = $dateRange[1];
+            
+            
+        }
+        else {
+            dd('fill data');
+        }
+        
     }
 
     /**

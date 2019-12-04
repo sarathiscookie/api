@@ -105,4 +105,15 @@ class Company extends Model
     {
         return $this->belongsTo(Country::class);
     }
+
+    /**
+    * Scope for shop status and company status.
+    *
+    * @param  string  $query
+    * @return string
+    */
+    public function scopeJoinActive($query)
+    {
+        return $query->where('companies.active', 'yes')->where('shops.active', 'yes');
+    }
 }
