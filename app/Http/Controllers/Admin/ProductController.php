@@ -7,13 +7,14 @@ use App\Http\Traits\CompanyTrait;
 use App\Http\Traits\ModuleTrait;
 use App\Http\Traits\ShopTrait;
 use App\Http\Traits\ShopnameTrait;
+use App\Http\Traits\CurlTrait;
 use App\Product;
 use App\Shop;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    use CompanyTrait, ShopnameTrait, ShopTrait, ModuleTrait;
+    use CompanyTrait, ShopnameTrait, ShopTrait, ModuleTrait, CurlTrait;
     /**
      * Display a listing of the resource.
      *
@@ -404,35 +405,6 @@ class ProductController extends Controller
 
         return $category_details_offset;
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  string  $url
-     * @return \Illuminate\Http\Response
-     */
-    public function curl($url) 
-    {
-        //create a new cURL resource
-        $ch = curl_init();
-
-        //TRUE to return the transfer as a string of the return value of curl_exec() instead of outputting it directly.
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        //set url and other appropriate options
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-
-        //grab url and pass it to the browser
-        $result = curl_exec($ch);
-        //close cURL resouces, and free up system resources
-        curl_close($ch);
-
-        $jsonDecodedResults = json_decode($result, true);
-
-        return $jsonDecodedResults;
-    }
-
     
     /**
      * Show the form for creating a new resource.
