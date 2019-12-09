@@ -3171,10 +3171,11 @@ $(function() {
 	/* Datatable script */
 	function orderDatatableFunc(orderCompany, orderListDateRange) {
 		orderList = $( "#order_list" ).DataTable({
-			lengthMenu: [10, 25, 50, 75, 100],
+			pageLength: 20,
 			order: [1, "desc"],
 			processing: true,
 			serverSide: true,
+			lengthChange: false,
 			ajax: {
 				url: "/admin/dashboard/order/list/datatables",
 				dataType: "json",
@@ -3193,8 +3194,8 @@ $(function() {
 			deferRender: true,
 			columns: [
 			{ data: "hash" },
-			{ data: "name" },
-			{ data: "active" },
+			{ data: "order" },
+			{ data: "status" },
 			{ data: "actions" }
 			],
 			columnDefs: [
@@ -3230,6 +3231,13 @@ $(function() {
 			}
 		});
 	}
+
+	/* <tfoot> search functionality */
+    $( ".search-input" ).on( "keyup change", function () {
+        let i = $(this).attr("id");  // getting column index
+        let v = $(this).val();  // getting search input value
+        orderList.columns(i).search(v).draw();
+    });
 
 	/* Date range script */
 	$( "#orderListDateRange" ).daterangepicker({
@@ -3280,7 +3288,6 @@ $(function() {
     	else {
             $('.alertMsg').html('<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> Leere Felder bitte ausfüllen</div>');
         }
-    	
     });
 
 });	

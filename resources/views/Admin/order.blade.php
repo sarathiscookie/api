@@ -70,8 +70,11 @@
                 <th>
                   <select class="form-control input-sm search-input" id="2">
                     <option value="">All</option>
-                    <option value="yes">Active</option>
-                    <option value="no">Not Active</option>
+                    <option value="pending">Pending</option>
+                    <option value="editable">Editable</option>
+                    <option value="shipped">Shipped</option>
+                    <option value="payout">Payout</option>
+                    <option value="cancelled">Cancelled</option>
                   </select>
                 </th>
                 <td></td>

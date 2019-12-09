@@ -40,6 +40,7 @@ class OrderController extends Controller
             $totalData     = 0;
             $totalFiltered = 0;
             $search        = '';
+            $status        = '';
 
             if( !empty($request->orderListDateRange) && !empty($request->orderCompany) ) {
 
@@ -50,12 +51,21 @@ class OrderController extends Controller
                     $search = "&search=".urlencode($request->input('search.value'))."&search_field=order_no";
                 }
 
+                // tfoot search functionality for order no & status
+                if( !empty($params['columns'][1]['search']['value']) ) {
+                    $search = "&search=".urlencode($params['columns'][1]['search']['value'])."&search_field=order_no";
+                }
+
+                if( !empty($params['columns'][2]['search']['value']) ) {
+                    $status = '&status='.$params['columns'][2]['search']['value'];
+                }
+
                 // Get api key from shops
                 // 1 = Rakuten: Other shops like Amazone and ebay send invoices automatically. For rakuten we need to send invoices. So invoice send module is only for rakuten.
                 $api_key    = $this->getApiKey(1, $request->orderCompany);
 
                 // Passing api and from to date in url and list orders.
-                $urlGetOrders = 'http://webservice.rakuten.de/merchants/orders/getOrders?key='.$api_key->api_key.'&format=json&page='.$request->pageActive.'&created_from='.$dateRange[0].'&created_to='.$dateRange[1].$search;
+                $urlGetOrders = 'http://webservice.rakuten.de/merchants/orders/getOrders?key='.$api_key->api_key.'&format=json&page='.$request->pageActive.'&created_from='.$dateRange[0].'&created_to='.$dateRange[1].$search.$status;
 
                 // Get order details
                 if( !empty($urlGetOrders) ) {
@@ -92,23 +102,21 @@ class OrderController extends Controller
      */
     public function getUrlOrders($urlGetOrders)
     {
-        $columns = [ 1 => 'name', 2 => 'active' ];
-
         // Fetching data from API
         $jsonDecodedResults = $this->curl($urlGetOrders);
 
         if( ($jsonDecodedResults['result']['success'] === '1') && ($jsonDecodedResults['result']['orders']['paging'][0]['total'] != '0') ) {
 
-            $totalData       = $jsonDecodedResults['result']['orders']['paging'][0]['total'];
-            $totalFiltered   = $totalData;
+            $totalData     = $jsonDecodedResults['result']['orders']['paging'][0]['total'];
+            $totalFiltered = $totalData;
 
             foreach($jsonDecodedResults['result']['orders']['order'] as $key => $orderList) {
 
-                $nestedData['hash']       = '<input class="checked" type="checkbox" name="id[]" value="'.$orderList['order_no'].'" />';
-                $nestedData['name']       = '<h6>'.$orderList['order_no'].'</h6><div>Invoice no: <span class="badge badge-info badge-pill">'.$orderList['invoice_no'].'</span></div><div>Created on: <span class="badge badge-info badge-pill">'.date("d.m.y H:i:s", strtotime($orderList['created'])).'</span></div>';
-                $nestedData['active']     = ucwords($orderList['status']);
-                $nestedData['actions']    = '<i class="fas fa-download"></i>';
-                $data[]                   = $nestedData;
+                $nestedData['hash']    = '<input class="checked" type="checkbox" name="id[]" value="'.$orderList['order_no'].'" />';
+                $nestedData['order']   = '<h6>'.$orderList['order_no'].'</h6><div>Invoice no: <span class="badge badge-info badge-pill">'.$orderList['invoice_no'].'</span></div><div>Created on: <span class="badge badge-info badge-pill">'.date("d.m.y H:i:s", strtotime($orderList['created'])).'</span></div>';
+                $nestedData['status']  = ucwords($orderList['status']);
+                $nestedData['actions'] = '<i class="fas fa-download"></i>';
+                $data[]                = $nestedData;
             }
 
             return compact('data', 'totalData', 'totalFiltered');
