@@ -113,8 +113,8 @@ class OrderController extends Controller
             foreach($jsonDecodedResults['result']['orders']['order'] as $key => $orderList) {
 
                 $nestedData['hash']    = '<input class="checked" type="checkbox" name="id[]" value="'.$orderList['order_no'].'" />';
-                $nestedData['order']   = '<h6>'.$orderList['order_no'].'</h6><div>Invoice no: <span class="badge badge-info badge-pill">'.$orderList['invoice_no'].'</span></div><div>Created on: <span class="badge badge-info badge-pill">'.date("d.m.y H:i:s", strtotime($orderList['created'])).'</span></div>';
-                $nestedData['status']  = ucwords($orderList['status']);
+                $nestedData['order']   = '<h6>'.$orderList['order_no'].'</h6><div>Invoice no: <span class="badge badge-secondary badge-pill">'.$orderList['invoice_no'].'</span></div><div>Created on: <span class="badge badge-secondary badge-pill">'.date("d.m.y H:i:s", strtotime($orderList['created'])).'</span></div>';
+                $nestedData['status']  = $this->orderStatus($orderList['status']);
                 $nestedData['actions'] = '<i class="fas fa-download"></i>';
                 $data[]                = $nestedData;
             }
@@ -122,6 +122,36 @@ class OrderController extends Controller
             return compact('data', 'totalData', 'totalFiltered');
         }
 
+    }
+
+    /**
+     * Creating order status labels.
+     *
+     * @param  string  $status
+     * @return \Illuminate\Http\Response
+     */
+    public function orderStatus($status) 
+    {
+        if( $status === 'pending' ) {
+            $orderStatus = '<span class="badge badge-warning">'.ucwords($status).'</span>';
+        }
+        elseif( $status === 'editable' ) {
+            $orderStatus = '<span class="badge badge-dark">'.ucwords($status).'</span>';
+        }
+        elseif( $status === 'shipped' ) {
+            $orderStatus = '<span class="badge badge-info">'.ucwords($status).'</span>';
+        }
+        elseif( $status === 'payout' ) {
+            $orderStatus = '<span class="badge badge-success">'.ucwords($status).'</span>';
+        }
+        elseif( $status === 'cancelled' ) {
+            $orderStatus = '<span class="badge badge-danger">'.ucwords($status).'</span>';
+        }
+        else {
+            $orderStatus = '<span class="badge badge-secondary">No Status</span>';
+        }
+
+        return $orderStatus;
     }
 
     /**
