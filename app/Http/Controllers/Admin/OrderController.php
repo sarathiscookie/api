@@ -105,7 +105,7 @@ class OrderController extends Controller
             foreach($jsonDecodedResults['result']['orders']['order'] as $key => $orderList) {
 
                 $nestedData['hash']       = '<input class="checked" type="checkbox" name="id[]" value="'.$orderList['order_no'].'" />';
-                $nestedData['name']       = '<h6>'.$orderList['order_no'].'</h6><div>Created on: <span class="badge badge-info badge-pill">'.date("d.m.y H:i:s", strtotime($orderList['created'])).'</span></div><div>Created on: <span class="badge badge-info badge-pill">'.$orderList['invoice_no'].'</span></div>';
+                $nestedData['name']       = '<h6>'.$orderList['order_no'].'</h6><div>Invoice no: <span class="badge badge-info badge-pill">'.$orderList['invoice_no'].'</span></div><div>Created on: <span class="badge badge-info badge-pill">'.date("d.m.y H:i:s", strtotime($orderList['created'])).'</span></div>';
                 $nestedData['active']     = ucwords($orderList['status']);
                 $nestedData['actions']    = '<i class="fas fa-download"></i>';
                 $data[]                   = $nestedData;
