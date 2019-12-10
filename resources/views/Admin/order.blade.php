@@ -36,7 +36,7 @@
             </div>
 
             <div class="form-group col-md-4">
-              <button type="submit" class="btn btn-primary" id="generateOrders"> Generate Orders</button>
+              <button type="button" class="btn btn-primary" id="generateOrders"> Fetching Orders</button>
             </div>
 
             <div class="alertMsg"></div>
@@ -70,11 +70,11 @@
                 <th>
                   <select class="form-control input-sm search-input" id="2">
                     <option value="">All</option>
-                    <option value="pending">Pending</option>
-                    <option value="editable">Editable</option>
-                    <option value="shipped">Shipped</option>
-                    <option value="payout">Payout</option>
-                    <option value="cancelled">Cancelled</option>
+                    @isset($orderStatuses)
+                    @foreach( $orderStatuses as $orderKey => $orderStatus )
+                    <option value="{{ $orderKey }}">{{ $orderStatus }}</option>
+                    @endforeach
+                    @endisset
                   </select>
                 </th>
                 <td></td>

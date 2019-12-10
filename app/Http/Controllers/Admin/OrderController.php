@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Traits\CompanyTrait;
 use App\Http\Traits\ShopTrait;
 use App\Http\Traits\CurlTrait;
+use App\Http\Traits\OrderStatusTrait;
 use App\Order;
 use App\Shop;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ use Carbon\Carbon;
 
 class OrderController extends Controller
 {
-    use CompanyTrait, ShopTrait, CurlTrait;
+    use CompanyTrait, ShopTrait, CurlTrait, OrderStatusTrait;
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +24,8 @@ class OrderController extends Controller
     public function index()
     {
         $companies = $this->fetchCompanyMatchingWithShop();
-        return view('admin.order', ['companies' => $companies]);
+        $orderStatuses = $this->orderStatuses();
+        return view('admin.order', ['companies' => $companies, 'orderStatuses' => $orderStatuses]);
     }
 
     /**
@@ -114,44 +116,14 @@ class OrderController extends Controller
 
                 $nestedData['hash']    = '<input class="checked" type="checkbox" name="id[]" value="'.$orderList['order_no'].'" />';
                 $nestedData['order']   = '<h6>'.$orderList['order_no'].'</h6><div>Invoice no: <span class="badge badge-secondary badge-pill">'.$orderList['invoice_no'].'</span></div><div>Created on: <span class="badge badge-secondary badge-pill">'.date("d.m.y H:i:s", strtotime($orderList['created'])).'</span></div>';
-                $nestedData['status']  = $this->orderStatus($orderList['status']);
-                $nestedData['actions'] = '<i class="fas fa-download"></i>';
+                $nestedData['status']  = $this->orderLabels($orderList['status']);
+                $nestedData['actions'] = '<a href=""><i class="fas fa-download"></i></a>';
                 $data[]                = $nestedData;
             }
 
             return compact('data', 'totalData', 'totalFiltered');
         }
 
-    }
-
-    /**
-     * Creating order status labels.
-     *
-     * @param  string  $status
-     * @return \Illuminate\Http\Response
-     */
-    public function orderStatus($status) 
-    {
-        if( $status === 'pending' ) {
-            $orderStatus = '<span class="badge badge-warning">'.ucwords($status).'</span>';
-        }
-        elseif( $status === 'editable' ) {
-            $orderStatus = '<span class="badge badge-dark">'.ucwords($status).'</span>';
-        }
-        elseif( $status === 'shipped' ) {
-            $orderStatus = '<span class="badge badge-info">'.ucwords($status).'</span>';
-        }
-        elseif( $status === 'payout' ) {
-            $orderStatus = '<span class="badge badge-success">'.ucwords($status).'</span>';
-        }
-        elseif( $status === 'cancelled' ) {
-            $orderStatus = '<span class="badge badge-danger">'.ucwords($status).'</span>';
-        }
-        else {
-            $orderStatus = '<span class="badge badge-secondary">No Status</span>';
-        }
-
-        return $orderStatus;
     }
 
     /**
