@@ -25,30 +25,43 @@ trait OrderStatusTrait {
      * Creating order status labels.
      *
      * @param  string  $status
+     * @param  string  $downloads
      * @return \Illuminate\Http\Response
      */
-    public function orderLabels($status) 
+    public function orderLabels($status, $downloads) 
     {
     	if( $status === 'pending' ) {
     		$orderStatus = '<span class="badge badge-warning">'.ucfirst($status).'</span>';
+            $orderDownload = '<span class="badge badge-secondary">No Link</span>';
     	}
     	elseif( $status === 'editable' ) {
     		$orderStatus = '<span class="badge badge-dark">'.ucfirst($status).'</span>';
+            $orderDownload = '<span class="badge badge-secondary">No Link</span>';
     	}
     	elseif( $status === 'shipped' ) {
     		$orderStatus = '<span class="badge badge-info">'.ucfirst($status).'</span>';
+            $orderDownload = '<a href=""><i class="fas fa-download"></i></a>';
     	}
     	elseif( $status === 'payout' ) {
     		$orderStatus = '<span class="badge badge-success">'.ucfirst($status).'</span>';
+            $orderDownload = '<span class="badge badge-secondary">No Link</span>';
     	}
     	elseif( $status === 'cancelled' ) {
     		$orderStatus = '<span class="badge badge-danger">'.ucfirst($status).'</span>';
+            $orderDownload = '<span class="badge badge-secondary">No Link</span>';
     	}
     	else {
     		$orderStatus = '<span class="badge badge-secondary">No Status</span>';
+            $orderDownload = '<span class="badge badge-secondary">No Link</span>';
     	}
+
+        if($downloads === 'downloads') {
+            return $orderDownload;
+        }
+        else {
+            return $orderStatus;
+        }
         
-        return $orderStatus;
     }
 }
 

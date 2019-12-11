@@ -116,8 +116,8 @@ class OrderController extends Controller
 
                 $nestedData['hash']    = '<input class="checked" type="checkbox" name="id[]" value="'.$orderList['order_no'].'" />';
                 $nestedData['order']   = '<h6>'.$orderList['order_no'].'</h6><div>Invoice no: <span class="badge badge-secondary badge-pill">'.$orderList['invoice_no'].'</span></div><div>Created on: <span class="badge badge-secondary badge-pill">'.date("d.m.y H:i:s", strtotime($orderList['created'])).'</span></div>';
-                $nestedData['status']  = $this->orderLabels($orderList['status']);
-                $nestedData['actions'] = '<a href=""><i class="fas fa-download"></i></a>';
+                $nestedData['status']  = $this->orderLabels($orderList['status'], null);
+                $nestedData['actions'] = $this->orderLabels($orderList['status'], 'downloads');
                 $data[]                = $nestedData;
             }
 
