@@ -26,9 +26,11 @@ trait OrderStatusTrait {
      *
      * @param  string  $status
      * @param  string  $downloads
+     * @param  string  $companyId
+     * @param  string  $orderNo
      * @return \Illuminate\Http\Response
      */
-    public function orderLabels($status, $downloads) 
+    public function orderLabels($status, $downloads, $companyId, $orderNo) 
     {
     	if( $status === 'pending' ) {
     		$orderStatus = '<span class="badge badge-warning">'.ucfirst($status).'</span>';
@@ -40,7 +42,7 @@ trait OrderStatusTrait {
     	}
     	elseif( $status === 'shipped' ) {
     		$orderStatus = '<span class="badge badge-info">'.ucfirst($status).'</span>';
-            $orderDownload = '<a href=""><i class="fas fa-download"></i></a>';
+            $orderDownload = '<button type="button" class="btn btn-outline-primary btn-sm download" data-companyid="'.$companyId.'" data-orderno="'.$orderNo.'"><i class="fas fa-download"></i></button>';
     	}
     	elseif( $status === 'payout' ) {
     		$orderStatus = '<span class="badge badge-success">'.ucfirst($status).'</span>';

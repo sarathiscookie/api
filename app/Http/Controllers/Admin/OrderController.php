@@ -12,6 +12,7 @@ use App\Shop;
 use Illuminate\Http\Request;
 use DateTime;
 use Carbon\Carbon;
+use Github;
 
 class OrderController extends Controller
 {
@@ -71,7 +72,7 @@ class OrderController extends Controller
 
                 // Get order details
                 if( !empty($urlGetOrders) ) {
-                    $orderDetails = $this->getUrlOrders($urlGetOrders);
+                    $orderDetails = $this->getUrlOrders($urlGetOrders, $request->orderCompany);
                 }
 
                 // Checking order details is empty or not
@@ -100,9 +101,10 @@ class OrderController extends Controller
      * Get shop order details.
      *
      * @param  string  $urlGetOrders
+     * @param  int  $companyId
      * @return \Illuminate\Http\Response
      */
-    public function getUrlOrders($urlGetOrders)
+    public function getUrlOrders($urlGetOrders, $companyId)
     {
         // Fetching data from API
         $jsonDecodedResults = $this->curl($urlGetOrders);
@@ -116,14 +118,65 @@ class OrderController extends Controller
 
                 $nestedData['hash']    = '<input class="checked" type="checkbox" name="id[]" value="'.$orderList['order_no'].'" />';
                 $nestedData['order']   = '<h6>'.$orderList['order_no'].'</h6><div>Invoice no: <span class="badge badge-secondary badge-pill">'.$orderList['invoice_no'].'</span></div><div>Created on: <span class="badge badge-secondary badge-pill">'.date("d.m.y H:i:s", strtotime($orderList['created'])).'</span></div>';
-                $nestedData['status']  = $this->orderLabels($orderList['status'], null);
-                $nestedData['actions'] = $this->orderLabels($orderList['status'], 'downloads');
+                $nestedData['status']  = $this->orderLabels($orderList['status'], null, null, null);
+                $nestedData['actions'] = $this->orderLabels($orderList['status'], 'downloads', $companyId, $orderList['order_no']);
                 $data[]                = $nestedData;
             }
 
             return compact('data', 'totalData', 'totalFiltered');
         }
 
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function download(Request $request)
+    {
+        /*try {
+
+        }
+        catch(\Exception $e) {
+            return response()->json(['orderListStatusMsg' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
+        }*/
+        // Get api key from shops
+        // 1 = Rakuten: Other shops like Amazone and ebay send invoices automatically. For rakuten we need to send invoices. So invoice send module is only for rakuten.
+        $api_key    = $this->getApiKey(1, $request->companyId);
+
+        // Passing api and from to date in url and list orders.
+        $getOrderInvoice = 'http://webservice.rakuten.de/merchants/orders/getOrderInvoice?key='.$api_key->api_key.'&format=json&order_no='.$request->orderNo;
+
+        // Get order invoice
+        if( !empty($getOrderInvoice) ) {
+            // Fetching data from API
+            $jsonDecodedResults = $this->curl($getOrderInvoice);
+        }
+
+        if( $jsonDecodedResults['result']['success'] === '1' ) {
+            $fileSource = $jsonDecodedResults['result']['invoice']['src'];
+            $fileName = $jsonDecodedResults['result']['invoice']['filename'];
+            $headers = ['Content-Type: application/pdf'];
+            //$tempFile = tempnam(sys_get_temp_dir(), $fileSource);
+            //dd($tempFile);
+            //copy('/', $tempFile);
+            //return response()->download($tempFile, $fileName, $headers);
+            //return response()->download($fileSource, $fileName, $headers);
+            //
+               
+            return response()->streamDownload(function () use ($fileSource, $fileName) {
+                echo $fileSource;
+            }, $fileName); // response is:docs/invoice?secure_key=abd013f85f805d3768ff2321605d3e39&key=d6872f58e1ac5c8af686562c6e882ba4
+
+
+            
+        }
+        else {
+            abort(404);
+        }
+        
     }
 
     /**
@@ -191,4 +244,5 @@ class OrderController extends Controller
     {
         //
     }
+
 }

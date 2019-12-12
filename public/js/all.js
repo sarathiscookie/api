@@ -3290,4 +3290,37 @@ $(function() {
         }
     });
 
+    /* Download each order invoice */
+    $('#order_list tbody').on( 'click', 'button.download', function(e){
+        e.preventDefault();
+
+        let orderNo = $(this).data('orderno');
+        let companyId = $(this).data('companyid');
+
+        $.ajax({
+			url: "/admin/dashboard/order/list/download",
+			dataType: "json",
+			type: "POST",
+			data: {
+				orderNo: orderNo,
+				companyId: companyId,
+			}
+		})
+		.done(function(result) {
+			orderList.ajax.reload(null, false); // Reload data on table
+			/*if (result.downloadStatus === "success") {
+				orderList.ajax.reload(null, false); // Reload data on table
+			}*/
+		})
+		.fail(function(data) {
+			/*if (data.responseJSON.downloadStatus === "failure") {
+				$(".orderResponseKeyMessage").html(
+					'<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="fas fa-times-circle"></i> ' +
+					data.responseJSON.message +
+					'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+					);
+			}*/
+		});
+    });
+
 });	
