@@ -153,7 +153,7 @@ Route::prefix('admin')->group(function(){
 		/* Listing order on datatable */
 		Route::post('/dashboard/order/list/datatables', 'Admin\OrderController@datatable')->name('admin.dashboard.order.list.datatable');
 		/* Download order invoice */
-		Route::post('/dashboard/order/list/download', 'Admin\OrderController@download')->name('admin.dashboard.order.list.download.companyId.orderNo');
+		Route::get('/dashboard/order/list/download/{companyId}/{orderNo}', 'Admin\OrderController@download')->name('admin.dashboard.order.list.download.companyId.orderNo');
 		
 	});
 });

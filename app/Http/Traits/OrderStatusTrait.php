@@ -42,7 +42,7 @@ trait OrderStatusTrait {
     	}
     	elseif( $status === 'shipped' ) {
     		$orderStatus = '<span class="badge badge-info">'.ucfirst($status).'</span>';
-            $orderDownload = '<button type="button" class="btn btn-outline-primary btn-sm download" data-companyid="'.$companyId.'" data-orderno="'.$orderNo.'"><i class="fas fa-download"></i></button>';
+            $orderDownload = '<a href="/admin/dashboard/order/list/download/'.$companyId.'/'.$orderNo.'"><i class="fas fa-download"></i></a>';
     	}
     	elseif( $status === 'payout' ) {
     		$orderStatus = '<span class="badge badge-success">'.ucfirst($status).'</span>';

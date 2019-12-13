@@ -4,15 +4,15 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\CompanyTrait;
-use App\Http\Traits\ShopTrait;
 use App\Http\Traits\CurlTrait;
 use App\Http\Traits\OrderStatusTrait;
+use App\Http\Traits\ShopTrait;
 use App\Order;
 use App\Shop;
-use Illuminate\Http\Request;
-use DateTime;
 use Carbon\Carbon;
-use Github;
+use DateTime;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
@@ -134,7 +134,7 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function download(Request $request)
+    public function download($companyId, $orderNo)
     {
         /*try {
 
@@ -144,10 +144,10 @@ class OrderController extends Controller
         }*/
         // Get api key from shops
         // 1 = Rakuten: Other shops like Amazone and ebay send invoices automatically. For rakuten we need to send invoices. So invoice send module is only for rakuten.
-        $api_key    = $this->getApiKey(1, $request->companyId);
+        $api_key    = $this->getApiKey(1, $companyId);
 
         // Passing api and from to date in url and list orders.
-        $getOrderInvoice = 'http://webservice.rakuten.de/merchants/orders/getOrderInvoice?key='.$api_key->api_key.'&format=json&order_no='.$request->orderNo;
+        $getOrderInvoice = 'http://webservice.rakuten.de/merchants/orders/getOrderInvoice?key='.$api_key->api_key.'&format=json&order_no='.$orderNo;
 
         // Get order invoice
         if( !empty($getOrderInvoice) ) {
@@ -156,28 +156,43 @@ class OrderController extends Controller
         }
 
         if( $jsonDecodedResults['result']['success'] === '1' ) {
-            $fileSource = $jsonDecodedResults['result']['invoice']['src'];
-            $fileName = $jsonDecodedResults['result']['invoice']['filename'];
+
+            // URL src from API response
+            // URL src doesn't have trasfer protocol. So added trasfer protocol in environment file manually.
+            $fileSource = env('API_URL_TRANSFER_PROTOCOL').$jsonDecodedResults['result']['invoice']['src'];
+            $fileName = $jsonDecodedResults['result']['invoice']['filename']; // Filename from API response
             $headers = ['Content-Type: application/pdf'];
-            //$tempFile = tempnam(sys_get_temp_dir(), $fileSource);
-            //dd($tempFile);
-            //copy('/', $tempFile);
-            //return response()->download($tempFile, $fileName, $headers);
-            //return response()->download($fileSource, $fileName, $headers);
-            //
-               
-            return response()->streamDownload(function () use ($fileSource, $fileName) {
-                echo $fileSource;
-            }, $fileName); // response is:docs/invoice?secure_key=abd013f85f805d3768ff2321605d3e39&key=d6872f58e1ac5c8af686562c6e882ba4
 
+            $file_get_contents = file_get_contents($fileSource);
 
+            // Path of directory and file
+            $pathToDirectory   = 'invoice/'.$companyId;
+            $pathToFile = $pathToDirectory.'/'.$fileName;
+
+            // If directory doesn't exists create a new one.
+            if( !Storage::exists($pathToDirectory) ) {
+                $createDirectory = Storage::makeDirectory($pathToDirectory, 0775);
+            }
             
+            // Checking data already exist or not
+            if( Storage::exists($pathToFile) ) {
+
+                Storage::delete($pathToFile); // Delete files from directory
+
+                file_put_contents( storage_path('app/'.$pathToFile), $file_get_contents ); // Store content in to a file
+            }
+            else {
+
+                file_put_contents( storage_path('app/'.$pathToFile), $file_get_contents ); // Store content in to a file
+            }
+
+            return Storage::download($pathToFile, $fileName, $headers);
         }
         else {
             abort(404);
         }
         
-    }
+    } 
 
     /**
      * Show the form for creating a new resource.
