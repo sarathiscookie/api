@@ -30,40 +30,28 @@ trait OrderStatusTrait {
      * @param  string  $orderNo
      * @return \Illuminate\Http\Response
      */
-    public function orderLabels($status, $downloads, $companyId, $orderNo) 
+    public function orderLabels($status) 
     {
     	if( $status === 'pending' ) {
     		$orderStatus = '<span class="badge badge-warning">'.ucfirst($status).'</span>';
-            $orderDownload = '<span class="badge badge-secondary">No Link</span>';
     	}
     	elseif( $status === 'editable' ) {
     		$orderStatus = '<span class="badge badge-dark">'.ucfirst($status).'</span>';
-            $orderDownload = '<span class="badge badge-secondary">No Link</span>';
     	}
     	elseif( $status === 'shipped' ) {
     		$orderStatus = '<span class="badge badge-info">'.ucfirst($status).'</span>';
-            $orderDownload = '<a href="/admin/dashboard/order/list/download/'.$companyId.'/'.$orderNo.'"><i class="fas fa-download"></i></a>';
     	}
     	elseif( $status === 'payout' ) {
     		$orderStatus = '<span class="badge badge-success">'.ucfirst($status).'</span>';
-            $orderDownload = '<span class="badge badge-secondary">No Link</span>';
     	}
     	elseif( $status === 'cancelled' ) {
     		$orderStatus = '<span class="badge badge-danger">'.ucfirst($status).'</span>';
-            $orderDownload = '<span class="badge badge-secondary">No Link</span>';
     	}
     	else {
     		$orderStatus = '<span class="badge badge-secondary">No Status</span>';
-            $orderDownload = '<span class="badge badge-secondary">No Link</span>';
     	}
 
-        if($downloads === 'downloads') {
-            return $orderDownload;
-        }
-        else {
-            return $orderStatus;
-        }
-        
+        return $orderStatus;
     }
 }
 

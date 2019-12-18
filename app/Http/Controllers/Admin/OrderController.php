@@ -116,10 +116,17 @@ class OrderController extends Controller
 
             foreach($jsonDecodedResults['result']['orders']['order'] as $key => $orderList) {
 
+                if( !empty($orderList['invoice_no']) ) {
+                    $downloadButton = '<a href="/admin/dashboard/order/list/download/'.$companyId.'/'.$orderList['order_no'].'"><i class="fas fa-download"></i></a>';
+                }
+                else {
+                    $downloadButton = '<span class="badge badge-secondary">No File</span>';
+                }
+
                 $nestedData['hash']    = '<input class="checked orderNoInput" type="checkbox" name="id[]" value="'.$orderList['order_no'].'" />';
                 $nestedData['order']   = '<h6>'.$orderList['order_no'].'</h6><div>Invoice no: <span class="badge badge-secondary badge-pill">'.$orderList['invoice_no'].'</span></div><div>Created on: <span class="badge badge-secondary badge-pill">'.date("d.m.y H:i:s", strtotime($orderList['created'])).'</span></div>';
-                $nestedData['status']  = $this->orderLabels($orderList['status'], null, null, null);
-                $nestedData['actions'] = $this->orderLabels($orderList['status'], 'downloads', $companyId, $orderList['order_no']);
+                $nestedData['status']  = $this->orderLabels($orderList['status']);
+                $nestedData['actions'] = $downloadButton;
                 $data[]                = $nestedData;
             }
 
@@ -217,7 +224,7 @@ class OrderController extends Controller
 
         // Passing api and from to date in url and list orders.
         foreach($request->orderNoArray as $orderNo) {
-            
+
             $getOrderInvoice = 'http://webservice.rakuten.de/merchants/orders/getOrderInvoice?key='.$api_key->api_key.'&format=json&order_no='.$orderNo;
 
             // Fetching data from API
