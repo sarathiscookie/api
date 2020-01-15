@@ -19,7 +19,7 @@ class CreateModuleSettingsTable extends Migration
             $table->unsignedBigInteger('product_id');
             
             // Email settings
-            $table->unsignedBigInteger('user_supplier_id'); // To get supplier name and email. Email send to supplier then cc to admin.
+            $table->unsignedBigInteger('user_supplier_id')->nullable(); // To get supplier name and email. Email send to supplier then cc to admin.
             $table->string('mail_bcc')->nullable(); // Write bcc details manually.
             $table->string('mail_bcc_name', 150)->nullable();
             $table->string('mail_subject', 200)->nullable();

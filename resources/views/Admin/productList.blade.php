@@ -92,7 +92,7 @@
                     <th>#</th>
                     <th>Product Name</th>
                     <th>Active</th>
-                    <th>Module Settings</th>
+                    <th>Module Manager</th>
                   </tr>
                 </thead>
 

@@ -15,7 +15,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('api_product_id')->unique(); // Product id from API
+            $table->bigInteger('api_product_id')->unique(); // Product id from API
             $table->unsignedBigInteger('shopname_id');
             $table->unsignedBigInteger('company_id');
             $table->string('product_art_no', 15)->nullable();

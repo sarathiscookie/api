@@ -2852,10 +2852,45 @@ $(function() {
 		});
 	});
 
-	// Storing module settings
+	// Add modules for products
 	$("#product_list tbody").on( "click", "button.saveModuleDetails", function(e){
 		e.preventDefault();
-		console.log('clicked');
+		
+		let product_id = $(this).data("addmoduleproductid"); 
+		let module_id = $( "#module_id_"+product_id ).val();
+		
+		$.ajax({
+			url: "/admin/dashboard/product/add/module",
+			dataType: "JSON",
+			type: "POST",
+			data: {
+				product_id: product_id,
+				module_id: module_id,
+			}
+		})
+		.done(function(result) {
+			if(result.moduleSettingStatus === 'success') {
+
+				$( ".addModuleSettingsStatus_"+product_id ).html('<div class="alert alert-success alert-dismissible fade show" role="alert">'+result.message+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+				
+				setTimeout(function(){
+					$("#moduleModal_"+product_id).modal('hide');
+					$('.modal-backdrop').remove();
+				}, 2000);
+
+				//TODO: A problem found here sometimes raw not refreshing modalnot opening. It happens in old project also.
+			}
+		})
+		.fail(function(data) {
+			$( ".addModuleSettingsStatus_"+product_id ).html(
+				'<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="fas fa-times-circle"></i> ' +
+					data.responseJSON.message +
+					'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+			);
+		});
+
+		productList.ajax.reload(null, false);
+
 	});
 
 });

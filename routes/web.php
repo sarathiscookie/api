@@ -135,6 +135,9 @@ Route::prefix('admin')->group(function(){
 		/* Store product */
 		Route::post('/dashboard/product/store', 'Admin\ProductController@store')->name('admin.dashboard.product.store');
 
+	    /* Add modules for products */
+		Route::post('/dashboard/product/add/module', 'Admin\ProductController@addModule')->name('admin.dashboard.product.add.module');
+
 		/* Show module listing page */
 		Route::get('/dashboard/module/list', 'Admin\ModuleController@index')->name('admin.dashboard.module.list');
 		/* Listing managers on datatable */
