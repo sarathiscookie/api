@@ -2432,7 +2432,7 @@ $(function() {
  * Created for: productList
  */
 
-$(function() {
+$(function () {
 	/* Checking for the CSRF token */
 	$.ajaxSetup({
 		headers: {
@@ -2446,7 +2446,7 @@ $(function() {
 	let selected;
 
 	// Setting href attribute when changing shop
-	$("#product_shop").on("change", function() {
+	$("#product_shop").on("change", function () {
 		shopId = $(this).val();
 		$(".getProducts").attr(
 			"href",
@@ -2455,7 +2455,7 @@ $(function() {
 	});
 
 	// Setting href attribute when select a company
-	$("#product_company").on("change", function() {
+	$("#product_company").on("change", function () {
 		companyId = $(this).val();
 		$(".getProducts").attr(
 			"href",
@@ -2464,7 +2464,7 @@ $(function() {
 	});
 
 	// Alert message if user forgot to fill the fields
-	$(".getProducts").on("click", function(e) {
+	$(".getProducts").on("click", function (e) {
 		if (
 			$("#product_shop").val() == "" ||
 			$("#product_company").val() == ""
@@ -2492,7 +2492,7 @@ $(function() {
 				data: {
 					productListShopID: $(".productListShopIdClass").val(),
 					productListCompanyId: $(".productListCompanyIdClass").val(),
-					pageActive: function() {
+					pageActive: function () {
 						let productListTableInfo = $("#product_list")
 							.DataTable()
 							.page.info();
@@ -2502,19 +2502,19 @@ $(function() {
 					visible: visible,
 					available: available
 				},
-				dataSrc: function(result) {
+				dataSrc: function (result) {
 					$(".shop_categories_options").remove();
 
 					if (result.categoryDetails.length > 0) {
 						if (result.categoryDetails.length > 1) {
 							$("#shopCategoriesSelect").append(
 								'<option class="shop_categories_options" value="allCategories">All Categories</option>'
-								);
+							);
 						}
 						for (let i = 0; i < result.categoryDetails.length; i++) {
 							if (productCategoryId == result.categoryDetails[i].shop_category_id) {
 								selected = 'selected="selected"';
-							} 
+							}
 							else {
 								selected = "";
 							}
@@ -2526,14 +2526,14 @@ $(function() {
 								'">' +
 								result.categoryDetails[i].name +
 								"</option>"
-								);
+							);
 						}
-					} 
+					}
 					else {
 						$(".noCategoriesFound").remove();
 						$("#shopCategoriesSelect").append(
 							'<option class="shop_categories_options" value="0">Categories are not available for this shop</option>'
-							);
+						);
 					}
 
 					return result.data;
@@ -2583,7 +2583,7 @@ $(function() {
 	// Datatable search min 3 char length needed
 	$("input[type=search]")
 		.unbind() // Unbind previous default bindings
-		.bind("input", function(e) {
+		.bind("input", function (e) {
 			// Bind our desired behavior
 			// If the length is 3 or more characters, or the user pressed ENTER, search
 			if (this.value.length >= 3 || e.keyCode == 13) {
@@ -2596,11 +2596,11 @@ $(function() {
 			return;
 		});
 
-    //Function for shop category id
-	function shopCategoriesFun(filterShopCategoryId)	{
+	//Function for shop category id
+	function shopCategoriesFun(filterShopCategoryId) {
 
 		let shopCategoryIdFilter;
-		if( (filterShopCategoryId !== null) || (filterShopCategoryId !== '') ) {
+		if ((filterShopCategoryId !== null) || (filterShopCategoryId !== '')) {
 			shopCategoryIdFilter = filterShopCategoryId;
 		}
 		else {
@@ -2608,14 +2608,14 @@ $(function() {
 		}
 
 		return shopCategoryIdFilter;
-	}		
+	}
 
 	//Filter for category
-	$("#shopCategoriesSelect").change(function() {
+	$("#shopCategoriesSelect").change(function () {
 
 		let categoryId = $("#shopCategoriesSelect").val();
 
-		if ( (categoryId !== null) || (categoryId !== '') ) {
+		if ((categoryId !== null) || (categoryId !== '')) {
 
 			//Passing available class name to function
 			let availableStatus = statusFunc(
@@ -2638,7 +2638,7 @@ $(function() {
 	});
 
 	//Filter for visible
-	$(".visibleActive").on("click", function(e) {
+	$(".visibleActive").on("click", function (e) {
 		e.preventDefault();
 		if ($(this).hasClass("btn-secondary")) {
 			$(this)
@@ -2660,13 +2660,13 @@ $(function() {
 
 			//Filter to visible active
 			let visibleActiveCategoryId = shopCategoriesFun($("#shopCategoriesSelect").val());
-			
+
 			productList.destroy();
 			dataTableFn(visibleActiveCategoryId, 1, availableActiveStatus);
 		}
 	});
 
-	$(".visibleDisable").on("click", function(e) {
+	$(".visibleDisable").on("click", function (e) {
 		e.preventDefault();
 		if ($(this).hasClass("btn-secondary")) {
 			$(this)
@@ -2694,7 +2694,7 @@ $(function() {
 		}
 	});
 
-	$(".visibleAll").on("click", function(e) {
+	$(".visibleAll").on("click", function (e) {
 		e.preventDefault();
 		if ($(this).hasClass("btn-secondary")) {
 			$(this)
@@ -2723,7 +2723,7 @@ $(function() {
 	});
 
 	//Filter for available
-	$(".availableActive").on("click", function(e) {
+	$(".availableActive").on("click", function (e) {
 		e.preventDefault();
 		if ($(this).hasClass("btn-secondary")) {
 			$(this)
@@ -2751,7 +2751,7 @@ $(function() {
 		}
 	});
 
-	$(".availableDisable").on("click", function(e) {
+	$(".availableDisable").on("click", function (e) {
 		e.preventDefault();
 		if ($(this).hasClass("btn-secondary")) {
 			$(this)
@@ -2779,7 +2779,7 @@ $(function() {
 		}
 	});
 
-	$(".availableAll").on("click", function(e) {
+	$(".availableAll").on("click", function (e) {
 		e.preventDefault();
 		if ($(this).hasClass("btn-secondary")) {
 			$(this)
@@ -2822,12 +2822,12 @@ $(function() {
 		return status;
 	}
 
-    // If clicks on settings button then store api_product_id, shop name_id, company_id and module_status in to the products table.
-	$("#product_list tbody").on( "click", "a.moduleAtag", function(e){
+	// If clicks on settings button then store api_product_id, shop name_id, company_id and module_status in to the products table.
+	$("#product_list tbody").on("click", "a.moduleAtag", function (e) {
 		e.preventDefault();
 
-		let productApiId         = $(this).data("productid");
-		let productListShopId    = $(".productListShopIdClass").val();
+		let productApiId = $(this).data("productid");
+		let productListShopId = $(".productListShopIdClass").val();
 		let productListCompanyId = $(".productListCompanyIdClass").val();
 
 		$.ajax({
@@ -2840,25 +2840,25 @@ $(function() {
 				productListCompanyId: productListCompanyId
 			}
 		})
-		.done(function(data) {
-			if(data.productStatus === 'success') {
-				$("#moduleModal_"+productApiId).modal('show');
-			}
-		})
-		.fail(function(data) {
-			if(data.responseJSON.productStatus === 'failure') {
-				$("#moduleModal_"+productApiId).modal('hide');
-			}
-		});
+			.done(function (data) {
+				if (data.productStatus === 'success') {
+					$("#moduleModal_" + productApiId).modal('show');
+				}
+			})
+			.fail(function (data) {
+				if (data.responseJSON.productStatus === 'failure') {
+					$("#moduleModal_" + productApiId).modal('hide');
+				}
+			});
 	});
 
 	// Add modules for products
-	$("#product_list tbody").on( "click", "button.saveModuleDetails", function(e){
+	$("#product_list tbody").on("click", "button.saveModuleDetails", function (e) {
 		e.preventDefault();
-		
-		let product_id = $(this).data("addmoduleproductid"); 
-		let module_id = $( "#module_id_"+product_id ).val();
-		
+
+		let product_id = $(this).data("addmoduleproductid");
+		let module_id = $("#module_id_" + product_id).val();
+
 		$.ajax({
 			url: "/admin/dashboard/product/add/module",
 			dataType: "JSON",
@@ -2868,27 +2868,52 @@ $(function() {
 				module_id: module_id,
 			}
 		})
-		.done(function(result) {
-			if(result.moduleSettingStatus === 'success') {
+			.done(function (result) {
+				if (result.moduleSettingStatus === 'success') {
 
-				$( ".addModuleSettingsStatus_"+product_id ).html('<div class="alert alert-success alert-dismissible fade show" role="alert">'+result.message+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-				
-				setTimeout(function(){
-					$("#moduleModal_"+product_id).modal('hide');
-					$('.modal-backdrop').remove();
-				}, 2000);
-			}
-		})
-		.fail(function(data) {
-			$( ".addModuleSettingsStatus_"+product_id ).html(
-				'<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="fas fa-times-circle"></i> ' +
+					$(".addModuleSettingsStatus_" + product_id).html('<div class="alert alert-success alert-dismissible fade show" role="alert">' + result.message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+
+					setTimeout(function () {
+						$("#moduleModal_" + product_id).modal('hide');
+						$('.modal-backdrop').remove();
+					}, 2000);
+				}
+			})
+			.fail(function (data) {
+				$(".addModuleSettingsStatus_" + product_id).html(
+					'<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="fas fa-times-circle"></i> ' +
 					data.responseJSON.message +
 					'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
-			);
-		});
+				);
+			});
 
 		productList.ajax.reload(null, false);
 
+	});
+
+	// Delete modules from products
+	$("#product_list tbody").on("click", "i.module_settings", function (e) {
+		e.preventDefault();
+
+		let modulesettingsid = $(this).data('modulesettingsid');
+
+		let con = confirm("Are you sure you want to remove this module?");
+
+		if (con === true) {
+			$.ajax({
+				url: "/admin/dashboard/product/delete/module/"+modulesettingsid,
+				dataType: "JSON",
+				type: "DELETE"
+			})
+				.done(function (result) {
+					if(result.deletedModuleSettingStatus === 'success') {
+						productList.ajax.reload(null, false);
+					}
+				})
+				.fail(function (data) {
+					//
+				});
+		}
 	});
 
 });

@@ -289,7 +289,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function addModule(Request $request)
+    public function addProductModule(Request $request)
     {
         try {
             // Checking product already existing in product table.
@@ -315,6 +315,24 @@ class ProductController extends Controller
         } 
         catch (\Exception $e) {
             return response()->json(['moduleSettingStatus' => 'failure', 'message' => 'Whoops! Something went wrong.'], 404);
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteProductModule($id)
+    {
+        try {
+            ModuleSetting::destroy($id);
+
+            return response()->json(['deletedModuleSettingStatus' => 'success', 'message' => 'Module deleted successfully'], 201);
+        }
+        catch(\Exception $e) {
+            return response()->json(['deletedModuleSettingStatus' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
         }
     }
 

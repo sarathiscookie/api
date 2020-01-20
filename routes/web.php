@@ -134,9 +134,10 @@ Route::prefix('admin')->group(function(){
 		Route::post('/dashboard/product/list/datatables', 'Admin\ProductController@datatable')->name('admin.dashboard.product.list.datatable');
 		/* Store product */
 		Route::post('/dashboard/product/store', 'Admin\ProductController@store')->name('admin.dashboard.product.store');
-
-	    /* Add modules for products */
-		Route::post('/dashboard/product/add/module', 'Admin\ProductController@addModule')->name('admin.dashboard.product.add.module');
+	    /* Add product module */
+		Route::post('/dashboard/product/add/module', 'Admin\ProductController@addProductModule')->name('admin.dashboard.product.add.module');
+		/* Delete product module */
+		Route::delete('/dashboard/product/delete/module/{id}', 'Admin\ProductController@deleteProductModule')->name('admin.dashboard.product.delete.module');
 
 		/* Show module listing page */
 		Route::get('/dashboard/module/list', 'Admin\ModuleController@index')->name('admin.dashboard.module.list');
