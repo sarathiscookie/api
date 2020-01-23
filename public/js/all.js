@@ -2900,6 +2900,8 @@ $(function () {
 		let con = confirm("Are you sure you want to remove this module?");
 
 		if (con === true) {
+			$( ".module_settings_spinner_" + modulesettingsid ).html('<div class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div>&nbsp');
+
 			$.ajax({
 				url: "/admin/dashboard/product/delete/module/"+modulesettingsid,
 				dataType: "JSON",
@@ -2907,11 +2909,17 @@ $(function () {
 			})
 				.done(function (result) {
 					if(result.deletedModuleSettingStatus === 'success') {
+						setTimeout( function() {
+							$( ".module_settings_spinner_" + modulesettingsid ).fadeOut(300);
+						}, 1800);
+
 						productList.ajax.reload(null, false);
 					}
 				})
 				.fail(function (data) {
-					//
+					$( ".module_settings_spinner_" + modulesettingsid ).html(
+						'<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="fas fa-times-circle"></i> ' +data.responseJSON.message +'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+					);
 				});
 		}
 	});

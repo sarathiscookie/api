@@ -27,7 +27,7 @@ trait ModuleSettingTrait
     
             if($moduleSettings->count() > 0) { // Checking count
                 foreach($moduleSettings as $moduleSetting) {
-                    $moduleName .= '<span class="badge badge-info badge-pill">' . ucwords($moduleSetting->moduleName) . '&nbsp<i class="fas fa-trash-alt module_settings" data-modulesettingsid='.$moduleSetting->moduleSettingsId.' style="color:#9e004f; cursor:pointer;"></i></span></<span>&nbsp';
+                    $moduleName .= '<span class="badge badge-info badge-pill">' . ucwords($moduleSetting->moduleName) . '&nbsp<i class="fas fa-trash-alt module_settings" data-modulesettingsid='.$moduleSetting->moduleSettingsId.' style="color:#9e004f; cursor:pointer;"></i></span></<span>&nbsp<span class="module_settings_spinner_'.$moduleSetting->moduleSettingsId.'"></span>';
                 }
             }
             else {
