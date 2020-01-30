@@ -206,10 +206,11 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function downloadAllInvoices($orderArr, $companyId)
+    public function downloadAllInvoices(Request $request)
     {
         try {
-            $orderNoArray = explode(',', $orderArr);
+            $orderNoArray = explode(',', $request->inputOrderNoArr);
+            $companyId = $request->inputOrderCompanyId;
 
             // Get api key from shops
             // 1 = Rakuten: Other shops like Amazone and ebay send invoices automatically. For rakuten we need to send invoices. So invoice send module is only for rakuten.

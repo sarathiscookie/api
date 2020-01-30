@@ -45,7 +45,14 @@
           <hr>
 
           <div class="text-right downloadAllInvoiceDiv">
-            <a href="" class="btn btn-primary" id="downloadAllInvoice"><i class="fas fa-download"></i> Download All Invoices</a>
+            <form action="/admin/dashboard/order/list/download/all/invoices" method="POST">
+              @csrf
+              <button class="btn btn-primary" id="downloadAllInvoice">
+                <i class="fas fa-download"></i> Download All Invoices
+              </button>
+              <input type="hidden" name="inputOrderCompanyId" id="inputOrderCompanyId" value=""/>
+              <input type="hidden" name="inputOrderNoArr" id="inputOrderNoArr" value=""/>
+            </form>
             <hr>
           </div>
 
