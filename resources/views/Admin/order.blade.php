@@ -47,11 +47,15 @@
           <div class="text-right downloadAllInvoiceDiv">
             <form action="/admin/dashboard/order/list/download/all/invoices" method="POST">
               @csrf
-              <button class="btn btn-primary" id="downloadAllInvoice">
-                <i class="fas fa-download"></i> Download All Invoices
-              </button>
+              <input type="checkbox" class="form-check-input allFilesCheckedInput" name="allFilesChecked" id="allFilesChecked">
+              <label class="form-check-label allFilesCheckedLabel" for="allFilesChecked">Click here to select all files to download</label>
+              <button class="btn btn-primary"><i class="fas fa-download"></i> Download Invoices</button>
               <input type="hidden" name="inputOrderCompanyId" id="inputOrderCompanyId" value=""/>
               <input type="hidden" name="inputOrderNoArr" id="inputOrderNoArr" value=""/>
+              <input type="hidden" name="inputOrderDateRange" id="inputOrderDateRange" value=""/>
+              <input type="hidden" name="orderListPages" id="orderListPages" value=""/>
+              <input type="hidden" name="orderListPerPage" id="orderListPerPage" value=""/>
+              <input type="hidden" name="orderListTotal" id="orderListTotal" value=""/>
             </form>
             <hr>
           </div>

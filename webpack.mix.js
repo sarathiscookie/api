@@ -42,7 +42,8 @@ mix.styles(
 mix.styles(
 	[ 
 	  "resources/css/pages/dashboard.css", 
-	  "resources/css/pages/adminManagerList.css"
+	  "resources/css/pages/adminManagerList.css",
+	  "resources/css/pages/adminOrderList.css",
 	],
 	"public/css/all.css"
 ).version();

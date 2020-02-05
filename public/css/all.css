@@ -176,3 +176,14 @@ input:checked + .slider:before {
 .slider.round:before {
 	border-radius: 50%;
 }
+
+/* adminOrderList.css */
+/* Check box label & input*/
+
+.allFilesCheckedInput {
+    margin-top: 14px;
+}
+
+.allFilesCheckedLabel {
+    margin-top: 10px;
+}
