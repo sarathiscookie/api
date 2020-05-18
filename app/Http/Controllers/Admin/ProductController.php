@@ -169,10 +169,13 @@ class ProductController extends Controller
                 $moduleName[$key] = '';
                 $moduleSettings = $this->moduleName($productList['product_id']);
 
+                // Fetching supplier details which is related to particular product and company.
+                $supplierDetails = $this->getSupplierDetails($productList['product_id']);
+
                 if($moduleSettings->count() > 0) {
 
                     foreach($moduleSettings as $moduleSetting) {
-                        $productModuleSettingsModal = view('admin.productModuleSettingsModal', ['moduleSettingsId' => $moduleSetting->moduleSettingsId]);
+                        $productModuleSettingsModal = view('admin.productModuleSettingsModal', ['moduleSettingsId' => $moduleSetting->moduleSettingsId, 'suppliers' => $supplierDetails]);
                         $productModuleSettingsViewModal = view('admin.productModuleSettingsViewModal', ['moduleSettingsId' => $moduleSetting->moduleSettingsId]);
 
                         $moduleName[$key] .= '

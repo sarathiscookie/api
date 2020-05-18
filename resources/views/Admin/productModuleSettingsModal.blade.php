@@ -20,12 +20,16 @@
                             <div class="card-body">
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="to_name">To Name (Supplier Name) <span class="required">*</span></label>
-                                        <input type="text" name="to_name" class="form-control" id="to_name" readonly>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="to_email">To Email (Supplier Email) <span class="required">*</span></label>
-                                        <input type="email" name="to_email" class="form-control" id="to_email" readonly>
+                                        <label for="supplier">Supplier Name <span class="required">*</span></label>
+                                        <select class="form-control" id="supplier" name="supplier">
+                                            @isset($suppliers)
+                                                @forelse($suppliers as $supplier)
+                                                    <option value="{{ $supplier->supplierId }}">{{ ucwords($supplier->supplierName) }} ( {{$supplier->supplierEmail}} )</option>
+                                                @empty
+                                                    <option>No suppliers</option>
+                                                @endforelse
+                                            @endisset
+                                        </select>
                                     </div>
                                 </div>
 
