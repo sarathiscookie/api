@@ -21,8 +21,9 @@
                 </form>
 
             </div>
-            <div class="modal-footer"><button type="button" class="btn btn-primary saveModuleDetails"
-                    data-addmoduleproductid="{{ $productApiId }}">Add Module</button></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary saveModuleDetails" data-addmoduleproductid="{{ $productApiId }}">Add Module</button>
+            </div>
         </div>
     </div>
 </div>

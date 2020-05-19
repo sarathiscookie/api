@@ -37,7 +37,7 @@ class ModuleSettingsController extends Controller
      */
     public function store(ModuleSettingsRequest $request)
     {
-        //dd($request->all());
+        dd($request->all());
     }
 
     /**
