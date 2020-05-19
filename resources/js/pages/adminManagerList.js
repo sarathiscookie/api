@@ -70,40 +70,6 @@ $(function() {
 		}
 	});
 
-	/* Bottom buttons for datatables */
-	let buttons;
-
-	try {
-		buttons = new $.fn.dataTable.Buttons(datatableList, {
-			buttons: [
-				{
-					extend: "csv",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				},
-				{
-					extend: "excel",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				},
-				{
-					extend: "pdf",
-					orientation: "portrait",
-					pageSize: "LEGAL",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				}
-			]
-		})
-			.container()
-			.appendTo($("#buttons"));
-	} catch (error) {
-		buttons = null;
-	}
-
 	/* Delete manager functionality */
 	$("#manager_list tbody").on("click", "a.deleteEvent", function(e) {
 		e.preventDefault();

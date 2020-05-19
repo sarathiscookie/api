@@ -24,7 +24,8 @@ $(function() {
 	}
 
 	$( "#shop_name" ).change(function() {
-		if( ($("option:selected", this).text() === shopGlobalVariabeFn().shop_name_amazone) || ($("option:selected", this).text() === shopGlobalVariabeFn().shop_name_ebay) ) {
+		if( ($("option:selected", this).text() === shopGlobalVariabeFn().shop_name_amazone) || 
+		($("option:selected", this).text() === shopGlobalVariabeFn().shop_name_ebay) ) {
 			$( ".shop_token_div" ).show();
 		}
 		else {
@@ -82,40 +83,6 @@ $(function() {
 			}
 		}
 	});
-
-	/* Bottom buttons for datatables */
-	let shopButtons;
-
-	try {
-		shopButtons = new $.fn.dataTable.Buttons(shopList, {
-			buttons: [
-				{
-					extend: "csv",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				},
-				{
-					extend: "excel",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				},
-				{
-					extend: "pdf",
-					orientation: "portrait",
-					pageSize: "LEGAL",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				}
-			]
-		})
-			.container()
-			.appendTo($("#shopButtons"));
-	} catch (error) {
-		shopButtons = null;
-	}
 
 	/* <tfoot> search functionality */
 	$(".search-input").on("keyup change", function() {

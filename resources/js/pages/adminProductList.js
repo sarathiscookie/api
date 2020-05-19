@@ -496,4 +496,10 @@ $(function () {
 		}
 	});
 
+	// Save module settings
+	$("#product_list tbody").on("click", "button.saveModuleSettings", function(e) {
+		e.preventDefault();
+		console.log($(this).data('modulesettingsid'));
+	});
+
 });

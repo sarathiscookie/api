@@ -63,40 +63,6 @@ $(function() {
 		}
 	});
 
-	/* Bottom buttons for datatables */
-	let buttons;
-
-	try {
-		buttons = new $.fn.dataTable.Buttons(userList, {
-			buttons: [
-				{
-					extend: "csv",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				},
-				{
-					extend: "excel",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				},
-				{
-					extend: "pdf",
-					orientation: "portrait",
-					pageSize: "LEGAL",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				}
-			]
-		})
-			.container()
-			.appendTo($("#buttons"));
-	} catch (error) {
-		buttons = null;
-	}
-
 	/* <tfoot> search functionality */
 	$(".search-input").on("keyup change", function() {
 		var i = $(this).attr("id"); // getting column index

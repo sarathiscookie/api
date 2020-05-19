@@ -123,40 +123,6 @@ $(function() {
 		}
 	});
 
-	/* Bottom buttons for datatables */
-	let buttons;
-
-	try {
-		buttons = new $.fn.dataTable.Buttons(datatableList, {
-			buttons: [
-				{
-					extend: "csv",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				},
-				{
-					extend: "excel",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				},
-				{
-					extend: "pdf",
-					orientation: "portrait",
-					pageSize: "LEGAL",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				}
-			]
-		})
-			.container()
-			.appendTo($("#buttons"));
-	} catch (error) {
-		buttons = null;
-	}
-
 	/* Delete manager functionality */
 	$("#manager_list tbody").on("click", "a.deleteEvent", function(e) {
 		e.preventDefault();
@@ -482,40 +448,6 @@ $(function() {
 		}
 	});
 
-	/* Bottom buttons for datatables */
-	let companyButtons;
-
-	try {
-		companyButtons = new $.fn.dataTable.Buttons(companyList, {
-			buttons: [
-				{
-					extend: "csv",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				},
-				{
-					extend: "excel",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				},
-				{
-					extend: "pdf",
-					orientation: "portrait",
-					pageSize: "LEGAL",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				}
-			]
-		})
-			.container()
-			.appendTo($("#companyButtons"));
-	} catch (error) {
-		companyButtons = null;
-	}
-
 	/* <tfoot> search functionality */
 	$(".search-input").on("keyup change", function() {
 		var i = $(this).attr("id"); // getting column index
@@ -781,7 +713,8 @@ $(function() {
 	}
 
 	$( "#shop_name" ).change(function() {
-		if( ($("option:selected", this).text() === shopGlobalVariabeFn().shop_name_amazone) || ($("option:selected", this).text() === shopGlobalVariabeFn().shop_name_ebay) ) {
+		if( ($("option:selected", this).text() === shopGlobalVariabeFn().shop_name_amazone) || 
+		($("option:selected", this).text() === shopGlobalVariabeFn().shop_name_ebay) ) {
 			$( ".shop_token_div" ).show();
 		}
 		else {
@@ -839,40 +772,6 @@ $(function() {
 			}
 		}
 	});
-
-	/* Bottom buttons for datatables */
-	let shopButtons;
-
-	try {
-		shopButtons = new $.fn.dataTable.Buttons(shopList, {
-			buttons: [
-				{
-					extend: "csv",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				},
-				{
-					extend: "excel",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				},
-				{
-					extend: "pdf",
-					orientation: "portrait",
-					pageSize: "LEGAL",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				}
-			]
-		})
-			.container()
-			.appendTo($("#shopButtons"));
-	} catch (error) {
-		shopButtons = null;
-	}
 
 	/* <tfoot> search functionality */
 	$(".search-input").on("keyup change", function() {
@@ -1233,40 +1132,6 @@ $(function() {
 			}
 		}
 	});
-
-	/* Bottom buttons for datatables */
-	let buttons;
-
-	try {
-		buttons = new $.fn.dataTable.Buttons(userList, {
-			buttons: [
-				{
-					extend: "csv",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				},
-				{
-					extend: "excel",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				},
-				{
-					extend: "pdf",
-					orientation: "portrait",
-					pageSize: "LEGAL",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				}
-			]
-		})
-			.container()
-			.appendTo($("#buttons"));
-	} catch (error) {
-		buttons = null;
-	}
 
 	/* <tfoot> search functionality */
 	$(".search-input").on("keyup change", function() {
@@ -2922,6 +2787,12 @@ $(function () {
 					);
 				});
 		}
+	});
+
+	// Save module settings
+	$("#product_list tbody").on("click", "button.saveModuleSettings", function(e) {
+		e.preventDefault();
+		console.log($(this).data('modulesettingsid'));
 	});
 
 });

@@ -54,9 +54,6 @@
 
             </table>
 
-            <!-- Export buttons are append here -->
-            <div id="shopButtons"></div>
-
           </div>
         </div>
       </div>

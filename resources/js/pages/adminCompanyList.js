@@ -65,40 +65,6 @@ $(function() {
 		}
 	});
 
-	/* Bottom buttons for datatables */
-	let companyButtons;
-
-	try {
-		companyButtons = new $.fn.dataTable.Buttons(companyList, {
-			buttons: [
-				{
-					extend: "csv",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				},
-				{
-					extend: "excel",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				},
-				{
-					extend: "pdf",
-					orientation: "portrait",
-					pageSize: "LEGAL",
-					exportOptions: {
-						columns: [1, 2]
-					}
-				}
-			]
-		})
-			.container()
-			.appendTo($("#companyButtons"));
-	} catch (error) {
-		companyButtons = null;
-	}
-
 	/* <tfoot> search functionality */
 	$(".search-input").on("keyup change", function() {
 		var i = $(this).attr("id"); // getting column index
