@@ -2853,11 +2853,6 @@ $(function () {
 					$(".productModuleSettingsStatus_"+module_settings_id).html(
 						'<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="fas fa-times-circle"></i> Whoops! Something went wrong. <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
 						);
-
-					setTimeout(function () {
-						$("#moduleSettingsModal_" + module_settings_id).modal('hide');
-						$('.modal-backdrop').remove();
-					}, 2000);	
 				}
 
 				if (data.status === 422) {
