@@ -232,7 +232,7 @@ class ProductController extends Controller
 
         $productModuleAddModal = view('admin.productModuleAddModal', ['productApiId' => $productApiId, 'moduleOptions' => $moduleOptions]);
 
-        $html = '<a href="" style="color:black;" class="btn btn-secondary btn-sm moduleSettings_' . $productApiId . ' moduleAtag" data-productid="' . $productApiId . '" data-target="#moduleModal_' . $productApiId . '" title="Add Module"><i class="fas fa-plus"></i></a>'.$productModuleAddModal;
+        $html = '<a href="" style="color:black;" class="btn btn-secondary btn-sm moduleAddClear moduleSettings_' . $productApiId . ' moduleAtag" data-productid="' . $productApiId . '" data-target="#moduleModal_' . $productApiId . '" title="Add Module"><i class="fas fa-plus"></i></a>'.$productModuleAddModal;
 
         return $html;
     }

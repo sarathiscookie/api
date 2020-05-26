@@ -2742,6 +2742,8 @@ $(function () {
 						$("#moduleModal_" + product_id).modal('hide');
 						$('.modal-backdrop').remove();
 					}, 2000);
+
+					productList.ajax.reload(null, false);
 				}
 			})
 			.fail(function (data) {
@@ -2750,15 +2752,7 @@ $(function () {
 					data.responseJSON.message +
 					'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
 				);
-
-				setTimeout(function () {
-					$("#moduleModal_" + product_id).modal('hide');
-					$('.modal-backdrop').remove();
-				}, 2000);
 			});
-
-		productList.ajax.reload(null, false);
-
 	});
 
 	// Delete modules from products
@@ -2850,6 +2844,8 @@ $(function () {
 						$('.modal-backdrop').remove();
 					}, 2000);
 
+					productList.ajax.reload(null, false);
+
 				}
             })
             .fail(function(data) {
@@ -2872,12 +2868,10 @@ $(function () {
 					});
 				}
 			});
-
-		productList.ajax.reload(null, false);
 	});
 
-	/* Clearing data of module settings modal fields */
-	$("#product_list tbody").on("click", "i.module_settings_update", function (e) {
+	/* Clearing modal data of module settings and add module */
+	$("#product_list tbody").on("click", "i.module_settings_update, a.moduleAddClear", function (e) {
 		// On model close, it will hide alert messages. Reason is, it shows default when model opens.
 		$( "p .alert, .alert-danger" ).hide();
 		$(this)
