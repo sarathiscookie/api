@@ -2804,13 +2804,13 @@ $(function () {
 		let bcc_email = $( "#bcc_email_"+module_settings_id ).val();
 		let email_subject = $( "#email_subject_"+module_settings_id ).val();
 		let email_body = $( "#email_body_"+module_settings_id ).val();
-		let activate_delivery_note_shipping = $( "#activate_delivery_note_shipping_"+module_settings_id ).val();
-		let activate_customer_data_sending = $( "#activate_customer_data_sending_"+module_settings_id ).val();
-		let enable_delivery_address_data_shipping = $( "#enable_delivery_address_data_shipping_"+module_settings_id ).val();
+		let activate_delivery_note_shipping = ( $( "#activate_delivery_note_shipping_"+module_settings_id ).prop('checked') === true ) ? 1 : 0;
+		let activate_customer_data_sending = ( $( "#activate_customer_data_sending_"+module_settings_id ).prop('checked') === true ) ? 1 : 0;
+		let enable_delivery_address_data_shipping = ( $( "#enable_delivery_address_data_shipping_"+module_settings_id ).prop('checked') === true ) ? 1 : 0;
 		let max_error = $( "#max_error_"+module_settings_id ).val();
 		let delivery_status = $( "#delivery_status_"+module_settings_id ).val();
-		let order_in_logistics = $( "#order_in_logistics_"+module_settings_id ).val();
-		let order_shipped = $( "#order_shipped_"+module_settings_id ).val();
+		let order_in_logistics = ( $( "#order_in_logistics_"+module_settings_id ).prop('checked') === true ) ? 1 : 0;
+		let order_shipped = ( $( "#order_shipped_"+module_settings_id ).prop('checked') === true ) ? 1 : 0;
 		let wait_mod_no = $( "#wait_mod_no_"+module_settings_id ).val();
 		let wait_mod_id = $( "#wait_mod_id_"+module_settings_id ).val();
 
@@ -2830,19 +2830,40 @@ $(function () {
 				order_in_logistics: order_in_logistics,
 				order_shipped: order_shipped,
 				wait_mod_no: wait_mod_no,
-				wait_mod_id: wait_mod_id
+				wait_mod_id: wait_mod_id,
+				module_settings_id: module_settings_id
 			},
             dataType: 'JSON',
             type: 'POST'
         })
             .done(function( result ) {
-                /* $('.responseMessage').html('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> <h4><i class="icon fa fa-check"></i> '+translations.wellDone+'</h4>'+result.message+'</div>');
-                $btn.button('reset');
-                booking_data.ajax.reload(null, false); */
+                if (result.managerSettingsStatus === "success") {
+
+					$(".productModuleSettingsStatus_"+module_settings_id).html(
+						'<div class="alert alert-success alert-dismissible fade show" role="alert"><i class="icon fa fa-check-circle"></i> ' +
+						result.message +
+						'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+						);
+
+					setTimeout(function () {
+						$("#moduleSettingsModal_"+module_settings_id).modal("hide");
+						$('.modal-backdrop').remove();
+					}, 2000);
+
+				}
             })
             .fail(function(data) {
-                /* $('.responseMessage').html('<div class="alert alert-warning alert-dismissible response" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>OOPS! </strong>Hat leider nicht geklappt. Bitte versuchen Sie es erneut</div>');
-				booking_data.ajax.reload(null, false); */
+                if (data.status === 404) {
+					$(".productModuleSettingsStatus_"+module_settings_id).html(
+						'<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="fas fa-times-circle"></i> Whoops! Something went wrong. <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+						);
+
+					setTimeout(function () {
+						$("#moduleSettingsModal_" + module_settings_id).modal('hide');
+						$('.modal-backdrop').remove();
+					}, 2000);	
+				}
+
 				if (data.status === 422) {
 					$.each(data.responseJSON.errors, function(key, val) {
 						$( ".moduleSettingsValidationAlert_"+module_settings_id ).html(
@@ -2850,7 +2871,9 @@ $(function () {
 						);
 					});
 				}
-            });
+			});
+
+		productList.ajax.reload(null, false);
 	});
 
 	/* Clearing data of module settings modal fields */

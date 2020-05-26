@@ -24,17 +24,16 @@ class CreateModuleSettingsTable extends Migration
             $table->string('mail_bcc_name', 150)->nullable();
             $table->string('mail_subject', 200);
             $table->text('mail_body');
-            $table->tinyInteger('mail_attach')->nullable(); // Activate delivery note shipping. 0 = checked, 1 = not checked.
-            $table->tinyInteger('mail_attach_client')->nullable(); // Activate customer data sending. 0 = checked, 1 = not checked.
-            $table->tinyInteger('mail_attach_delivery')->nullable(); // Enable delivery address data shipping. 0 = checked, 1 = not checked.
-            $table->tinyInteger('status_mail'); // Email status. 0 = Not sent, 1 = Sent.
+            $table->tinyInteger('mail_attach')->nullable(); // Activate delivery note shipping. 1 = checked, 0 = not checked.
+            $table->tinyInteger('mail_attach_client')->nullable(); // Activate customer data sending. 1 = checked, 0 = not checked.
+            $table->tinyInteger('mail_attach_delivery')->nullable(); // Enable delivery address data shipping. 1 = checked, 0 = not checked.
 
             // Cron settings
             $table->integer('max_error')->nullable(); // It is for setting maximum error limit.
 
             // Orders & Delivery settings
-            $table->tinyInteger('order_in_logistics')->nullable(); // Place order as set order in logistics. 0 = checked, 1 = not checked.
-            $table->tinyInteger('order_shipped')->nullable(); // Declare order as shipped. 0 = checked, 1 = not checked.
+            $table->tinyInteger('order_in_logistics')->nullable(); // Place order as set order in logistics. 1 = checked, 0 = not checked.
+            $table->tinyInteger('order_shipped')->nullable(); // Declare order as shipped. 1 = checked, 0 = not checked.
             $table->integer('delivery_status')->nullable(); // 1 not active, 2 active, 3 wait.
 
             // MOD Settings

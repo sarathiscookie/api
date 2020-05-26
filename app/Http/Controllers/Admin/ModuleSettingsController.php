@@ -37,10 +37,25 @@ class ModuleSettingsController extends Controller
      */
     public function store(ModuleSettingsRequest $request)
     {
-        dd($request->all());
-        // Store data
-        // Convert check box values in to 1 and o
-        // Send email functionality
+        $moduleSetting = ModuleSetting::findOrFail($request->module_settings_id);
+        $moduleSetting->user_supplier_id = $request->supplier;
+        $moduleSetting->mail_bcc_name = $request->bcc_name;
+        $moduleSetting->mail_bcc = $request->bcc_email;
+        $moduleSetting->mail_subject = $request->email_subject;
+        $moduleSetting->mail_body = $request->email_body;
+        $moduleSetting->mail_attach = $request->activate_delivery_note_shipping;
+        $moduleSetting->mail_attach_client = $request->activate_customer_data_sending;
+        $moduleSetting->mail_attach_delivery = $request->enable_delivery_address_data_shipping;
+        $moduleSetting->max_error = $request->max_error;
+        $moduleSetting->delivery_status = $request->delivery_status;
+        $moduleSetting->order_in_logistics = $request->order_in_logistics;
+        $moduleSetting->order_shipped = $request->order_shipped;
+        $moduleSetting->wait_mod_no = $request->wait_mod_no;
+        $moduleSetting->wait_mod_id = $request->wait_mod_id;
+        $moduleSetting->status = 1;
+        $moduleSetting->save();
+
+        return response()->json(['managerSettingsStatus' => 'success', 'message' => 'Well done! Settings updated successfully'], 201);
     }
 
     /**

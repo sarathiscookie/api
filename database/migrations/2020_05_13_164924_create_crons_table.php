@@ -16,6 +16,7 @@ class CreateCronsTable extends Migration
         Schema::create('crons', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('module_setting_id');
+            $table->tinyInteger('status_mail'); // Email status. 0 = Not sent, 1 = Sent.
             $table->tinyInteger('status')->default(0); // 0 Success, 1 Failed.
             $table->timestamps();
 
