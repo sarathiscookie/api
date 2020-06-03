@@ -35,24 +35,6 @@ class SendEmailToSupplier extends Mailable
         return $this->markdown('emails.cron.supplier')
             ->to($this->supplier->email)
             ->subject('Test emails to supplier')
-            ->with('supplier', $this->supplier);
-
-
-        /* return $this->view('emails.sendInvoice')
-            ->to($userDetails->usrEmail)
-            ->bcc(env('MAIL_BCC_PAYMENT'))
-            ->subject('Ihre Buchungsbelege von Huetten-Holiday.de')
-            ->attach(public_path('/storage/Huetten-Holiday-AGB.pdf'), [
-                'mime' => 'application/pdf',
-            ])
-            ->attach(public_path("/storage/Gutschein-". $this->bookingDetails->invoice_number . ".pdf"), [
-                'mime' => 'application/pdf',
-            ])
-            ->with([
-                'firstname' => $userDetails->usrFirstname,
-                'lastname' => $userDetails->usrLastname,
-                'userID' => $userDetails->_id,
-                'subject' => 'Ihre Buchungsbelege von Huetten-Holiday.de'
-            ]); */    
+            ->with('supplier', $this->supplier);  
     }
 }
