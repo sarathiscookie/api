@@ -440,7 +440,7 @@ class ManagerController extends Controller
     {
         DB::beginTransaction();
         try {
-            //Delete and store company id in user companies table
+            // Delete and store company id in user companies table
             UserCompany::where('user_id', $request->managerid)->delete();
 
             $manager             = User::manager()->find($request->managerid);

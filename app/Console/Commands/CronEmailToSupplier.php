@@ -15,7 +15,7 @@ class CronEmailToSupplier extends Command
      *
      * @var string
      */
-    protected $signature = 'command:CronEmailToSupplier';
+    protected $signature = 'emails:ToSupplier';
 
     /**
      * The console command description.
