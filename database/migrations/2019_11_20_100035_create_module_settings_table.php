@@ -40,7 +40,7 @@ class CreateModuleSettingsTable extends Migration
             $table->integer('wait_mod_no')->nullable(); // Wait with execution until the MOD pointer number is reached.
             $table->integer('wait_mod_id')->nullable(); // Wait until MOD has successfully completed with ID.
 
-            $table->tinyInteger('status')->default(0); // 0 => Deactive & 1 => Active.
+            $table->tinyInteger('status')->default(1); // 0 => Deactive & 1 => Active.
             $table->timestamps();
 
             $table->foreign('product_id')

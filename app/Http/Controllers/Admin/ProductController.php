@@ -374,7 +374,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Update product status.
+     * Update product and module settings status.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -382,7 +382,7 @@ class ProductController extends Controller
     public function updateStatus(Product $product, Request $request)
     {
         try {
-            $product->updateOrCreate(
+            $productUpdateOrCreate = $product->updateOrCreate(
                 ['api_product_id' => $request->productStatusId],
                 [
                     'status' => $request->newStatus,
@@ -391,6 +391,10 @@ class ProductController extends Controller
                 ]
             );
 
+            if($productUpdateOrCreate->id)
+                ModuleSetting::where('product_id', $productUpdateOrCreate->id)->update(['status' => $request->newStatus]);
+            
+            
             return response()->json(['productStatusChange' => 'success', 'message' => 'Product status updated successfully'], 201);
         } 
         catch(\Exception $e){
