@@ -32,7 +32,7 @@ trait ModuleSettingTrait
         try {
 
             $moduleSettings = ModuleSetting::join('modules', 'module_settings.module_id', '=', 'modules.id')
-                ->join('products', 'module_settings.product_id', '=', 'products.id')
+                ->join('products', 'module_settings.product_id', '=', 'products.api_product_id')
                 ->select('module_settings.id AS moduleSettingsId', 'module_settings.module_id', 'modules.module AS moduleName', 'module_settings.product_id')
                 ->where('modules.active', 'yes')
                 ->where('products.api_product_id', $productApiId)

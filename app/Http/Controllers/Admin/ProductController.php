@@ -333,14 +333,14 @@ class ProductController extends Controller
 
             // Checking module already existing in module settings table.
             $moduleSettings = ModuleSetting::where('module_id', $request->module_id)
-                ->where('product_id', $productExist->id)
+                ->where('product_id', $productExist->api_product_id)
                 ->first();
 
             if ( empty($moduleSettings) ) {
 
                 $createModuleSetting = new ModuleSetting;
                 $createModuleSetting->module_id = $request->module_id;
-                $createModuleSetting->product_id = $productExist->id;
+                $createModuleSetting->product_id = $productExist->api_product_id;
                 $createModuleSetting->save();
 
                 return response()->json(['moduleSettingStatus' => 'success', 'message' => 'Well done! Module added successfully.'], 201);
@@ -392,7 +392,7 @@ class ProductController extends Controller
             );
 
             if($productUpdateOrCreate->id)
-                ModuleSetting::where('product_id', $productUpdateOrCreate->id)->update(['status' => $request->newStatus]);
+                ModuleSetting::where('product_id', $productUpdateOrCreate->api_product_id)->update(['status' => $request->newStatus]);
             
             
             return response()->json(['productStatusChange' => 'success', 'message' => 'Product status updated successfully'], 201);

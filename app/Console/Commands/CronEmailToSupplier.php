@@ -67,7 +67,7 @@ class CronEmailToSupplier extends Command
                 foreach ($jsonDecodedResults['result']['orders']['order'] as $key => $orderList) {
                     $testOrders[] = $orderList['order_no'];
 
-                    // TODO: In module settings, We need to check product have module settings? And we need to check already sent cron or not?
+                    // TODO: In module settings, We need to check product have module settings? And we need to check already sent cron or not? We need to check email subject and content filled? If module "rakuten lieferanten email" then sent email otherwise not need to send cron email.
 
                     // TODO: Must check product id and module settings id is active.
 

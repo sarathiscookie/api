@@ -7,6 +7,6 @@
         | {{ $supplier['name'] }} | {{ $supplier['email'] }} | {{ $supplier['phone'] }} |
     @endisset
 
-    Thanks,<br>
+    Thanks,
     {{ config('app.name') }}
 @endcomponent

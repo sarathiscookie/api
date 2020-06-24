@@ -16,7 +16,7 @@ class CreateModuleSettingsTable extends Migration
         Schema::create('module_settings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('module_id');
-            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('product_id'); // Product id from API
             
             // Email settings
             $table->unsignedBigInteger('user_supplier_id')->nullable(); // To get supplier name and email. Email send to supplier then cc to admin.
@@ -42,9 +42,6 @@ class CreateModuleSettingsTable extends Migration
 
             $table->tinyInteger('status')->default(1); // 0 => Deactive & 1 => Active.
             $table->timestamps();
-
-            $table->foreign('product_id')
-            ->references('id')->on('products');
 
             $table->foreign('module_id')
             ->references('id')->on('modules');
