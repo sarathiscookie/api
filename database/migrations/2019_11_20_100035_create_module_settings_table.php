@@ -24,9 +24,9 @@ class CreateModuleSettingsTable extends Migration
             $table->string('mail_bcc_name', 150)->nullable();
             $table->string('mail_subject', 200);
             $table->text('mail_body');
-            $table->tinyInteger('mail_attach')->nullable(); // Activate delivery note shipping. 1 = checked, 0 = not checked.
-            $table->tinyInteger('mail_attach_client')->nullable(); // Activate customer data sending. 1 = checked, 0 = not checked.
-            $table->tinyInteger('mail_attach_delivery')->nullable(); // Enable delivery address data shipping. 1 = checked, 0 = not checked.
+            $table->tinyInteger('setOrderShipped')->nullable(); // This is an API order feature. This methods sets an order to shipped. 1 = checked, 0 = not checked.
+            $table->tinyInteger('setOrderLogistic')->nullable(); // This is an API feature. Use this method to set an order to “in preparation for shipping”. This disables the option for the customer or Rakuten customer service to cancel an order for 48 hours. 1 = checked, 0 = not checked.
+            $table->tinyInteger('getOrderDeliveryNote')->nullable(); // This is an API feature. This method gives out the delivery note to an order. 1 = checked, 0 = not checked.
 
             // Cron settings
             $table->integer('max_error')->nullable(); // It is for setting maximum error limit.

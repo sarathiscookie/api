@@ -28,13 +28,13 @@ Hello {{ $supplier['name'] }}, Please find the order details given below.
 # Delivery Details
 
 * Name: {{ $orderList['delivery_address']['gender'] }}, {{ $orderList['delivery_address']['first_name'] }} {{ $orderList['delivery_address']['last_name'] }}
-* Company: {{ $orderList['delivery_address']['company'] }}.
-* Street: {{ $orderList['delivery_address']['street'] }}.
-* Street No: {{ $orderList['delivery_address']['street_no'] }}.
-* Address Add: {{ $orderList['delivery_address']['address_add'] }}.
-* Zip Code: {{ $orderList['delivery_address']['zip_code'] }}.
-* City: {{ $orderList['delivery_address']['city'] }}.
-* Country: {{ $orderList['delivery_address']['country'] }}.
+* Company: {{ $orderList['delivery_address']['company'] }}
+* Street: {{ $orderList['delivery_address']['street'] }}
+* Street No: {{ $orderList['delivery_address']['street_no'] }}
+* Address Add: {{ $orderList['delivery_address']['address_add'] }}
+* Zip Code: {{ $orderList['delivery_address']['zip_code'] }}
+* City: {{ $orderList['delivery_address']['city'] }}
+* Country: {{ $orderList['delivery_address']['country'] }}
 @endcomponent
 
 
@@ -53,20 +53,3 @@ Delivery
 Thanks,
 {{ config('app.name') }}
 @endcomponent
-
-<!--
-
-'delivery_address' =>
-    array (
-      
-      'company' => '',
-      'street' => 'Theo-Neubauer-Str.',
-      'street_no' => '30',
-      'address_add' => '',
-      'zip_code' => '99085',
-      'city' => 'Erfurt',
-      'country' => 'DE',
-    ),
-
-
--->

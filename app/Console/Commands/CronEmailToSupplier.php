@@ -7,13 +7,14 @@ use App\User;
 use Illuminate\Console\Command;
 use App\Mail\SendEmailToSupplier;
 use App\Http\Traits\CurlTrait;
+use App\Http\Traits\ModuleSettingTrait;
 use App\ModuleSetting;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class CronEmailToSupplier extends Command
 {
-    use CurlTrait;
+    use CurlTrait, ModuleSettingTrait;
 
     /**
      * The name and signature of the console command.
@@ -45,15 +46,12 @@ class CronEmailToSupplier extends Command
      * @return mixed
      */
     public function handle()
-    {
-        //$test = '';
-
+    {   
         $shops = Shop::active()->get();
 
         foreach ($shops as $shop) {
             // Sending request to API. Passing api key to get orders list.
             $urlGetOrders = 'http://webservice.rakuten.de/merchants/orders/getOrders?key=' . $shop->api_key . '&format=json&format=json&status=editable';
-            //$urlGetOrders = 'http://webservice.rakuten.de/merchants/orders/getOrders?key=' . 'd6872f58e1ac5c8af686562c6e882ba4' . '&format=json&format=json&status=editable';
 
             // Fetching data from API
             $jsonDecodedResults = $this->curl($urlGetOrders);
@@ -74,28 +72,17 @@ class CronEmailToSupplier extends Command
 
                     // Loop for extracting each items in orders
                     foreach($orderList['items']['item'] as $item) {
-                    /* $items = [1534883040, 1534959990, 1534960600, 2681013465, 2637884280];
-                    foreach($items as $item) { */
-                        
+
                         Log::info('Product Item'); // Testing product item.
                         Log::info($item); // Testing product item.
                         Log::info('-----------'); // Testing product item.
 
-                        /* $test .= 'Product Item'; // Testing product item.
-                        $test .= $item; // Testing product item.
-                        $test .= '-----------'; // Testing product item. */
-
                         // Fetching module settings matching with product id.
                         $moduleSetting = ModuleSetting::byProductId($item['product_id']);
-                        //$moduleSetting = ModuleSetting::byProductId($item);
 
-                        Log::info('Module Setting'); // Testing module setting
-                        Log::info($moduleSetting); // Testing module setting
-                        Log::info('---------------'); // Testing module setting
-
-                        /* $test .= 'Module Setting'; // Testing module setting
-                        $test .= $moduleSetting; // Testing module setting
-                        $test .= '---------------'; // Testing module setting */
+                        Log::info('Module Setting'); // Testing module setting.
+                        Log::info($moduleSetting); // Testing module setting.
+                        Log::info('---------------'); // Testing module setting.
 
                         // Conditions to send cron job email.
                         // 1: Module settins status must be active.
@@ -106,10 +93,6 @@ class CronEmailToSupplier extends Command
                             Log::info($moduleSetting);
                             Log::info('--------------');
 
-                            /* $test .= 'Success';
-                            $test .= $moduleSetting;
-                            $test .= '--------------'; */
-
                             // Fetching supplier details 
                             $supplier = User::supplier()->active()->find($moduleSetting->user_supplier_id);
 
@@ -118,22 +101,19 @@ class CronEmailToSupplier extends Command
                                 Log::info('Supplier');
                                 Log::info($supplier->email);
                                 Log::info('Done...');
-                                
-                                /* $test .= 'Supplier';
-                                $test .= $supplier->email;
-                                $test .= 'Done...'; */
 
+                                $apiUrlForEmails = $this->apiUrlForEmail($shop->api_key, $orderList['order_no'], $moduleSetting);
+
+                                Log::info('URLS');
+                                Log::info($apiUrlForEmails);
+                                
                                 // Send email to supplier
-                                Mail::send(new SendEmailToSupplier($supplier, $orderList, $item));
+                                //Mail::send(new SendEmailToSupplier($supplier, $orderList, $item, $moduleSetting, $apiUrlForEmails));
                             }
                             else {
                                 Log::info('Supplier not active');
                                 Log::info('Supplier Id: '.$supplier->id. 'Supplier Email: '.$supplier->email);
                                 Log::info('Done...');
-
-                                /* $test .= 'Supplier not active';
-                                $test .= 'Supplier Id: '.$supplier->id. 'Supplier Email: '.$supplier->email;
-                                $test .= 'Done...'; */
                             }
 
                         }
@@ -145,7 +125,5 @@ class CronEmailToSupplier extends Command
             }
         }
 
-        //dd($test);
-    
     }
 }

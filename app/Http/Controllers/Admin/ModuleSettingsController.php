@@ -43,9 +43,9 @@ class ModuleSettingsController extends Controller
         $moduleSetting->mail_bcc = $request->bcc_email;
         $moduleSetting->mail_subject = $request->email_subject;
         $moduleSetting->mail_body = $request->email_body;
-        $moduleSetting->mail_attach = $request->activate_delivery_note_shipping;
-        $moduleSetting->mail_attach_client = $request->activate_customer_data_sending;
-        $moduleSetting->mail_attach_delivery = $request->enable_delivery_address_data_shipping;
+        $moduleSetting->setOrderShipped = $request->activate_delivery_note_shipping;
+        $moduleSetting->setOrderLogistic = $request->activate_customer_data_sending;
+        $moduleSetting->getOrderDeliveryNote = $request->enable_delivery_address_data_shipping;
         $moduleSetting->max_error = $request->max_error;
         $moduleSetting->delivery_status = $request->delivery_status;
         $moduleSetting->order_in_logistics = $request->order_in_logistics;

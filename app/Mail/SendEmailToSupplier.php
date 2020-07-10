@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\ModuleSetting;
 use App\Shop;
 use App\User;
 use Illuminate\Bus\Queueable;
@@ -19,18 +20,26 @@ class SendEmailToSupplier extends Mailable implements ShouldQueue
 
     public $item;
 
+    public $moduleSetting;
+
+    public $apiUrlForEmails;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $supplier, $orderList, $item)
+    public function __construct(User $supplier, $orderList, $item, $moduleSetting, $apiUrlForEmails)
     {
         $this->supplier = $supplier;
 
         $this->orderList = $orderList;
 
         $this->item = $item;
+
+        $this->moduleSetting = $moduleSetting;
+
+        $this->apiUrlForEmails = $apiUrlForEmails;
     }
 
     /**
@@ -40,7 +49,12 @@ class SendEmailToSupplier extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        // TODO: Update module settings cron status.
+        // Update module settings cron status.
+        $moduleSettingsUpdate = ModuleSetting::find($this->moduleSetting->id);
+
+        $moduleSettingsUpdate->cron_status = 1;
+        
+        $moduleSettingsUpdate->save();
         
         return $this->markdown('emails.cron.supplier')
             ->to($this->supplier->email)
@@ -48,7 +62,8 @@ class SendEmailToSupplier extends Mailable implements ShouldQueue
             ->with([
                 'supplier' => $this->supplier,
                 'orderList' => $this->orderList,
-                'item' => $this->item
+                'item' => $this->item,
+                'apiUrlForEmails' => $this->apiUrlForEmails
             ]);
     }
 }

@@ -4,7 +4,8 @@ namespace App\Http\Traits;
 
 use App\Module;
 
-trait ModuleTrait {
+trait ModuleTrait
+{
     /**
      * Get modules
      * @return \Illuminate\Http\Response
@@ -13,15 +14,12 @@ trait ModuleTrait {
     {
         try {
             $modules = Module::select('id', 'module')
-            ->active()
-            ->get();
+                ->active()
+                ->get();
 
             return $modules;
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             abort(404);
-        } 
+        }
     }
-
 }
-?>

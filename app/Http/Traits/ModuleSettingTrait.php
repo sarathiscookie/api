@@ -44,6 +44,40 @@ trait ModuleSettingTrait
             abort(404);
         }
     }
+
+    /**
+     * Passing corresponding URL to email.
+     * 
+     * @param  string  $api_key
+     * @param  string  $order_no
+     * @param  object  $moduleSetting
+     * 
+     * @return array
+     */
+    public function apiUrlForEmail($api_key, $order_no, $moduleSetting)
+    {
+        $apiUrlForMail = [];
+
+        // If setOrderShipped is active, then url link attach with email.
+        // Definition from API: This methods sets an order to shipped.
+        if($moduleSetting->setOrderShipped === 1) {
+            $apiUrlForMail[] = 'http://webservice.rakuten.de/merchants/orders/setOrderShipped/' . $api_key . '/' . $order_no;
+        }
+        
+        // If setOrderInLogistics is active, then url link attach with email.
+        // Definition from API: Use this method to set an order to “in preparation for shipping”. This disables the option for the customer or Rakuten customer service to cancel an order for 48 hours.
+        if($moduleSetting->setOrderLogistic === 1) {
+            $apiUrlForMail[] = 'http://webservice.rakuten.de/merchants/orders/setOrderInLogistics/' . $api_key . '/' . $order_no;
+        }
+        
+        // If getOrderDeliveryNote is active, then url link attach with email.
+        // Definition from API: This method gives out the delivery note to an order.
+        if($moduleSetting->getOrderDeliveryNote === 1) {
+            $apiUrlForMail[] = 'http://webservice.rakuten.de/merchants/orders/getOrderDeliveryNote/' . $api_key . '/' . $order_no;
+        }
+
+        return $apiUrlForMail;
+    }
 }
 
 

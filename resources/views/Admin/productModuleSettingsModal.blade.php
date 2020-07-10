@@ -67,7 +67,7 @@
                                         <input class="form-check-input" type="checkbox"
                                             id="activate_delivery_note_shipping_{{ $moduleSettingsId }}" name="activate_delivery_note_shipping">
                                         <label class="form-check-label" for="activate_delivery_note_shipping">
-                                            Activate delivery note shipping
+                                            Set Order Shipped
                                         </label>
                                     </div>
                                 </div>
@@ -77,7 +77,7 @@
                                         <input class="form-check-input" type="checkbox"
                                             id="activate_customer_data_sending_{{ $moduleSettingsId }}" name="activate_customer_data_sending">
                                         <label class="form-check-label" for="activate_customer_data_sending">
-                                            Activate customer data sending
+                                            Set Order Logistic
                                         </label>
                                     </div>
                                 </div>
@@ -87,7 +87,7 @@
                                         <input class="form-check-input" type="checkbox"
                                             id="enable_delivery_address_data_shipping_{{ $moduleSettingsId }}" name="enable_delivery_address_data_shipping">
                                         <label class="form-check-label" for="enable_delivery_address_data_shipping">
-                                            Enable delivery address data shipping
+                                            Get Order Delivery Note
                                         </label>
                                     </div>
                                 </div>
