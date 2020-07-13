@@ -179,26 +179,22 @@ class ProductController extends Controller
 
                     foreach($moduleSettings as $moduleSetting) {
                         $productModuleSettingsModal = view('admin.productModuleSettingsModal', [
-                            'moduleSettingsId' => $moduleSetting->moduleSettingsId, 
+                            'moduleSetting' => $moduleSetting, 
                             'suppliers' => $supplierDetails,
                             'deliveryStatus' => $deliveryStatus
                         ]);
 
-                        /* $productModuleSettingsViewModal = view('admin.productModuleSettingsViewModal', [
-                            'moduleSettingsId' => $moduleSetting->moduleSettingsId
-                        ]); */
-
                         $moduleName[$key] .= '
                         <span class="badge badge-info badge-pill">' . ucwords($moduleSetting->moduleName) . 
                         '&nbsp
-                        <i class="fas fa-eye fa-lg module_settings_view" data-modulesettingsviewid='.$moduleSetting->moduleSettingsId.' data-toggle="modal" data-target="#moduleSettingsViewModal_'.$moduleSetting->moduleSettingsId.'" style="cursor:pointer;"></i>
+                        <i class="fas fa-eye fa-lg module_settings_view" data-modulesettingsviewid='.$moduleSetting->id.' data-toggle="modal" data-target="#moduleSettingsViewModal_'.$moduleSetting->id.'" style="cursor:pointer;"></i>
                         &nbsp
-                        <i class="fas fa-cog fa-lg module_settings_update" data-modulesettingsupdateid='.$moduleSetting->moduleSettingsId.' data-toggle="modal" data-target="#moduleSettingsModal_'.$moduleSetting->moduleSettingsId.'" style="cursor:pointer;"></i>
+                        <i class="fas fa-cog fa-lg module_settings_update" data-modulesettingsupdateid='.$moduleSetting->id.' data-toggle="modal" data-target="#moduleSettingsModal_'.$moduleSetting->id.'" style="cursor:pointer;"></i>
                         &nbsp
-                        <i class="far fa-trash-alt fa-lg module_settings" data-modulesettingsid='.$moduleSetting->moduleSettingsId.' style="color:#9e004f; cursor:pointer;"></i>
+                        <i class="far fa-trash-alt fa-lg module_settings" data-modulesettingsid='.$moduleSetting->id.' style="color:#9e004f; cursor:pointer;"></i>
                         </span>
                         &nbsp
-                        <span class="module_settings_spinner_'.$moduleSetting->moduleSettingsId.'"></span>'.$productModuleSettingsModal/* .$productModuleSettingsViewModal */;
+                        <span class="module_settings_spinner_'.$moduleSetting->id.'"></span>'.$productModuleSettingsModal;
                     }
 
                 }
