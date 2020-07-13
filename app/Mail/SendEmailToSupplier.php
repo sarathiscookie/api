@@ -49,7 +49,7 @@ class SendEmailToSupplier extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        // Update module settings cron status.
+        // Update module settings -> cron status.
         $moduleSettingsUpdate = ModuleSetting::find($this->moduleSetting->id);
 
         $moduleSettingsUpdate->cron_status = 1;
@@ -63,7 +63,8 @@ class SendEmailToSupplier extends Mailable implements ShouldQueue
                 'supplier' => $this->supplier,
                 'orderList' => $this->orderList,
                 'item' => $this->item,
-                'apiUrlForEmails' => $this->apiUrlForEmails
+                'apiUrlForEmails' => $this->apiUrlForEmails,
+                'moduleSetting' => $this->moduleSetting,
             ]);
     }
 }

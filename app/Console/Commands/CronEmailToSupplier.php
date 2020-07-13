@@ -108,7 +108,7 @@ class CronEmailToSupplier extends Command
                                 Log::info($apiUrlForEmails);
                                 
                                 // Send email to supplier
-                                //Mail::send(new SendEmailToSupplier($supplier, $orderList, $item, $moduleSetting, $apiUrlForEmails));
+                                Mail::send(new SendEmailToSupplier($supplier, $orderList, $item, $moduleSetting, $apiUrlForEmails));
                             }
                             else {
                                 Log::info('Supplier not active');

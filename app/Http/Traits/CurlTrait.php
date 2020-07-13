@@ -24,6 +24,7 @@ trait CurlTrait {
 
         // grab url and pass it to the browser
         $result = curl_exec($ch);
+        
         // close cURL resouces, and free up system resources
         curl_close($ch);
 

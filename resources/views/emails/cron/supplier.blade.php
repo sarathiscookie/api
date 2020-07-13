@@ -1,5 +1,5 @@
 @component('mail::message')
-Hello {{ $supplier['name'] }}, Please find the order details given below.
+{{ $moduleSetting->mail_body }}
 
 @component('mail::panel')
 # Order Details: {{ $orderList['order_no'] }}
@@ -37,18 +37,23 @@ Hello {{ $supplier['name'] }}, Please find the order details given below.
 * Country: {{ $orderList['delivery_address']['country'] }}
 @endcomponent
 
-
-@component('mail::button', ['url' => 'http://test.com/shipped', 'color' => 'success'])
-Shipped
+@isset($apiUrlForEmails[0])
+@component('mail::button', ['url' => $apiUrlForEmails[0], 'color' => 'success'])
+Set Order Shipped
 @endcomponent
+@endisset
 
-@component('mail::button', ['url' => 'http://test.com/logistic', 'color' => 'success'])
-Logistic
+@isset($apiUrlForEmails[1])
+@component('mail::button', ['url' => $apiUrlForEmails[1], 'color' => 'success'])
+Set Order Logistic
 @endcomponent
+@endisset
 
-@component('mail::button', ['url' => 'http://test.com/delivery', 'color' => 'success'])
-Delivery
+@isset($apiUrlForEmails[2])
+@component('mail::button', ['url' => $apiUrlForEmails[2], 'color' => 'success'])
+Get Order Delivery Note
 @endcomponent
+@endisset
 
 Thanks,
 {{ config('app.name') }}
