@@ -46,12 +46,12 @@ class CronEmailToSupplier extends Command
      * @return mixed
      */
     public function handle()
-    {   
+    {
         $shops = Shop::active()->get();
 
         foreach ($shops as $shop) {
             // Sending request to API. Passing api key to get orders list.
-            $urlGetOrders = 'http://webservice.rakuten.de/merchants/orders/getOrders?key=' . $shop->api_key . '&format=json&format=json&status=editable';
+            $urlGetOrders = 'http://webservice.rakuten.de/merchants/orders/getOrders?key=' . $shop->api_key . '&format=json&status=editable';
 
             // Fetching data from API
             $jsonDecodedResults = $this->curl($urlGetOrders);
@@ -59,6 +59,7 @@ class CronEmailToSupplier extends Command
             // Checking API response is success or failure and count of total data.
             if (($jsonDecodedResults['result']['success'] === '1') && ($jsonDecodedResults['result']['orders']['paging'][0]['total'] != '0')) {
 
+                Log::info('////////Success Begin///////////'); // Testing api key.
                 Log::info('API Key'); // Testing api key.
                 Log::info($shop->api_key); // Testing api key.
                 Log::info('--------------'); // Testing api key.
@@ -71,7 +72,7 @@ class CronEmailToSupplier extends Command
                     Log::info('-------------'); // Testing order list.
 
                     // Loop for extracting each items in orders
-                    foreach($orderList['items']['item'] as $item) {
+                    foreach ($orderList['items']['item'] as $item) {
 
                         Log::info('Product Item'); // Testing product item.
                         Log::info($item); // Testing product item.
@@ -88,7 +89,7 @@ class CronEmailToSupplier extends Command
                         // 1: Module settins status must be active.
                         // 2: Supplier id must be filled.
                         // 3: Cron status must be not sent.
-                        if( (!empty($moduleSetting)) && ($moduleSetting->user_supplier_id !== null) && ($moduleSetting->status === 1) && $moduleSetting->cron_status === 0) {
+                        if ((!empty($moduleSetting)) && ($moduleSetting->user_supplier_id !== null) && ($moduleSetting->status === 1) && $moduleSetting->cron_status === 0) {
                             Log::info('Success');
                             Log::info($moduleSetting);
                             Log::info('--------------');
@@ -96,7 +97,7 @@ class CronEmailToSupplier extends Command
                             // Fetching supplier details 
                             $supplier = User::supplier()->active()->find($moduleSetting->user_supplier_id);
 
-                            if( !empty($supplier) ) {
+                            if (!empty($supplier)) {
 
                                 Log::info('Supplier');
                                 Log::info($supplier->email);
@@ -106,24 +107,32 @@ class CronEmailToSupplier extends Command
 
                                 Log::info('URLS & DeliveryNoteAPIURL');
                                 Log::info($apiUrlForEmails);
-                                
+
                                 // Send email to supplier
                                 Mail::send(new SendEmailToSupplier($supplier, $orderList, $item, $moduleSetting, $apiUrlForEmails));
-                            }
-                            else {
+                            } else {
                                 Log::info('Supplier not active');
-                                Log::info('Supplier Id: '.$supplier->id. 'Supplier Email: '.$supplier->email);
+                                Log::info('Supplier Id: ' . $supplier->id . 'Supplier Email: ' . $supplier->email);
                                 Log::info('Done...');
                             }
-
                         }
-
                     }
-
                 }
-                
+
+                Log::info('////////Success End///////////'); // Testing api key.
+
+            } else {
+                Log::info('===========Failure Begin============');
+                Log::info('API Key');
+                Log::info($shop->api_key);
+                Log::info('getOrders - API URL:');
+                Log::info($urlGetOrders);
+                Log::info('getOrders - API status:');
+                Log::info($jsonDecodedResults['result']['success']);
+                Log::info('getOrders - API orders total:');
+                Log::info($jsonDecodedResults);
+                Log::info('++++++++++++Failure End+++++++++++');
             }
         }
-
     }
 }

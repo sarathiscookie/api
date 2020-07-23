@@ -15,6 +15,7 @@ use App\Http\Traits\ShopnameTrait;
 use App\Http\Traits\ProductTrait;
 use App\Http\Traits\ModuleSettingTrait;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -33,7 +34,7 @@ class ProductController extends Controller
         // Fetching shopnames from shopname trait
         $shopNames = $this->shopNames();
 
-        return view('admin.productGet', [ 'companies' => $companies, 'shopNames' => $shopNames ]);
+        return view('admin.productGet', ['companies' => $companies, 'shopNames' => $shopNames]);
     }
 
     /**
@@ -59,7 +60,7 @@ class ProductController extends Controller
         try {
             // Getting all the http request.
             $params = $request->all();
-            
+
             $data = [];
             $totalData = 0;
             $totalFiltered = 0;
@@ -75,20 +76,20 @@ class ProductController extends Controller
             }
 
             // If shop is Rakuten then this will execute.
-            if ( $request->productListShopID === '1' ) {
+            if ($request->productListShopID === '1') {
 
                 // Checking http request has product categories
-                if ( ($request->productCategoryId !== 'allCategories') && ($request->productCategoryId !== null) ) {
+                if (($request->productCategoryId !== 'allCategories') && ($request->productCategoryId !== null)) {
                     $search = "&search=" . urlencode($request->productCategoryId) . "&search_field=shop_category_id";
                 }
 
                 // Checking http request has filter visible status. Filter visible: 1 = Visible & 0 = Not visible.
-                if ( $request->visible !== null ) {
+                if ($request->visible !== null) {
                     $visible = "&visible=" . $request->visible;
                 }
 
                 // Checking http request has filter available status. Filter available: 1 = Available & 0 = Not available.
-                if ( $request->available !== null ) {
+                if ($request->available !== null) {
                     $available = "&available=" . $request->available;
                 }
 
@@ -101,17 +102,17 @@ class ProductController extends Controller
             }
 
             // Get product details
-            if ( !empty($urlGetProducts) ) {
+            if (!empty($urlGetProducts)) {
                 $product_details  = $this->getUrlProducts($urlGetProducts);
             }
 
             // Get shop categories
-            if ( !empty($urlShopCategories) ) {
+            if (!empty($urlShopCategories)) {
                 $category_details = $this->getUrlShopCategories($urlShopCategories);
             }
 
             // Checking product details is empty or not
-            if ( !empty($product_details) ) {
+            if (!empty($product_details)) {
                 $data = $product_details['data'];
                 $totalData = (int) $product_details['totalData'];
                 $totalFiltered = (int) $product_details['totalFiltered'];
@@ -141,7 +142,7 @@ class ProductController extends Controller
     public function getUrlProducts($urlGetProducts)
     {
         $columns = [
-            1 => 'name', 
+            1 => 'name',
             2 => 'status'
         ];
 
@@ -160,8 +161,7 @@ class ProductController extends Controller
                 // Some products doesn't have available status in product array. Eg:1918778210,1918779405,1918780015
                 if ($productList['has_variants'] === '1' && empty($productList['available'])) {
                     $availableStatus = '<i class="fas fa-thumbs-down"></i>';
-                } 
-                else {
+                } else {
                     $availableStatus = ($productList['available'] === '1') ? '<i class="fas fa-thumbs-up"></i>' : '<i class="fas fa-thumbs-down"></i>';
                 }
 
@@ -175,41 +175,48 @@ class ProductController extends Controller
                 // Delivery status arrays
                 $deliveryStatus = $this->deliveryStatus();
 
-                if($moduleSettings->count() > 0) {
+                if ($moduleSettings->count() > 0) {
 
-                    foreach($moduleSettings as $moduleSetting) {
+                    foreach ($moduleSettings as $moduleSetting) {
                         $productModuleSettingsModal = view('admin.productModuleSettingsModal', [
-                            'moduleSetting' => $moduleSetting, 
+                            'moduleSetting' => $moduleSetting,
                             'suppliers' => $supplierDetails,
                             'deliveryStatus' => $deliveryStatus
                         ]);
 
                         $moduleName[$key] .= '
-                        <span class="badge badge-info badge-pill">' . ucwords($moduleSetting->moduleName) . 
-                        '&nbsp
-                        <i class="fas fa-eye fa-lg module_settings_view" data-modulesettingsviewid='.$moduleSetting->id.' data-toggle="modal" data-target="#moduleSettingsViewModal_'.$moduleSetting->id.'" style="cursor:pointer;"></i>
+                        <span class="badge badge-info badge-pill">' . ucwords($moduleSetting->moduleName) .
+                            '&nbsp
+                        <i class="fas fa-eye fa-lg module_settings_view" data-modulesettingsviewid=' . $moduleSetting->id . ' data-toggle="modal" data-target="#moduleSettingsViewModal_' . $moduleSetting->id . '" style="cursor:pointer;"></i>
                         &nbsp
-                        <i class="fas fa-cog fa-lg module_settings_update" data-modulesettingsupdateid='.$moduleSetting->id.' data-toggle="modal" data-target="#moduleSettingsModal_'.$moduleSetting->id.'" style="cursor:pointer;"></i>
+                        <i class="fas fa-cog fa-lg module_settings_update" data-modulesettingsupdateid=' . $moduleSetting->id . ' data-toggle="modal" data-target="#moduleSettingsModal_' . $moduleSetting->id . '" style="cursor:pointer;"></i>
                         &nbsp
-                        <i class="far fa-trash-alt fa-lg module_settings" data-modulesettingsid='.$moduleSetting->id.' style="color:#9e004f; cursor:pointer;"></i>
+                        <i class="far fa-trash-alt fa-lg module_settings" data-modulesettingsid=' . $moduleSetting->id . ' style="color:#9e004f; cursor:pointer;"></i>
                         </span>
                         &nbsp
-                        <span class="module_settings_spinner_'.$moduleSetting->id.'"></span>'.$productModuleSettingsModal;
+                        <span class="module_settings_spinner_' . $moduleSetting->id . '"></span>' . $productModuleSettingsModal;
                     }
-
-                }
-                else {
+                } else {
                     $moduleName[$key] = '<span class="badge badge-secondary badge-pill"> No Modules </span>';
                 }
 
                 // Datatable filling
                 $nestedData['hash'] = '<input class="checked" type="checkbox" name="id[]" value="' . $productList['product_id'] . '" />';
-                $nestedData['name'] = '<h6>' . $productList['name'] . '</h6> <hr><div>Product Id: <span class="badge badge-info badge-pill">' . $productList['product_id'] . '</span></div> <div>Producer: <span class="badge badge-info badge-pill text-capitalize">' . $productList['producer'] . '</span></div> <div>Art No: <span class="badge badge-info badge-pill text-capitalize">' . $productList['product_art_no'] . '</span></div> <div>Visible: ' . $visibleStatus . '</div> <div>Available: ' . $availableStatus . '</div><div>Modules: '.$moduleName[$key].'</div>';
+                $nestedData['name'] = '<h6>' . $productList['name'] . '</h6> <hr><div>Product Id: <span class="badge badge-info badge-pill">' . $productList['product_id'] . '</span></div> <div>Producer: <span class="badge badge-info badge-pill text-capitalize">' . $productList['producer'] . '</span></div> <div>Art No: <span class="badge badge-info badge-pill text-capitalize">' . $productList['product_art_no'] . '</span></div> <div>Visible: ' . $visibleStatus . '</div> <div>Available: ' . $availableStatus . '</div><div>Modules: ' . $moduleName[$key] . '</div>';
                 $nestedData['status'] = $this->productStatusHtml($productList['product_id']);
                 $nestedData['actions'] = $this->moduleSettingsHtml($productList['product_id']);
                 $data[] = $nestedData;
             }
             return compact('data', 'totalData', 'totalFiltered');
+        } else {
+            Log::info('===========Failure Begin============');
+            Log::info('getProducts - API URL:');
+            Log::info($urlGetProducts);
+            Log::info('getProducts - API status:');
+            Log::info($jsonDecodedResults['result']['success']);
+            Log::info('getProducts - API product total:');
+            Log::info($jsonDecodedResults);
+            Log::info('++++++++++++Failure End+++++++++++');                
         }
     }
 
@@ -228,7 +235,7 @@ class ProductController extends Controller
 
         $productModuleAddModal = view('admin.productModuleAddModal', ['productApiId' => $productApiId, 'moduleOptions' => $moduleOptions]);
 
-        $html = '<a href="" style="color:black;" class="btn btn-secondary btn-sm moduleAddClear moduleSettings_' . $productApiId . ' moduleAtag" data-productid="' . $productApiId . '" data-target="#moduleModal_' . $productApiId . '" title="Add Module"><i class="fas fa-plus"></i></a>'.$productModuleAddModal;
+        $html = '<a href="" style="color:black;" class="btn btn-secondary btn-sm moduleAddClear moduleSettings_' . $productApiId . ' moduleAtag" data-productid="' . $productApiId . '" data-target="#moduleModal_' . $productApiId . '" title="Add Module"><i class="fas fa-plus"></i></a>' . $productModuleAddModal;
 
         return $html;
     }
@@ -244,8 +251,8 @@ class ProductController extends Controller
 
         $product = Product::select('status')->ofWhereApiProductId($id)->first();
 
-        if( !empty($product) ) {
-            if( !empty($product) ) {
+        if (!empty($product)) {
+            if (!empty($product)) {
                 $checked = ($product->status === 1) ? 'checked' : '';
             }
         }
@@ -309,8 +316,7 @@ class ProductController extends Controller
             );
 
             return response()->json(['productStatus' => 'success', 'message' => 'Well done! Product saved successfully'], 201);
-        } 
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['productStatus' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
         }
     }
@@ -325,14 +331,14 @@ class ProductController extends Controller
     {
         try {
             // Checking product already existing in product table.
-            $productExist = $this->productExist($request->product_id); 
+            $productExist = $this->productExist($request->product_id);
 
             // Checking module already existing in module settings table.
             $moduleSettings = ModuleSetting::where('module_id', $request->module_id)
                 ->where('product_id', $productExist->api_product_id)
                 ->first();
 
-            if ( empty($moduleSettings) ) {
+            if (empty($moduleSettings)) {
 
                 $createModuleSetting = new ModuleSetting;
                 $createModuleSetting->module_id = $request->module_id;
@@ -340,13 +346,10 @@ class ProductController extends Controller
                 $createModuleSetting->save();
 
                 return response()->json(['moduleSettingStatus' => 'success', 'message' => 'Well done! Module added successfully.'], 201);
-            }
-            else {
+            } else {
                 return response()->json(['moduleSettingStatus' => 'success', 'message' => 'Already exist! Module already exist.'], 201);
             }
-            
-        } 
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['moduleSettingStatus' => 'failure', 'message' => 'Whoops! Something went wrong.'], 404);
         }
     }
@@ -363,8 +366,7 @@ class ProductController extends Controller
             ModuleSetting::destroy($id);
 
             return response()->json(['deletedModuleSettingStatus' => 'success', 'message' => 'Module deleted successfully'], 201);
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['deletedModuleSettingStatus' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
         }
     }
@@ -382,18 +384,17 @@ class ProductController extends Controller
                 ['api_product_id' => $request->productStatusId],
                 [
                     'status' => $request->newStatus,
-                    'shopname_id' => $request->prodShopId, 
+                    'shopname_id' => $request->prodShopId,
                     'company_id' => $request->prodCompanyId
                 ]
             );
 
-            if($productUpdateOrCreate->id)
+            if ($productUpdateOrCreate->id)
                 ModuleSetting::where('product_id', $productUpdateOrCreate->api_product_id)->update(['status' => $request->newStatus]);
-            
-            
+
+
             return response()->json(['productStatusChange' => 'success', 'message' => 'Product status updated successfully'], 201);
-        } 
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             return response()->json(['productStatusChange' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
         }
     }
