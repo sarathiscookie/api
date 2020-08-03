@@ -78,65 +78,6 @@
                                     <textarea name="email_body" class="form-control" id="email_body_{{ $moduleSetting->id }}" rows="3">{{ $moduleSetting->mail_body }}</textarea>
                                     
                                 </div>
-
-                                <div class="form-group">
-                                    <div class="form-check">
-
-                                        <input class="form-check-input" type="checkbox"
-                                            id="activate_delivery_note_shipping_{{ $moduleSetting->id }}" name="activate_delivery_note_shipping" @if( $moduleSetting->setOrderShipped === 1) checked @endif>
-
-                                        <label class="form-check-label" for="activate_delivery_note_shipping">
-                                            Set Order Shipped
-                                        </label>
-
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="form-check">
-
-                                        <input class="form-check-input" type="checkbox"
-                                            id="activate_customer_data_sending_{{ $moduleSetting->id }}" name="activate_customer_data_sending" @if( $moduleSetting->setOrderLogistic === 1) checked @endif>
-
-                                        <label class="form-check-label" for="activate_customer_data_sending">
-                                            Set Order Logistic
-                                        </label>
-
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="form-check">
-
-                                        <input class="form-check-input" type="checkbox"
-                                            id="enable_delivery_address_data_shipping_{{ $moduleSetting->id }}" name="enable_delivery_address_data_shipping" @if( $moduleSetting->getOrderDeliveryNote === 1) checked @endif>
-
-                                        <label class="form-check-label" for="enable_delivery_address_data_shipping">
-                                            Get Order Delivery Note
-                                        </label>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="card mt-3">
-
-                            <div class="card-header">
-                                Cron Settings
-                            </div>
-
-                            <div class="card-body">
-                                <div class="form-row">
-                                    <div class="form-group col-md-4">
-
-                                        <label for="max_error">Setting maximum error limit</label>
-
-                                        <input type="number" class="form-control" id="max_error_{{ $moduleSetting->id }}" name="max_error" value="{{ $moduleSetting->max_error }}">
-
-                                    </div>
-                                </div>
                             </div>
 
                         </div>
@@ -150,20 +91,46 @@
                             <div class="card-body">
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
-
-                                        <label for="delivery_status">Delivery Status</label>
-
-                                        <select class="form-control" id="delivery_status_{{ $moduleSetting->id }}" name="delivery_status">
-                                            <option value="">Choose Status</option>
-                                            @isset($deliveryStatus)
-                                                @foreach($deliveryStatus as $key => $status)
-                                                    <option value="{{ $key }}" @if( $key === $moduleSetting->delivery_status) selected="selected" @endif>{{ $status }}</option>
-                                                @endforeach
-                                            @endisset
-                                        </select>
-
+                                        <div class="form-check">
+    
+                                            <input class="form-check-input" type="checkbox"
+                                                id="activate_delivery_note_shipping_{{ $moduleSetting->id }}" name="activate_delivery_note_shipping" @if( $moduleSetting->setOrderShipped === 1) checked @endif>
+    
+                                            <label class="form-check-label" for="activate_delivery_note_shipping">
+                                                Set Order Shipped
+                                            </label>
+    
+                                        </div>
                                     </div>
-
+    
+                                    <div class="form-group col-md-4">
+                                        <div class="form-check">
+    
+                                            <input class="form-check-input" type="checkbox"
+                                                id="activate_customer_data_sending_{{ $moduleSetting->id }}" name="activate_customer_data_sending" @if( $moduleSetting->setOrderLogistic === 1) checked @endif>
+    
+                                            <label class="form-check-label" for="activate_customer_data_sending">
+                                                Set Order Logistic
+                                            </label>
+    
+                                        </div>
+                                    </div>
+    
+                                    <div class="form-group col-md-4">
+                                        <div class="form-check">
+    
+                                            <input class="form-check-input" type="checkbox"
+                                                id="enable_delivery_address_data_shipping_{{ $moduleSetting->id }}" name="enable_delivery_address_data_shipping" @if( $moduleSetting->getOrderDeliveryNote === 1) checked @endif>
+    
+                                            <label class="form-check-label" for="enable_delivery_address_data_shipping">
+                                                Get Order Delivery Note
+                                            </label>
+    
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <div class="form-check">
 
@@ -186,34 +153,6 @@
                                             </label>
 
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="card mt-3">
-                            
-                            <div class="card-header">
-                                MOD Settings
-                            </div>
-
-                            <div class="card-body">
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-
-                                        <label for="wait_mod_no">Wait until the MOD pointer number is reached</label>
-
-                                        <input type="number" class="form-control" id="wait_mod_no_{{ $moduleSetting->id }}" name="wait_mod_no" value="{{ $moduleSetting->wait_mod_no }}">
-
-                                    </div>
-                                    <div class="form-group col-md-6">
-
-                                        <label for="wait_mod_id">Wait until MOD has successfully completed with
-                                            ID</label>
-
-                                        <input type="number" class="form-control" id="wait_mod_id_{{ $moduleSetting->id }}" name="wait_mod_id" value="{{ $moduleSetting->wait_mod_id }}">
-
                                     </div>
                                 </div>
                             </div>

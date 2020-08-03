@@ -187,8 +187,6 @@ class ProductController extends Controller
                         $moduleName[$key] .= '
                         <span class="badge badge-info badge-pill">' . ucwords($moduleSetting->moduleName) .
                             '&nbsp
-                        <i class="fas fa-eye fa-lg module_settings_view" data-modulesettingsviewid=' . $moduleSetting->id . ' data-toggle="modal" data-target="#moduleSettingsViewModal_' . $moduleSetting->id . '" style="cursor:pointer;"></i>
-                        &nbsp
                         <i class="fas fa-cog fa-lg module_settings_update" data-modulesettingsupdateid=' . $moduleSetting->id . ' data-toggle="modal" data-target="#moduleSettingsModal_' . $moduleSetting->id . '" style="cursor:pointer;"></i>
                         &nbsp
                         <i class="far fa-trash-alt fa-lg module_settings" data-modulesettingsid=' . $moduleSetting->id . ' style="color:#9e004f; cursor:pointer;"></i>

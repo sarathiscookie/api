@@ -46,12 +46,8 @@ class ModuleSettingsController extends Controller
         $moduleSetting->setOrderShipped = $request->activate_delivery_note_shipping;
         $moduleSetting->setOrderLogistic = $request->activate_customer_data_sending;
         $moduleSetting->getOrderDeliveryNote = $request->enable_delivery_address_data_shipping;
-        $moduleSetting->max_error = $request->max_error;
-        $moduleSetting->delivery_status = $request->delivery_status;
         $moduleSetting->order_in_logistics = $request->order_in_logistics;
         $moduleSetting->order_shipped = $request->order_shipped;
-        $moduleSetting->wait_mod_no = $request->wait_mod_no;
-        $moduleSetting->wait_mod_id = $request->wait_mod_id;
         $moduleSetting->status = 1;
         $moduleSetting->save();
 
