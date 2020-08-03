@@ -2,8 +2,7 @@
 
 namespace App\Mail;
 
-use App\ModuleSetting;
-use App\Shop;
+use App\Cron;
 use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -49,12 +48,16 @@ class SendEmailToSupplier extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        // Update module settings -> cron status.
-        $moduleSettingsUpdate = ModuleSetting::find($this->moduleSetting->id);
+        // Storing cron details.
+        $cron = new Cron;
 
-        $moduleSettingsUpdate->cron_status = 1;
+        $cron->module_setting_id = $this->moduleSetting->id;
+
+        $cron->api_order_no = $this->orderList['order_no'];
+
+        $cron->cron_status = 1;
         
-        $moduleSettingsUpdate->save();
+        $cron->save();
         
         return $this->markdown('emails.cron.supplier')
             ->to($this->supplier->email)

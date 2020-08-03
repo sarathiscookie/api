@@ -28,7 +28,7 @@ class CronEmailToSupplier extends Command
      *
      * @var string
      */
-    protected $description = 'Send email to supplier';
+    protected $description = 'Sending email to suppliers';
 
     /**
      * Create a new command instance.
@@ -89,32 +89,53 @@ class CronEmailToSupplier extends Command
                         // 1: Module settins status must be active.
                         // 2: Supplier id must be filled.
                         // 3: Cron status must be not sent.
-                        if ((!empty($moduleSetting)) && ($moduleSetting->user_supplier_id !== null) && ($moduleSetting->status === 1) && $moduleSetting->cron_status === 0) {
-                            Log::info('Success');
-                            Log::info($moduleSetting);
-                            Log::info('--------------');
+                        if ((!empty($moduleSetting)) && ($moduleSetting->user_supplier_id !== null) && ($moduleSetting->status === 1)) {
 
-                            // Fetching supplier details 
-                            $supplier = User::supplier()->active()->find($moduleSetting->user_supplier_id);
+                            // Get the crons that owns the module settings
+                            $conStatusCheck = $moduleSetting->crons()
+                                ->where('api_order_no', $orderList['order_no'])
+                                ->where('cron_status', 1)
+                                ->first();
 
-                            if (!empty($supplier)) {
+                            if (empty($conStatusCheck)) {
 
-                                Log::info('Supplier');
-                                Log::info($supplier->email);
-                                Log::info('Done...');
+                                Log::info('Success');
+                                Log::info($moduleSetting);
+                                Log::info('--------------');
 
-                                $apiUrlForEmails = $this->apiUrlForEmail($shop->api_key, $orderList['order_no'], $moduleSetting);
+                                Log::info('Cron Status Check');
+                                Log::info($conStatusCheck);
+                                Log::info('--------------');
 
-                                Log::info('URLS & DeliveryNoteAPIURL');
-                                Log::info($apiUrlForEmails);
+                                // Fetching supplier details 
+                                $supplier = User::supplier()->active()->find($moduleSetting->user_supplier_id);
 
-                                // Send email to supplier
-                                Mail::send(new SendEmailToSupplier($supplier, $orderList, $item, $moduleSetting, $apiUrlForEmails));
-                            } else {
-                                Log::info('Supplier not active');
-                                Log::info('Supplier Id: ' . $supplier->id . 'Supplier Email: ' . $supplier->email);
-                                Log::info('Done...');
+                                if (!empty($supplier)) {
+
+                                    Log::info('Supplier');
+                                    Log::info($supplier->email);
+                                    Log::info('Done...');
+
+                                    // Creating corresponding URLs for suppliers.
+                                    $apiUrlForEmails = $this->apiUrlForEmail($shop->api_key, $orderList['order_no'], $moduleSetting);
+
+                                    Log::info('URLS & DeliveryNoteAPIURL');
+                                    Log::info($apiUrlForEmails);
+
+                                    // Send email to supplier and Update cron status.
+                                    Mail::send(new SendEmailToSupplier($supplier, $orderList, $item, $moduleSetting, $apiUrlForEmails));
+                                } else {
+                                    Log::info('Supplier not active');
+                                    Log::info('Supplier Id: ' . $supplier->id . 'Supplier Email: ' . $supplier->email);
+                                    Log::info('Done...');
+                                }
                             }
+                            else {
+                                Log::info('Cron Status Check');
+                                Log::info($conStatusCheck);
+                                Log::info('--------------');
+                            }
+
                         }
                     }
                 }
