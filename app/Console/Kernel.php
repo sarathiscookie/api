@@ -24,10 +24,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // TODO: Check on linux and windows how this cron trigger automatically
-        // TODO: Check ->withoutOverlapping() method.
         $schedule->command('emails:ToSupplier')
-            ->everyMinute();
+            ->everyMinute()
+            ->withoutOverlapping(); // It prevents overlapping.
     }
 
     /**
