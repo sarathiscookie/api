@@ -130,7 +130,7 @@
                                     </div>
                                 </div>
                                 
-                                <div class="form-row">
+                                {{-- <div class="form-row">
                                     <div class="form-group col-md-4">
                                         <div class="form-check">
 
@@ -154,7 +154,7 @@
 
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
 
                         </div>
