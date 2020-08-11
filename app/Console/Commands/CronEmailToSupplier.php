@@ -72,14 +72,16 @@ class CronEmailToSupplier extends Command
                     Log::info('-------------'); // Testing order list.
 
                     // Loop for extracting each items in orders
-                    foreach ($orderList['items']['item'] as $item) {
+                    //foreach ($orderList['items']['item'] as $item) {
+                    $items = [3178911914];
+                    foreach($items as $item) {
 
                         Log::info('Product Item'); // Testing product item.
                         Log::info($item); // Testing product item.
                         Log::info('-----------'); // Testing product item.
 
                         // Fetching module settings matching with product id.
-                        $moduleSetting = ModuleSetting::byProductId($item['product_id']);
+                        $moduleSetting = ModuleSetting::byProductId($item);
 
                         Log::info('Module Setting'); // Testing module setting.
                         Log::info($moduleSetting); // Testing module setting.

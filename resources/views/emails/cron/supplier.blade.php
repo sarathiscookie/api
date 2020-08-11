@@ -4,12 +4,8 @@ Hello {{ $supplier['name'] }}, {{ $moduleSetting->mail_body }}
 @component('mail::panel')
 # Order Details
 * Order No: {{ $orderList['order_no'] }}
-* Product Id: {{ $item['product_id'] }}
+* Product Id: {{ $item }}
 @component('mail::table')
-
-| Name               | Qty                | Price              | Price Sum              |
-| ------------------ |:------------------:|:------------------:| ----------------------:|
-| {{ $item['name'] }}|{{ $item['qty'] }}  |{{ $item['price'] }}|{{ $item['price_sum'] }}|
 
 @endcomponent
 @endcomponent
