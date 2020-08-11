@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Console\Command;
 use App\Mail\SendEmailToSupplier;
 use App\Http\Traits\CurlTrait;
+use App\Http\Traits\ShopTrait;
 use App\Http\Traits\ModuleSettingTrait;
 use App\ModuleSetting;
 use Illuminate\Support\Facades\Log;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Mail;
 
 class CronEmailToSupplier extends Command
 {
-    use CurlTrait, ModuleSettingTrait;
+    use CurlTrait, ShopTrait, ModuleSettingTrait;
 
     /**
      * The name and signature of the console command.
@@ -72,16 +73,14 @@ class CronEmailToSupplier extends Command
                     Log::info('-------------'); // Testing order list.
 
                     // Loop for extracting each items in orders
-                    //foreach ($orderList['items']['item'] as $item) {
-                    $items = [3178911914];
-                    foreach($items as $item) {
+                    foreach ($orderList['items']['item'] as $item) {
 
                         Log::info('Product Item'); // Testing product item.
                         Log::info($item); // Testing product item.
                         Log::info('-----------'); // Testing product item.
 
                         // Fetching module settings matching with product id.
-                        $moduleSetting = ModuleSetting::byProductId($item);
+                        $moduleSetting = ModuleSetting::byProductId($item['product_id']);
 
                         Log::info('Module Setting'); // Testing module setting.
                         Log::info($moduleSetting); // Testing module setting.
@@ -124,25 +123,13 @@ class CronEmailToSupplier extends Command
                                     Log::info('URLS & DeliveryNoteAPIURL');
                                     Log::info($apiUrlForEmails);
 
-                                    // Send email to supplier and Update cron status.
-                                    if ($shop->api_key == 'd6872f58e1ac5c8af686562c6e882ba4') {
-                                        $configuration = [
-                                            'smtp_host'    => 'smtp.mailtrap.io',
-                                            'smtp_port'    => '2525',
-                                            'smtp_username'  => '9a14e0eed0a84b',
-                                            'smtp_password'  => '639be9ed9c5112',
-                                            'smtp_encryption'  => 'tls',
+                                    // Send email to supplier with dynamic email settings and Updating cron status.
+                                    $configuration = $this->dynamicEmailConfig($shop);
 
-                                            'from_email'    => 'test@gmail.com',
-                                            'from_name'    => 'Gmail Com',
-                                        ];
+                                    $mailer = app()->makeWith('supplier.mailer', $configuration);
 
-                                        $mailer = app()->makeWith('supplier.mailer', $configuration);
-
-                                        $mailer->send(new SendEmailToSupplier($supplier, $orderList, $item, $moduleSetting, $apiUrlForEmails));
-                                    } else {
-                                        Mail::send(new SendEmailToSupplier($supplier, $orderList, $item, $moduleSetting, $apiUrlForEmails));
-                                    }
+                                    $mailer->send(new SendEmailToSupplier($supplier, $orderList, $item, $moduleSetting, $apiUrlForEmails));
+                                        
                                 } else {
                                     Log::info('Supplier not active');
                                     Log::info('Supplier Id: ' . $supplier->id . 'Supplier Email: ' . $supplier->email);

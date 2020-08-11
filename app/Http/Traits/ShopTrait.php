@@ -87,6 +87,26 @@ trait ShopTrait {
         } 
     }
 
+    /**
+     * Generating dynamic email configuration.
+     * @param object $shop
+     * @return \Illuminate\Http\Response
+     */
+    public function dynamicEmailConfig($shop)
+    {
+        $configuration = [
+            'smtp_host'       => $shop->mail_host,
+            'smtp_port'       => $shop->mail_port,
+            'smtp_username'   => $shop->mail_username,
+            'smtp_password'   => $shop->mail_password,
+            'smtp_encryption' => $shop->mail_encryption,
+            'from_email'      => $shop->mail_from_address,
+            'from_name'       => $shop->mail_from_name,
+        ];
+
+        return $configuration;
+    }
+
 }
 
 ?>
