@@ -69,4 +69,53 @@ class GlobalController extends Controller
             return response()->json(['getOrderDeliveryNote' => 'failure', 'message' => 'Whoops! Something went wrong'], 404);
         }
     }
+
+    /**
+     * Set order in logistic.
+     *
+     * @param  string  $api_key
+     * @param  string  $orderNo
+     * @return \Illuminate\Http\Response
+     */
+    public function setOrderInLogistic($api_key, $order_no)
+    {
+        try {
+            // Sending request to API. Passing api key, and order number to get status of setOrderInLogistic.
+            $setOrderInLogistics = 'http://webservice.rakuten.de/merchants/orders/setOrderInLogistics?key=' . $api_key . '&format=json&order_no=' . $order_no;
+
+            // Passing URL and getting response from API.
+            if (!empty($setOrderInLogistics)) {
+                
+                $jsonDecodedResults = $this->curl($setOrderInLogistics);
+
+                return view('Global.rakutenAPISetOrderInLogisticStatus', ['rakutenAPISetOrderInLogisticStatus' => $jsonDecodedResults['result']['success']]);
+            }
+        } catch (\Exception $e) {
+            abort(404);
+        }
+    }
+
+    /**
+     * Set order shipped.
+     *
+     * @param  string  $api_key
+     * @param  string  $orderNo
+     * @return \Illuminate\Http\Response
+     */
+    public function setOrderShipped($api_key, $order_no)
+    {
+        try {
+            // Sending request to API. Passing api key, and order number to get status of setOrderShipped.
+            $setOrderShipped = 'http://webservice.rakuten.de/merchants/orders/setOrderShipped?key=' . $api_key . '&format=json&order_no=' . $order_no;
+
+            // Passing URL and getting response from API.
+            if (!empty($setOrderShipped)) {
+                $jsonDecodedResults = $this->curl($setOrderShipped);
+
+                return view('Global.rakutenAPISetOrderShippedStatus', ['rakutenAPISetOrderShippedStatus' => $jsonDecodedResults['result']['success']]);
+            }
+        } catch (\Exception $e) {
+            abort(404);
+        }
+    }
 }

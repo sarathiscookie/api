@@ -20,7 +20,14 @@ Auth::routes([
 	'reset' => false //Disable Reset Password
 ]);
 
+/* Trigger Rakuten API to getOrderDeliveryNote */
 Route::get('/download/get/order/delivery/note/{api_key}/{order_no}', 'GlobalController@download')->name('download.get.order.delivery.note');
+
+/* Trigger Rakuten API to setOrderShipped */
+Route::get('/set/order/shipped/{api_key}/{order_no}', 'GlobalController@setOrderShipped')->name('set.order.shipped');
+
+/* Trigger Rakuten API to setOrderInLogistc */
+Route::get('/set/order/in/logistic/{api_key}/{order_no}', 'GlobalController@setOrderInLogistic')->name('set.order.in.logistic');
 
 /*
 |--------------------------------------------------------------------------

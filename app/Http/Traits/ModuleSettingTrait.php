@@ -61,20 +61,22 @@ trait ModuleSettingTrait
         // If setOrderShipped is active, then url link attach with email.
         // Definition from API: This methods sets an order to shipped.
         if($moduleSetting->setOrderShipped === 1) {
-            $apiUrlForMail[0] = 'http://webservice.rakuten.de/merchants/orders/setOrderShipped?key=' . $api_key . '&order_no=' . $order_no;
+            $apiUrlForMail[0] = env('APP_URL').'/set/order/shipped/'.$api_key.'/'.$order_no;
+            $apiUrlForMail['setOrderShipped'] = 'http://webservice.rakuten.de/merchants/orders/setOrderShipped?key=' . $api_key . '&order_no=' . $order_no;
         }
         
         // If setOrderInLogistics is active, then url link attach with email.
         // Definition from API: Use this method to set an order to “in preparation for shipping”. This disables the option for the customer or Rakuten customer service to cancel an order for 48 hours.
         if($moduleSetting->setOrderLogistic === 1) {
-            $apiUrlForMail[1] = 'http://webservice.rakuten.de/merchants/orders/setOrderInLogistics?key=' . $api_key . '&order_no=' . $order_no;
+            $apiUrlForMail[1] = env('APP_URL').'/set/order/in/logistic/'.$api_key.'/'.$order_no;
+            $apiUrlForMail['setOrderInLogistics'] = 'http://webservice.rakuten.de/merchants/orders/setOrderInLogistics?key=' . $api_key . '&order_no=' . $order_no;
         }
         
         // If getOrderDeliveryNote is active, then url link attach with email.
         // Definition from API: This method gives out the delivery note to an order.
         if($moduleSetting->getOrderDeliveryNote === 1) {
             $apiUrlForMail[2] = env('APP_URL').'/download/get/order/delivery/note/'.$api_key.'/'.$order_no;
-            $apiUrlForMail['APIOrderDeliveryNote'] = 'http://webservice.rakuten.de/merchants/orders/getOrderDeliveryNote?key=' . $api_key . '&format=json&order_no=' . $order_no;
+            $apiUrlForMail['getOrderDeliveryNote'] = 'http://webservice.rakuten.de/merchants/orders/getOrderDeliveryNote?key=' . $api_key . '&format=json&order_no=' . $order_no;
         }
 
         return $apiUrlForMail;
