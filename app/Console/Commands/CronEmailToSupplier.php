@@ -123,19 +123,34 @@ class CronEmailToSupplier extends Command
                                     Log::info($apiUrlForEmails);
 
                                     // Send email to supplier and Update cron status.
-                                    Mail::send(new SendEmailToSupplier($supplier, $orderList, $item, $moduleSetting, $apiUrlForEmails));
+                                    if ($shop->api_key == 'd6872f58e1ac5c8af686562c6e882ba4') {
+                                        $configuration = [
+                                            'smtp_host'    => 'smtp.mailtrap.io',
+                                            'smtp_port'    => '2525',
+                                            'smtp_username'  => '9a14e0eed0a84b',
+                                            'smtp_password'  => '639be9ed9c5112',
+                                            'smtp_encryption'  => 'tls',
+
+                                            'from_email'    => 'test@gmail.com',
+                                            'from_name'    => 'Gmail Com',
+                                        ];
+
+                                        $mailer = app()->makeWith('supplier.mailer', $configuration);
+
+                                        $mailer->send(new SendEmailToSupplier($supplier, $orderList, $item, $moduleSetting, $apiUrlForEmails));
+                                    } else {
+                                        Mail::send(new SendEmailToSupplier($supplier, $orderList, $item, $moduleSetting, $apiUrlForEmails));
+                                    }
                                 } else {
                                     Log::info('Supplier not active');
                                     Log::info('Supplier Id: ' . $supplier->id . 'Supplier Email: ' . $supplier->email);
                                     Log::info('Done...');
                                 }
-                            }
-                            else {
+                            } else {
                                 Log::info('Cron Status Check');
                                 Log::info($conStatusCheck);
                                 Log::info('--------------');
                             }
-
                         }
                     }
                 }

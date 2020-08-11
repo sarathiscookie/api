@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendEmailToSupplier extends Mailable implements ShouldQueue
+class SendEmailToSupplier extends Mailable /* implements ShouldQueue */
 {
     use Queueable, SerializesModels;
 
@@ -56,9 +56,9 @@ class SendEmailToSupplier extends Mailable implements ShouldQueue
         $cron->api_order_no = $this->orderList['order_no'];
 
         $cron->cron_status = 1;
-        
+
         $cron->save();
-        
+
         return $this->markdown('emails.cron.supplier')
             ->to($this->supplier->email)
             ->subject($this->moduleSetting->mail_subject)

@@ -2801,13 +2801,9 @@ $(function () {
 		let activate_delivery_note_shipping = ( $( "#activate_delivery_note_shipping_"+module_settings_id ).prop('checked') === true ) ? 1 : 0;
 		let activate_customer_data_sending = ( $( "#activate_customer_data_sending_"+module_settings_id ).prop('checked') === true ) ? 1 : 0;
 		let enable_delivery_address_data_shipping = ( $( "#enable_delivery_address_data_shipping_"+module_settings_id ).prop('checked') === true ) ? 1 : 0;
-		let max_error = $( "#max_error_"+module_settings_id ).val();
-		let delivery_status = $( "#delivery_status_"+module_settings_id ).val();
 		let order_in_logistics = ( $( "#order_in_logistics_"+module_settings_id ).prop('checked') === true ) ? 1 : 0;
 		let order_shipped = ( $( "#order_shipped_"+module_settings_id ).prop('checked') === true ) ? 1 : 0;
-		let wait_mod_no = $( "#wait_mod_no_"+module_settings_id ).val();
-		let wait_mod_id = $( "#wait_mod_id_"+module_settings_id ).val();
-
+		
 		$.ajax({
             url: '/admin/dashboard/module/settings/store',
             data: { 
@@ -2819,12 +2815,8 @@ $(function () {
 				activate_delivery_note_shipping: activate_delivery_note_shipping,
 				activate_customer_data_sending: activate_customer_data_sending,
 				enable_delivery_address_data_shipping: enable_delivery_address_data_shipping,
-				max_error: max_error,
-				delivery_status: delivery_status,
 				order_in_logistics: order_in_logistics,
 				order_shipped: order_shipped,
-				wait_mod_no: wait_mod_no,
-				wait_mod_id: wait_mod_id,
 				module_settings_id: module_settings_id
 			},
             dataType: 'JSON',
