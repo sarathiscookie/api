@@ -38,7 +38,7 @@ class Module extends Model
     /**
     * Scope for module status.
     *
-    * @param  string  $query
+    * @param  object  $query
     * @return string
     */
     public function scopeActive($query)

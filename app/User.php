@@ -107,7 +107,7 @@ class User extends Authenticatable
     /**
     * Scope for manager role.
     *
-    * @param  string  $query
+    * @param  object  $query
     * @return string
     */
     public function scopeManager($query)
@@ -118,7 +118,7 @@ class User extends Authenticatable
     /**
     * Scope for admin role.
     *
-    * @param  string  $query
+    * @param  object  $query
     * @return string
     */
     public function scopeAdmin($query)
@@ -129,7 +129,7 @@ class User extends Authenticatable
     /**
     * Scope for employee role.
     *
-    * @param  string  $query
+    * @param  object  $query
     * @return string
     */
     public function scopeEmployee($query)
@@ -140,7 +140,7 @@ class User extends Authenticatable
     /**
     * Scope for supplier role.
     *
-    * @param  string  $query
+    * @param  object  $query
     * @return string
     */
     public function scopeSupplier($query)

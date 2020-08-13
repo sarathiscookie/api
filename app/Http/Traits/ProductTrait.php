@@ -17,7 +17,7 @@ trait ProductTrait
     {
         try {
             $product = Product::select('id', 'api_product_id')
-                ->OfWhereApiProductId($id)
+                ->ofWhereApiProductId($id)
                 ->first();
 
             return $product;
