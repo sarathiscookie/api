@@ -6,13 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ShopRequest;
 use App\Http\Traits\CompanyTrait;
 use App\Http\Traits\ShopnameTrait;
+use App\Http\Traits\ShopTrait;
 use App\Shop;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
-    use CompanyTrait, ShopnameTrait;
+    use CompanyTrait, ShopnameTrait, ShopTrait;
 
     /**
      * Show the shops view page. Passing all active companies and shop names into the shops view page.
@@ -400,11 +401,11 @@ class ShopController extends Controller
             $shop->mail_from_address= $request->shop_mail_from_address;
             $shop->mail_from_name   = $request->shop_mail_from_name;
             $shop->mail_username    = $request->shop_mail_username;
-            $shop->mail_password    = Hash::make($request->shop_mail_password);
+            $shop->mail_password    = $this->passwordGenerate($request->shop_mail_password);
             $shop->api_key          = $request->shop_api_key;
             $shop->token            = $request->shop_token;
             $shop->customer_number  = $request->shop_customer_number;
-            $shop->password         = Hash::make($request->shop_password);
+            $shop->password         = $this->passwordGenerate($request->shop_password);
             $shop->active           = 'no';
             $shop->save();
 
@@ -461,10 +462,10 @@ class ShopController extends Controller
             $shop->mail_from_address = $request->shop_mail_from_address;
             $shop->mail_from_name    = $request->shop_mail_from_name;
             $shop->mail_username     = $request->shop_mail_username;
-            $shop->mail_password     = Hash::make($request->shop_mail_password);
+            $shop->mail_password     = $this->passwordGenerate($this->passwordExtract($request->shop_mail_password));
             $shop->api_key           = $request->shop_api_key;
             $shop->customer_number   = $request->shop_customer_number;
-            $shop->password          = Hash::make($request->shop_password);
+            $shop->password          = $this->passwordGenerate($this->passwordExtract($request->shop_password));
             $shop->save();
 
             return response()->json(['shopStatusUpdate' => 'success', 'message' => 'Well done! Shop details updated successfully'], 201);
