@@ -125,8 +125,10 @@ trait ShopTrait {
     public function passwordExtract($password)
     {
         $extract = explode('%_%', $password);
-        
-        return $extract[1];
+
+        // If user added new password, there is not symbol %_% to extract.
+        // Added condition to identify new password or old password. 
+        return (count($extract) === 3) ? $extract[1] : $extract[0];
     }
 
 }
